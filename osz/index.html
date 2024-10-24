@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Browser</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        ul { list-style-type: none; padding: 0; }
+        li { margin: 5px 0; }
+        a { text-decoration: none; color: blue; }
+    </style>
+</head>
+<body>
+    <h1>File Browser</h1>
+    <ul id="file-list"></ul>
+
+    <script>
+        const files = [
+            'example1',
+            'example2',
+            'another-file'
+        ];
+
+        const fileList = document.getElementById('file-list');
+
+        files.forEach(file => {
+            const listItem = document.createElement('li');
+            const link = document.createElement('a');
+            link.href = file;
+            link.textContent = file;
+            listItem.appendChild(link);
+            fileList.appendChild(listItem);
+        });
+    </script>
+</body>
+</html>
