@@ -90,7 +90,7 @@
                     if (file.type === "file" && !file.name.endsWith(".html")) {
                         const listItem = document.createElement('li');
                         const link = document.createElement('a');
-                        const fileUrl = "https://actiol.dev/skin/" + file.download_url.split("/").pop();
+                        const fileUrl = "https://actiol.dev/osz/" + file.download_url.split("/").pop();
                         
                         link.href = fileUrl;
                         link.textContent = file.name;
