@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skin</title>
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Torus:wght@400;600&display=swap" rel="stylesheet">
+
+    <style>
+        /* Dark mode styling */
+        body {
+            font-family: 'Torus', sans-serif;
+            background-color: #1f1f1f;
+            color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            font-weight: 600;
+            color: #ff5e5e;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 2.5em;
+            animation: glow 6s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            0% {
+                text-shadow: 0 0 10px #ff5e5e3f, 0 0 20px #ff5e5e3f, 0 0 30px #ff5e5e3f;
+            }
+            100% {
+                text-shadow: 0 0 20px #ff5e5eb0, 0 0 30px #ff5e5eb0, 0 0 40px #ff5e5eb0;
+            }
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #292929;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+        }
+
+        li:hover {
+            background-color: #333;
+        }
+
+        li:hover a {
+            color: #ffffff;
+            text-shadow: 0 0 10px #ffffff;
+        }
+
+        a {
+            text-decoration: none;
+            color: #f5f5f5;
+            font-weight: 600;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #999;
+            font-size: 0.8em;
+        }
+    </style>
+</head>
+<body>
+    <h1>Skin</h1>
+    <ul id="file-list"></ul>
+
+    <script>
+        const repo = "actiol/actiol.github.io";
+        const folder = "skin";
+        const apiUrl = `https://api.github.com/repos/${repo}/contents/${folder}`;
+
+        fetch(apiUrl)
+            .then(response => response.json())
+            .then(data => {
+                const fileList = document.getElementById('file-list');
+                data.forEach(file => {
+                    if (file.type === "file" && !file.name.endsWith(".html")) {
+                        const listItem = document.createElement('li');
+                        const link = document.createElement('a');
+                        const fileUrl = "https://actiol.dev/osz/" + file.download_url.split("/").pop();
+                        
+                        link.href = fileUrl;
+                        link.textContent = file.name;
+
+                        listItem.addEventListener('click', () => {
+                            window.location.href = fileUrl;
+                        });
+
+                        listItem.appendChild(link);
+                        fileList.appendChild(listItem);
+                    }
+                });
+            })
+            .catch(error => console.error('Error fetching file list:', error));
+    </script>
+
+    <footer>Powered by GitHub API</footer>
+</body>
+</html>
