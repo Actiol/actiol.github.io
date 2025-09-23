@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>osu! Audio Market Share</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.0/papaparse.min.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1a202c;
+            color: #e2e8f0;
+        }
+        .drop-area {
+            border: 2px dashed #4a5568;
+            border-radius: 1rem;
+            transition: background-color 0.3s;
+        }
+        .drop-area.dragover {
+            background-color: #2d3748;
+        }
+        .chart-container {
+            position: relative;
+            height: 500px;
+            width: 100%;
+        }
+        .tab-button {
+            transition: all 0.3s ease;
+        }
+        .tab-button.active {
+            background-color: #4299e1;
+            color: white;
+        }
+    </style>
+</head>
+<body class="flex flex-col items-center justify-center min-h-screen p-4">
+
+    <div class="bg-gray-800 p-8 rounded-xl shadow-lg w-full max-w-6xl">
+        <h1 class="text-3xl font-bold text-center mb-4">osu! Beatmap Audio Market Share</h1>
+        <p class="text-center text-gray-400 mb-8">Analyze your osu! Songs folder or upload a CSV file to visualize audio format distribution.</p>
+        
+        <div class="flex justify-center mb-6">
+            <div class="bg-gray-700 p-1 rounded-lg">
+                <button id="folder-tab" class="tab-button px-6 py-2 rounded-md font-medium active">Songs Folder</button>
+                <button id="csv-tab" class="tab-button px-6 py-2 rounded-md font-medium">CSV File</button>
+            </div>
+        </div>
+
+        <div id="folder-upload-area" class="upload-area">
+            <div id="folder-drop-area" class="drop-area text-center p-8 mb-8 cursor-pointer hover:bg-gray-700">
+                <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
+                    <path d="M24 4l-6 6h-10c-1.1 0-2 .9-2 2v24c0 1.1.9 2 2 2h32c1.1 0 2-.9 2-2V12c0-1.1-.9-2-2-2h-10l-6-6h-10z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                <p class="mt-1 text-sm text-gray-500">
+                    <span class="font-medium text-indigo-400">Select your Songs folder</span>
+                </p>
+                <p class="mt-1 text-xs text-gray-500">The tool will analyze all .osu files in subfolders</p>
+                 <p class="mt-2 text-red-400 text-sm font-semibold">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="inline-block h-4 w-4 mr-1 mb-1" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
+                    </svg>
+                    Warning: This may take several minutes and use significant memory for large folders.
+                </p>
+            </div>
+            <input type="file" id="folder-input" class="hidden" webkitdirectory directory multiple>
+            
+            <div id="progress-container" class="hidden mb-6">
+                <div class="bg-gray-700 rounded-full h-4 mb-2">
+                    <div id="progress-bar" class="bg-blue-500 h-4 rounded-full transition-all duration-300" style="width: 0%"></div>
+                </div>
+                <p id="progress-text" class="text-center text-sm text-gray-400">Processing files...</p>
+            </div>
+        </div>
+
+        <div id="csv-upload-area" class="upload-area hidden">
+            <div id="csv-drop-area" class="drop-area text-center p-8 mb-8 cursor-pointer hover:bg-gray-700">
+                <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
+                    <path d="M28 8H12a2 2 0 01-2 2v12m14-8v-2m14 2h-2m-4 0a4 4 0 01-4 4H16m-4 0a4 4 0 01-4-4v-6c0-2.21 1.79-4 4-4h14a4 4 0 014 4v6m4 0a4 4 0 014 4v12a4 4 0 01-4 4H12a4 4 0 01-4-4v-4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                <p class="mt-1 text-sm text-gray-500">
+                    <span class="font-medium text-indigo-400">Drag and drop a CSV file</span> or click to select
+                </p>
+                <p class="mt-1 text-xs text-gray-500">.csv files only</p>
+            </div>
+            <input type="file" id="csv-file-input" class="hidden" accept=".csv">
+        </div>
+
+        <div id="download-container" class="hidden mb-6 text-center">
+            <button id="download-csv" class="bg-green-600 hover:bg-green-700 px-6 py-2 rounded-lg font-medium transition-colors">
+                Download Generated CSV
+            </button>
+        </div>
+
+        <div id="visualization-container" class="hidden">
+            <div class="bg-gray-700 p-6 rounded-lg shadow-inner">
+                <div class="chart-container">
+                    <canvas id="marketshareChart"></canvas>
+                </div>
+            </div>
+    
+            <div class="mt-8 flex flex-col items-center">
+                <label for="barCountSlider" class="text-lg font-semibold mb-2">Number of Bars: <span id="barCountValue">10</span></label>
+                <input type="range" id="barCountSlider" min="5" max="500" value="10" step="1" class="w-full h-2 bg-gray-600 rounded-lg appearance-none cursor-pointer">
+                <p class="mt-2 text-sm text-gray-400">Calculated Grouping Size: <span id="binSizeValue">...</span></p>
+            </div>
+        </div>
+
+        <div id="error-message" class="hidden mt-8 p-4 text-center bg-red-800 rounded-lg">
+            <p class="text-red-200 font-bold">Error: Could not process files.</p>
+            <p id="error-details" class="text-red-300 text-sm mt-2"></p>
+        </div>
+    </div>
+
+    <footer class="mt-8 text-center text-gray-500 text-sm">
+        <p>⚠️ Disclaimer: This tool was generated by AI (Gemini & Claude). Use at your own discretion.</p>
+    </footer>
+
+    <script>
+        let chartInstance;
+        let originalData = [];
+        let generatedCSVData = '';
+
+        // UI elements
+        const folderTab = document.getElementById('folder-tab');
+        const csvTab = document.getElementById('csv-tab');
+        const folderUploadArea = document.getElementById('folder-upload-area');
+        const csvUploadArea = document.getElementById('csv-upload-area');
+        const folderDropArea = document.getElementById('folder-drop-area');
+        const csvDropArea = document.getElementById('csv-drop-area');
+        const folderInput = document.getElementById('folder-input');
+        const csvFileInput = document.getElementById('csv-file-input');
+        const progressContainer = document.getElementById('progress-container');
+        const progressBar = document.getElementById('progress-bar');
+        const progressText = document.getElementById('progress-text');
+        const downloadContainer = document.getElementById('download-container');
+        const downloadCsvBtn = document.getElementById('download-csv');
+        const visualizationContainer = document.getElementById('visualization-container');
+        const barCountSlider = document.getElementById('barCountSlider');
+        const barCountValueSpan = document.getElementById('barCountValue');
+        const binSizeValueSpan = document.getElementById('binSizeValue');
+        const errorMessageDiv = document.getElementById('error-message');
+        const errorDetailsSpan = document.getElementById('error-details');
+
+        // Tab switching
+        if (folderTab && csvTab) {
+            folderTab.addEventListener('click', () => switchTab('folder'));
+            csvTab.addEventListener('click', () => switchTab('csv'));
+        }
+
+        function switchTab(tab) {
+            if (tab === 'folder') {
+                folderTab.classList.add('active');
+                csvTab.classList.remove('active');
+                folderUploadArea.classList.remove('hidden');
+                csvUploadArea.classList.add('hidden');
+            } else {
+                csvTab.classList.add('active');
+                folderTab.classList.remove('active');
+                csvUploadArea.classList.remove('hidden');
+                folderUploadArea.classList.add('hidden');
+            }
+            hideResults();
+        }
+
+        function hideResults() {
+            visualizationContainer.classList.add('hidden');
+            downloadContainer.classList.add('hidden');
+            errorMessageDiv.classList.add('hidden');
+            progressContainer.classList.add('hidden');
+        }
+
+        // Folder upload event listeners
+        if (folderDropArea && folderInput) {
+            folderDropArea.addEventListener('click', () => folderInput.click());
+            folderInput.addEventListener('change', (e) => handleFolderUpload(e.target.files));
+
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                folderDropArea.addEventListener(eventName, preventDefaults, false);
+            });
+            ['dragenter', 'dragover'].forEach(eventName => {
+                folderDropArea.addEventListener(eventName, () => folderDropArea.classList.add('dragover'), false);
+            });
+            ['dragleave', 'drop'].forEach(eventName => {
+                folderDropArea.addEventListener(eventName, () => folderDropArea.classList.remove('dragover'), false);
+            });
+            folderDropArea.addEventListener('drop', handleFolderDrop, false);
+        }
+
+        // CSV upload event listeners
+        if (csvDropArea && csvFileInput) {
+            csvDropArea.addEventListener('click', () => csvFileInput.click());
+            csvFileInput.addEventListener('change', (e) => handleCSVFile(e.target.files[0]));
+
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                csvDropArea.addEventListener(eventName, preventDefaults, false);
+            });
+            ['dragenter', 'dragover'].forEach(eventName => {
+                csvDropArea.addEventListener(eventName, () => csvDropArea.classList.add('dragover'), false);
+            });
+            ['dragleave', 'drop'].forEach(eventName => {
+                csvDropArea.addEventListener(eventName, () => csvDropArea.classList.remove('dragover'), false);
+            });
+            csvDropArea.addEventListener('drop', handleCSVDrop, false);
+        }
+
+        if (downloadCsvBtn) {
+            downloadCsvBtn.addEventListener('click', () => {
+                if (!generatedCSVData) {
+                    alert('No data available to download');
+                    return;
+                }
+                
+                const blob = new Blob([generatedCSVData], { type: 'text/csv' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'osu_audio_data.csv';
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            });
+        }
+
+        if (barCountSlider) {
+            barCountSlider.addEventListener('input', updateChart);
+        }
+
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        function handleFolderDrop(e) {
+            const items = e.dataTransfer.items;
+            const files = [];
+            
+            for (let i = 0; i < items.length; i++) {
+                const item = items[i];
+                if (item.kind === 'file') {
+                    const file = item.getAsFile();
+                    files.push(file);
+                }
+            }
+            
+            handleFolderUpload(files);
+        }
+
+        function handleCSVDrop(e) {
+            const file = e.dataTransfer.files[0];
+            handleCSVFile(file);
+        }
+
+        async function handleFolderUpload(files) {
+            hideResults();
+            
+            if (!files || files.length === 0) {
+                errorDetailsSpan.textContent = "No files selected.";
+                errorMessageDiv.classList.remove('hidden');
+                return;
+            }
+
+            // FILTER: Create a new array with only .osu files
+            const osuFiles = Array.from(files).filter(file => file.name.endsWith('.osu'));
+            
+            if (osuFiles.length === 0) {
+                errorDetailsSpan.textContent = "No .osu files found in the selected folder.";
+                errorMessageDiv.classList.remove('hidden');
+                return;
+            }
+
+            progressContainer.classList.remove('hidden');
+            
+            const osuData = {};
+            const processedSets = new Set();
+            let processedCount = 0;
+            let validCount = 0;
+            let errorCount = 0;
+
+            for (const file of osuFiles) {
+                try {
+                    const content = await readFileContent(file);
+                    const data = parseOsuFile(content, file.name);
+                    
+                    if (data && data.beatmapSetId > 0 && !processedSets.has(data.beatmapSetId)) {
+                        osuData[data.beatmapSetId] = data.audioExtension;
+                        processedSets.add(data.beatmapSetId);
+                        validCount++;
+                    } else if (data && processedSets.has(data.beatmapSetId)) {
+                        // Duplicate ID, skip
+                    } else {
+                        errorCount++;
+                    }
+                    
+                    processedCount++;
+                    const progress = (processedCount / osuFiles.length) * 100;
+                    progressBar.style.width = `${progress}%`;
+                    progressText.textContent = `Processed ${processedCount}/${osuFiles.length} files (${validCount} valid, ${errorCount} errors)`;
+                    
+                    // Allow UI to update
+                    if (processedCount % 50 === 0) {
+                        await new Promise(resolve => setTimeout(resolve, 1));
+                    }
+                } catch (error) {
+                    errorCount++;
+                    processedCount++;
+                }
+            }
+
+            progressContainer.classList.add('hidden');
+
+            if (Object.keys(osuData).length === 0) {
+                errorDetailsSpan.textContent = `No valid beatmap data found in the .osu files. Processed ${processedCount} files, found ${errorCount} errors.`;
+                errorMessageDiv.classList.remove('hidden');
+                return;
+            }
+
+            originalData = Object.entries(osuData).map(([setId, extension]) => ({
+                BeatmapSetID: parseInt(setId),
+                AudioExtension: extension
+            }));
+
+            // Generate the CSV string from the populated data
+            generateCSVData();
+
+            // Explicitly clear the large originalData array to free up memory
+            originalData = []; 
+
+            visualizationContainer.classList.remove('hidden');
+            downloadContainer.classList.remove('hidden');
+            updateChart();
+        }
+
+        function readFileContent(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = (e) => resolve(e.target.result);
+                reader.onerror = (e) => reject(e);
+                reader.readAsText(file, 'utf-8');
+            });
+        }
+
+        function parseOsuFile(content, filename) {
+            const lines = content.split('\n');
+            let audioFilename = null;
+            let beatmapSetId = -1;
+
+            for (const line of lines) {
+                const trimmedLine = line.trim();
+                
+                if (trimmedLine.startsWith('AudioFilename:')) {
+                    audioFilename = trimmedLine.split(':', 2)[1]?.trim();
+                }
+                
+                if (trimmedLine.startsWith('BeatmapSetID:')) {
+                    try {
+                        beatmapSetId = parseInt(trimmedLine.split(':', 2)[1]?.trim());
+                    } catch (e) {
+                        // Handle potential parsing errors
+                    }
+                }
+
+                if (audioFilename && beatmapSetId > 0) {
+                    break;
+                }
+            }
+
+            if (audioFilename && beatmapSetId > 0) {
+                const extension = audioFilename.split('.').pop()?.toLowerCase() || '';
+                if (extension) {
+                    return {
+                        beatmapSetId: beatmapSetId,
+                        audioExtension: extension
+                    };
+                }
+            }
+
+            return null;
+        }
+
+        function generateCSVData() {
+            const csvRows = ['BeatmapSetID,AudioExtension'];
+            originalData.forEach(row => {
+                csvRows.push(`${row.BeatmapSetID},${row.AudioExtension}`);
+            });
+            generatedCSVData = csvRows.join('\n');
+        }
+
+        function handleCSVFile(file) {
+            hideResults();
+            
+            if (!file) {
+                return;
+            }
+            if (!file.name.endsWith('.csv')) {
+                errorDetailsSpan.textContent = "Invalid file type. Please drop a CSV file.";
+                errorMessageDiv.classList.remove('hidden');
+                return;
+            }
+
+            Papa.parse(file, {
+                header: true,
+                skipEmptyLines: true,
+                transformHeader: header => header.trim(),
+                complete: function(results) {
+                    if (!results.data || results.data.length === 0) {
+                        errorDetailsSpan.textContent = "The CSV file is empty or could not be parsed. Check the file format.";
+                        errorMessageDiv.classList.remove('hidden');
+                        visualizationContainer.classList.add('hidden');
+                        return;
+                    }
+
+                    const headers = results.meta.fields.map(h => h.trim());
+                    const beatmapSetIDKey = headers.find(h => h.toLowerCase() === 'beatmapsetid');
+                    const audioExtensionKey = headers.find(h => h.toLowerCase() === 'audioextension');
+
+                    if (!beatmapSetIDKey || !audioExtensionKey) {
+                        errorDetailsSpan.textContent = "The CSV is missing the 'BeatmapSetID' or 'AudioExtension' columns.";
+                        errorMessageDiv.classList.remove('hidden');
+                        visualizationContainer.classList.add('hidden');
+                        return;
+                    }
+
+                    originalData = results.data
+                        .map(row => ({
+                            BeatmapSetID: Number(row[beatmapSetIDKey]),
+                            AudioExtension: String(row[audioExtensionKey] || '').toLowerCase().trim()
+                        }))
+                        .filter(row => row.BeatmapSetID > 0 && row.AudioExtension.length > 0);
+                    
+                    if (originalData.length === 0) {
+                        errorDetailsSpan.textContent = "No valid data found in the CSV. Make sure it contains 'BeatmapSetID' (as a number > 0) and 'AudioExtension' columns with valid values.";
+                        errorMessageDiv.classList.remove('hidden');
+                        visualizationContainer.classList.add('hidden');
+                        return;
+                    }
+
+                    visualizationContainer.classList.remove('hidden');
+                    updateChart();
+                },
+                error: function(err) {
+                    errorDetailsSpan.textContent = `A parsing error occurred: ${err.message}.`;
+                    errorMessageDiv.classList.remove('hidden');
+                    visualizationContainer.classList.add('hidden');
+                }
+            });
+        }
+
+        function updateChart() {
+            // If originalData is empty after processing, use the CSV data to rebuild a small, temporary array
+            const dataToChart = originalData.length > 0 ? originalData : Papa.parse(generatedCSVData, { header: true, skipEmptyLines: true }).data;
+
+            if (!dataToChart.length) {
+                return;
+            }
+            
+            const numberOfBars = parseInt(barCountSlider.value);
+            const maxId = dataToChart.reduce((max, row) => Math.max(max, row.BeatmapSetID), 0);
+            const binSize = Math.ceil(maxId / numberOfBars);
+
+            barCountValueSpan.textContent = numberOfBars;
+            binSizeValueSpan.textContent = binSize;
+            
+            const binnedData = {};
+            const allExtensions = new Set();
+            
+            dataToChart.forEach(row => {
+                const beatmapSetId = row.BeatmapSetID;
+                const extension = row.AudioExtension;
+
+                const binStart = Math.floor(beatmapSetId / binSize) * binSize + 1;
+                
+                if (!binnedData[binStart]) {
+                    binnedData[binStart] = {};
+                }
+                binnedData[binStart][extension] = (Number(binnedData[binStart][extension]) || 0) + 1;
+                allExtensions.add(extension);
+            });
+
+            const sortedBins = Object.keys(binnedData).map(Number).sort((a, b) => a - b);
+            const sortedExtensions = Array.from(allExtensions).sort();
+
+            const datasets = [];
+            const colors = {};
+            const colorPalette = ['#63b3ed', '#48bb78', '#fc8181', '#f6ad55', '#9f7aea', '#ed64a6', '#4299e1'];
+            sortedExtensions.forEach((ext, index) => {
+                colors[ext] = colorPalette[index % colorPalette.length];
+            });
+
+            sortedExtensions.forEach(extension => {
+                const data = sortedBins.map(bin => {
+                    const binCounts = binnedData[bin];
+                    const totalInBin = Object.values(binCounts).reduce((sum, count) => sum + Number(count), 0);
+                    return totalInBin > 0 ? (Number(binCounts[extension]) || 0) / totalInBin * 100 : 0;
+                });
+
+                datasets.push({
+                    label: extension.toUpperCase(),
+                    data: data,
+                    backgroundColor: colors[extension]
+                });
+            });
+
+            const labels = sortedBins.map(b => `${b} - ${b + binSize - 1}`);
+
+            const chartData = {
+                labels: labels,
+                datasets: datasets
+            };
+
+            const chartConfig = {
+                type: 'bar',
+                data: chartData,
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    layout: {
+                        padding: {
+                            top: 20,
+                            bottom: 20,
+                            left: 10,
+                            right: 10
+                        }
+                    },
+                    scales: {
+                        x: {
+                            stacked: true,
+                            title: {
+                                display: true,
+                                text: `BeatmapSetID (Grouped by ${binSize})`,
+                                color: '#a0aec0',
+                                font: {
+                                    size: 14
+                                }
+                            },
+                            ticks: {
+                                color: '#a0aec0',
+                                maxRotation: 45,
+                                minRotation: 0
+                            },
+                            grid: {
+                                color: '#4a5568',
+                                display: false
+                            }
+                        },
+                        y: {
+                            stacked: true,
+                            beginAtZero: true,
+                            max: 100,
+                            title: {
+                                display: true,
+                                text: 'Percentage of Beatmaps',
+                                color: '#a0aec0',
+                                font: {
+                                    size: 14
+                                }
+                            },
+                            ticks: {
+                                color: '#a0aec0',
+                                callback: function(value) { return value + '%'; },
+                                stepSize: 10
+                            },
+                            grid: {
+                                color: '#4a5568'
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            labels: {
+                                color: '#a0aec0',
+                                padding: 20,
+                                usePointStyle: true,
+                                pointStyle: 'rect'
+                            }
+                        },
+                        title: {
+                            display: true,
+                            text: 'Audio File Market Share by BeatmapSetID Range',
+                            color: '#e2e8f0',
+                            font: {
+                                size: 18,
+                                weight: 'bold'
+                            },
+                            padding: {
+                                top: 10,
+                                bottom: 30
+                            }
+                        }
+                    },
+                    interaction: {
+                        mode: 'index',
+                        intersect: false
+                    },
+                    elements: {
+                        bar: {
+                            borderWidth: 0
+                        }
+                    }
+                }
+            };
+
+            const ctx = document.getElementById('marketshareChart').getContext('2d');
+            if (chartInstance) {
+                chartInstance.destroy();
+            }
+            chartInstance = new Chart(ctx, chartConfig);
+        }
+    </script>
+</body>
+</html>
