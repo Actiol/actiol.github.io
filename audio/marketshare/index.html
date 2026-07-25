@@ -4,611 +4,929 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>osu! Audio Market Share</title>
+    
+    <!-- Fonts & Tailwind -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Chart.js & PapaParse -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.0/papaparse.min.js"></script>
+    
+    <!-- Prism.js for Syntax Highlighting -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-powershell.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Figtree', 'sans-serif'] },
+                    colors: {
+                        gemini: {
+                            bg: '#131314',
+                            card: '#1E1E1F',
+                            border: '#333333',
+                            text: '#E3E3E3',
+                            muted: '#8A8A8A'
+                        },
+                        osu: { pink: '#EC4899', hover: '#DB2777' }
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #1a202c;
-            color: #e2e8f0;
-        }
-        .drop-area {
-            border: 2px dashed #4a5568;
-            border-radius: 1rem;
-            transition: background-color 0.3s;
-        }
-        .drop-area.dragover {
-            background-color: #2d3748;
-        }
-        .chart-container {
+        html { scrollbar-gutter: stable; }
+        body { background-color: #131314; color: #E3E3E3; }
+        .drop-zone-active { background-color: #2A2A2B !important; border-color: #EC4899 !important; }
+        pre[class*="language-"] { margin: 0; border-radius: 0.5rem; background: #131314; }
+        code[class*="language-"] { font-size: 0.85rem; }
+        .custom-scroll::-webkit-scrollbar { width: 6px; }
+        .custom-scroll::-webkit-scrollbar-track { background: transparent; }
+        .custom-scroll::-webkit-scrollbar-thumb { background: #333333; border-radius: 4px; }
+        .custom-scroll::-webkit-scrollbar-thumb:hover { background: #EC4899; }
+        .tooltip-trigger {
+            cursor: help;
             position: relative;
-            height: 500px;
-            width: 100%;
         }
-        .tab-button {
-            transition: all 0.3s ease;
+        .format-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
         }
-        .tab-button.active {
-            background-color: #4299e1;
-            color: white;
+        .format-stat-item {
+            background-color: #252526;
+            border: 1px solid #333333;
+            border-radius: 0.75rem;
+            padding: 1rem;
+            cursor: help;
+            transition: all 0.2s ease;
+        }
+        .format-stat-item:hover {
+            border-color: #EC4899;
+            background-color: #2A2A2B;
+        }
+        .format-stat-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 3px;
+            display: inline-block;
+            margin-right: 0.5rem;
+            vertical-align: middle;
+        }
+        .format-stat-name {
+            font-weight: 600;
+            color: #E3E3E3;
+            font-size: 0.9rem;
+        }
+        .format-stat-value {
+            color: #8A8A8A;
+            font-size: 0.85rem;
+            margin-top: 0.25rem;
+        }
+        .year-label-container {
+            position: relative;
         }
     </style>
 </head>
-<body class="flex flex-col items-center justify-center min-h-screen p-4">
+<body class="min-h-screen p-6 antialiased flex flex-col items-center">
 
-    <div class="bg-gray-800 p-8 rounded-xl shadow-lg w-full max-w-6xl">
-        <h1 class="text-3xl font-bold text-center mb-4">osu! Beatmap Audio Market Share</h1>
-        <p class="text-center text-gray-400 mb-8">Analyze your osu! Songs folder or upload a CSV file to visualize audio format distribution.</p>
+    <div class="w-full max-w-4xl space-y-8">
         
-        <div class="flex justify-center mb-6">
-            <div class="bg-gray-700 p-1 rounded-lg">
-                <button id="folder-tab" class="tab-button px-6 py-2 rounded-md font-medium active">Songs Folder</button>
-                <button id="csv-tab" class="tab-button px-6 py-2 rounded-md font-medium">CSV File</button>
-            </div>
+        <!-- Header -->
+        <div class="text-center mt-10 mb-12">
+            <h1 class="text-4xl font-bold text-white mb-3 tracking-tight">osu! Audio Analytics</h1>
+            <p class="text-gemini-muted">Visualize the evolution of audio formats over the game's history.</p>
         </div>
 
-        <div id="folder-upload-area" class="upload-area">
-            <div id="folder-drop-area" class="drop-area text-center p-8 mb-8 cursor-pointer hover:bg-gray-700">
-                <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
-                    <path d="M24 4l-6 6h-10c-1.1 0-2 .9-2 2v24c0 1.1.9 2 2 2h32c1.1 0 2-.9 2-2V12c0-1.1-.9-2-2-2h-10l-6-6h-10z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                </svg>
-                <p class="mt-1 text-sm text-gray-500">
-                    <span class="font-medium text-indigo-400">Select your Songs folder</span>
-                </p>
-                <p class="mt-1 text-xs text-gray-500">The tool will analyze all .osu files in subfolders</p>
-                 <p class="mt-2 text-red-400 text-sm font-semibold">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="inline-block h-4 w-4 mr-1 mb-1" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12 2C6.486 2 2 6.486 2 12s4.486 10 10 10 10-4.486 10-10S17.514 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/>
-                    </svg>
-                    Warning: This may take several minutes and use significant memory for large folders.
-                </p>
+        <!-- Step 1: Script Generator -->
+        <div class="bg-gemini-card rounded-2xl p-8 border border-gemini-border shadow-lg">
+            <div class="flex items-center mb-6">
+                <span class="bg-osu-pink text-white font-bold rounded-full w-7 h-7 flex items-center justify-center mr-3 text-sm shadow-[0_0_10px_rgba(236,72,153,0.4)]">1</span>
+                <h2 class="text-xl font-semibold text-white">Generate your dataset</h2>
             </div>
-            <input type="file" id="folder-input" class="hidden" webkitdirectory directory multiple>
             
-            <div id="progress-container" class="hidden mb-6">
-                <div class="bg-gray-700 rounded-full h-4 mb-2">
-                    <div id="progress-bar" class="bg-blue-500 h-4 rounded-full transition-all duration-300" style="width: 0%"></div>
+            <p class="text-gemini-muted text-sm mb-6 ml-10">
+                To prevent browser lag, run one of these scripts locally. It will ask you for your <code class="bg-osu-pink/10 text-osu-pink border border-osu-pink/30 px-1.5 py-0.5 rounded font-mono font-medium">osu!\Songs</code> folder, scan your files, and instantly generate a lightweight CSV.
+            </p>
+
+            <div class="ml-10">
+                <!-- OS Selector -->
+                <div class="flex flex-wrap gap-2 mb-6" id="os-tabs">
+                    <button onclick="selectOS('windows')" id="tab-windows" class="px-4 py-2 rounded-lg text-sm font-medium transition-all">Windows</button>
+                    <button onclick="selectOS('mac')" id="tab-mac" class="px-4 py-2 rounded-lg text-sm font-medium transition-all">Mac</button>
+                    <button onclick="selectOS('linux')" id="tab-linux" class="px-4 py-2 rounded-lg text-sm font-medium transition-all">Linux</button>
+                    <button onclick="selectOS('python')" id="tab-python" class="px-4 py-2 rounded-lg text-sm font-medium transition-all">Universal (Python)</button>
                 </div>
-                <p id="progress-text" class="text-center text-sm text-gray-400">Processing files...</p>
-            </div>
-        </div>
+                
+                <!-- Action Buttons -->
+                <div class="flex items-center gap-4 mb-4">
+                    <button onclick="downloadScript()" class="bg-osu-pink hover:bg-osu-hover text-white shadow-lg shadow-osu-pink/20 px-5 py-2.5 rounded-lg text-sm font-semibold transition-all flex items-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                        Download Script
+                    </button>
+                    <button onclick="toggleCode()" id="toggle-code-btn" class="text-gemini-muted hover:text-white text-sm font-medium transition-colors">
+                        View source code
+                    </button>
+                    <p id="script-instruction" class="text-sm text-gemini-muted ml-auto"></p>
+                </div>
 
-        <div id="csv-upload-area" class="upload-area hidden">
-            <div id="csv-drop-area" class="drop-area text-center p-8 mb-8 cursor-pointer hover:bg-gray-700">
-                <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
-                    <path d="M28 8H12a2 2 0 01-2 2v12m14-8v-2m14 2h-2m-4 0a4 4 0 01-4 4H16m-4 0a4 4 0 01-4-4v-6c0-2.21 1.79-4 4-4h14a4 4 0 014 4v6m4 0a4 4 0 014 4v12a4 4 0 01-4 4H12a4 4 0 01-4-4v-4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                </svg>
-                <p class="mt-1 text-sm text-gray-500">
-                    <span class="font-medium text-indigo-400">Drag and drop a CSV file</span> or click to select
-                </p>
-                <p class="mt-1 text-xs text-gray-500">.csv files only</p>
-            </div>
-            <input type="file" id="csv-file-input" class="hidden" accept=".csv">
-        </div>
-
-        <div id="download-container" class="hidden mb-6 text-center">
-            <button id="download-csv" class="bg-green-600 hover:bg-green-700 px-6 py-2 rounded-lg font-medium transition-colors">
-                Download Generated CSV
-            </button>
-        </div>
-
-        <div id="visualization-container" class="hidden">
-            <div class="bg-gray-700 p-6 rounded-lg shadow-inner">
-                <div class="chart-container">
-                    <canvas id="marketshareChart"></canvas>
+                <!-- Hidden Code Block -->
+                <div id="code-container" class="hidden relative mt-4 border border-gemini-border rounded-lg bg-gemini-bg overflow-hidden">
+                    <button onclick="copyCode()" id="copy-btn" class="absolute top-3 right-3 bg-gemini-card border border-gemini-border hover:border-osu-pink hover:text-osu-pink text-gemini-muted px-3 py-1.5 rounded text-xs font-medium transition-colors z-10">
+                        Copy
+                    </button>
+                    <pre><code id="code-block" class="language-powershell"></code></pre>
                 </div>
             </div>
-    
-            <div class="mt-8 flex flex-col items-center">
-                <label for="barCountSlider" class="text-lg font-semibold mb-2">Number of Bars: <span id="barCountValue">10</span></label>
-                <input type="range" id="barCountSlider" min="5" max="500" value="10" step="1" class="w-full h-2 bg-gray-600 rounded-lg appearance-none cursor-pointer">
-                <p class="mt-2 text-sm text-gray-400">Calculated Grouping Size: <span id="binSizeValue">...</span></p>
+        </div>
+
+        <!-- Step 2: Upload Area -->
+        <div class="bg-gemini-card rounded-2xl p-8 border border-gemini-border shadow-lg">
+            <div class="flex items-center mb-6">
+                <span class="bg-osu-pink text-white font-bold rounded-full w-7 h-7 flex items-center justify-center mr-3 text-sm shadow-[0_0_10px_rgba(236,72,153,0.4)]">2</span>
+                <h2 class="text-xl font-semibold text-white">Upload Data</h2>
+            </div>
+            
+            <div class="ml-10">
+                <div id="drop-area" class="border-2 border-dashed border-gemini-border rounded-xl p-12 text-center cursor-pointer hover:bg-gemini-bg transition-colors bg-gemini-bg/50">
+                    <svg class="mx-auto h-10 w-10 text-gemini-muted mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                    </svg>
+                    <p class="text-white font-medium">Drag and drop <span class="text-osu-pink font-semibold">osu_audio_data_*.csv</span> here</p>
+                    <p class="text-gemini-muted text-sm mt-2">or click to browse your files</p>
+                    <input type="file" id="file-input" class="hidden" accept=".csv">
+                </div>
+                
+                <div id="error-msg" class="hidden mt-4 p-4 bg-red-950/30 border border-red-900/50 text-red-400 rounded-lg text-sm"></div>
             </div>
         </div>
 
-        <div id="error-message" class="hidden mt-8 p-4 text-center bg-red-800 rounded-lg">
-            <p class="text-red-200 font-bold">Error: Could not process files.</p>
-            <p id="error-details" class="text-red-300 text-sm mt-2"></p>
+        <!-- Step 3: Visualization -->
+        <div id="chart-section" class="hidden bg-gemini-card rounded-2xl p-8 border border-gemini-border shadow-lg">
+            <div class="flex justify-between items-end mb-6">
+                <div>
+                    <h2 class="text-xl font-semibold text-white">Distribution Over Time</h2>
+                    <p id="stats-text" class="text-gemini-muted text-sm mt-1"></p>
+                </div>
+                <button onclick="toggleConfig()" class="text-sm font-medium text-osu-pink hover:text-osu-hover border border-osu-pink/30 hover:border-osu-pink px-3 py-1.5 rounded-lg transition-colors flex items-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                    Configure Years
+                </button>
+            </div>
+
+            <!-- Configuration Panel -->
+            <div id="config-panel" class="hidden mb-6 bg-gemini-bg border border-gemini-border rounded-xl p-5">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-sm font-semibold text-white">Year Thresholds <span class="text-gemini-muted font-normal">(First BeatmapSetID of the year)</span></h3>
+                    <button onclick="addBoundaryRow()" class="text-xs bg-gemini-card border border-gemini-border hover:border-osu-pink hover:text-osu-pink text-white px-3 py-1.5 rounded transition-colors">+ Add Year</button>
+                </div>
+                
+                <div class="grid grid-cols-[1fr_2fr_auto] gap-4 mb-2 text-xs font-semibold text-gemini-muted px-2">
+                    <div>Year</div>
+                    <div>BeatmapSet ID</div>
+                    <div></div>
+                </div>
+                
+                <div id="boundaries-list" class="space-y-2 max-h-60 overflow-y-auto custom-scroll pr-2"></div>
+                
+                <div class="mt-5 flex justify-end">
+                    <button onclick="applyBoundaries()" class="text-sm bg-osu-pink hover:bg-osu-hover text-white px-4 py-2 rounded-lg font-medium transition-colors shadow-lg shadow-osu-pink/20">
+                        Apply & Redraw Chart
+                    </button>
+                </div>
+            </div>
+
+            <!-- Overall Stats with Tooltip -->
+            <div class="mb-6 p-5 bg-gemini-bg rounded-xl border border-gemini-border">
+                <div class="flex items-center justify-between mb-3">
+                    <h3 class="text-sm font-semibold text-white">Overall Format Distribution</h3>
+                    <svg class="w-4 h-4 text-gemini-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                </div>
+                <div id="overall-stats" class="format-stats"></div>
+            </div>
+
+            <!-- Canvas -->
+            <div class="relative h-[500px] w-full">
+                <canvas id="marketChart"></canvas>
+            </div>
         </div>
+
     </div>
 
-    <footer class="mt-8 text-center text-gray-500 text-sm">
-        <p>⚠️ Disclaimer: This tool was generated by AI (Gemini & Claude). Use at your own discretion.</p>
-    </footer>
+<!-- ========================================== -->
+<!-- SCRIPT TEMPLATES                           -->
+<!-- ========================================== -->
 
-    <script>
-        let chartInstance;
-        let originalData = [];
-        let generatedCSVData = '';
+<template id="tpl-windows">
+$DefaultSongs = "$env:LOCALAPPDATA\osu!\Songs"
+Write-Host "=== osu! Audio Extractor for Windows ===" -ForegroundColor Cyan
 
-        // UI elements
-        const folderTab = document.getElementById('folder-tab');
-        const csvTab = document.getElementById('csv-tab');
-        const folderUploadArea = document.getElementById('folder-upload-area');
-        const csvUploadArea = document.getElementById('csv-upload-area');
-        const folderDropArea = document.getElementById('folder-drop-area');
-        const csvDropArea = document.getElementById('csv-drop-area');
-        const folderInput = document.getElementById('folder-input');
-        const csvFileInput = document.getElementById('csv-file-input');
-        const progressContainer = document.getElementById('progress-container');
-        const progressBar = document.getElementById('progress-bar');
-        const progressText = document.getElementById('progress-text');
-        const downloadContainer = document.getElementById('download-container');
-        const downloadCsvBtn = document.getElementById('download-csv');
-        const visualizationContainer = document.getElementById('visualization-container');
-        const barCountSlider = document.getElementById('barCountSlider');
-        const barCountValueSpan = document.getElementById('barCountValue');
-        const binSizeValueSpan = document.getElementById('binSizeValue');
-        const errorMessageDiv = document.getElementById('error-message');
-        const errorDetailsSpan = document.getElementById('error-details');
+if (Test-Path $DefaultSongs) {
+    Write-Host "Found default osu! Songs folder at: $DefaultSongs" -ForegroundColor Green
+    $InputPath = Read-Host "Press Enter to use this folder, or paste a custom path"
+    if ([string]::IsNullOrWhiteSpace($InputPath)) {
+        $SongsFolder = $DefaultSongs
+    } else {
+        $SongsFolder = $InputPath.Trim('"')
+    }
+} else {
+    $SongsFolder = (Read-Host "Enter the full path to your osu! Songs folder").Trim('"')
+}
 
-        // Tab switching
-        if (folderTab && csvTab) {
-            folderTab.addEventListener('click', () => switchTab('folder'));
-            csvTab.addEventListener('click', () => switchTab('csv'));
+if (-not (Test-Path $SongsFolder)) {
+    Write-Host "Error: Folder not found! Exiting." -ForegroundColor Red
+    Start-Sleep -Seconds 3
+    exit
+}
+
+$Timestamp = Get-Date -Format "yyyyMMdd_HHmmss"
+$OutputCsv = "$PWD\osu_audio_data_$Timestamp.csv"
+Write-Host "Scanning for .osu files in $SongsFolder..." -ForegroundColor Cyan
+
+$Files = Get-ChildItem -Path $SongsFolder -Filter "*.osu" -Recurse -File
+$Total = $Files.Count
+Write-Host "Found $Total beatmap files. Analyzing formats..." -ForegroundColor Cyan
+
+$Data = @{}
+$Counter = 0
+
+foreach ($File in $Files) {
+    $Counter++
+    Write-Progress -Activity "Processing Beatmaps" -Status "$Counter / $Total files processed" -PercentComplete (($Counter / $Total) * 100)
+
+    $AudioFilename = $null
+    $BeatmapSetID = -1
+
+    foreach ($line in [System.IO.File]::ReadLines($File.FullName)) {
+        $trimmed = $line.Trim()
+        
+        if ($trimmed.StartsWith("AudioFilename:")) {
+            $AudioFilename = $trimmed.Substring(14).Trim()
         }
-
-        function switchTab(tab) {
-            if (tab === 'folder') {
-                folderTab.classList.add('active');
-                csvTab.classList.remove('active');
-                folderUploadArea.classList.remove('hidden');
-                csvUploadArea.classList.add('hidden');
-            } else {
-                csvTab.classList.add('active');
-                folderTab.classList.remove('active');
-                csvUploadArea.classList.remove('hidden');
-                folderUploadArea.classList.add('hidden');
-            }
-            hideResults();
+        elseif ($trimmed.StartsWith("BeatmapSetID:")) {
+            $idStr = $trimmed.Substring(13).Trim()
+            [void][int32]::TryParse($idStr, [ref]$BeatmapSetID)
         }
-
-        function hideResults() {
-            visualizationContainer.classList.add('hidden');
-            downloadContainer.classList.add('hidden');
-            errorMessageDiv.classList.add('hidden');
-            progressContainer.classList.add('hidden');
+        
+        if ($AudioFilename -and $BeatmapSetID -gt 0) {
+            $ext = [System.IO.Path]::GetExtension($AudioFilename).TrimStart('.').ToLower()
+            if ($ext) { $Data[$BeatmapSetID] = $ext }
+            break
         }
+    }
+}
+Write-Progress -Activity "Processing Beatmaps" -Completed
 
-        // Folder upload event listeners
-        if (folderDropArea && folderInput) {
-            folderDropArea.addEventListener('click', () => folderInput.click());
-            folderInput.addEventListener('change', (e) => handleFolderUpload(e.target.files));
+$CsvData = @()
+foreach ($key in $Data.Keys) {
+    $CsvData += [PSCustomObject]@{ BeatmapSetID = $key; AudioExtension = $Data[$key] }
+}
 
-            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-                folderDropArea.addEventListener(eventName, preventDefaults, false);
-            });
-            ['dragenter', 'dragover'].forEach(eventName => {
-                folderDropArea.addEventListener(eventName, () => folderDropArea.classList.add('dragover'), false);
-            });
-            ['dragleave', 'drop'].forEach(eventName => {
-                folderDropArea.addEventListener(eventName, () => folderDropArea.classList.remove('dragover'), false);
-            });
-            folderDropArea.addEventListener('drop', handleFolderDrop, false);
-        }
+$CsvData | Export-Csv -Path $OutputCsv -NoTypeInformation -Encoding UTF8
+Write-Host "`nDone! Found $($Data.Count) unique beatmapsets.`nSaved successfully to: $OutputCsv" -ForegroundColor Green
+Read-Host "Press Enter to exit"
+</template>
 
-        // CSV upload event listeners
-        if (csvDropArea && csvFileInput) {
-            csvDropArea.addEventListener('click', () => csvFileInput.click());
-            csvFileInput.addEventListener('change', (e) => handleCSVFile(e.target.files[0]));
+<template id="tpl-mac">
+#!/bin/bash
+FOLDER=$(osascript -e 'POSIX path of (choose folder with prompt "Select your osu! Songs folder")' 2&gt;/dev/null)
 
-            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-                csvDropArea.addEventListener(eventName, preventDefaults, false);
-            });
-            ['dragenter', 'dragover'].forEach(eventName => {
-                csvDropArea.addEventListener(eventName, () => csvDropArea.classList.add('dragover'), false);
-            });
-            ['dragleave', 'drop'].forEach(eventName => {
-                csvDropArea.addEventListener(eventName, () => csvDropArea.classList.remove('dragover'), false);
-            });
-            csvDropArea.addEventListener('drop', handleCSVDrop, false);
-        }
+if [ -z "$FOLDER" ]; then
+    echo "No folder selected. Exiting."
+    exit 1
+fi
 
-        if (downloadCsvBtn) {
-            downloadCsvBtn.addEventListener('click', () => {
-                if (!generatedCSVData) {
-                    alert('No data available to download');
-                    return;
-                }
+echo "Scanning $FOLDER for .osu files..."
+TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
+OUTPUT_CSV="$(pwd)/osu_audio_data_$TIMESTAMP.csv"
+TMP_FILE=$(mktemp)
+COUNT=0
+
+find "$FOLDER" -type f -name "*.osu" -print0 | while IFS= read -r -d '' file; do
+    COUNT=$((COUNT+1))
+    printf "\rProcessed %d files..." "$COUNT"
+    
+    AUDIO=$(grep -m 1 "^AudioFilename:" "$file" | cut -d ':' -f 2- | tr -d '\r' | awk '{$1=$1};1')
+    ID=$(grep -m 1 "^BeatmapSetID:" "$file" | cut -d ':' -f 2- | tr -d '\r' | awk '{$1=$1};1')
+    
+    if [[ -n "$AUDIO" ]] &amp;&amp; [[ -n "$ID" ]] &amp;&amp; [[ "$ID" -gt 0 2&gt;/dev/null ]]; then
+        EXT="${AUDIO##*.}"
+        EXT="$(echo "$EXT" | tr '[:upper:]' '[:lower:]')"
+        echo "$ID,$EXT" &gt;&gt; "$TMP_FILE"
+    fi
+done
+
+printf "\rFinished scanning %d files!                      \n" "$COUNT"
+echo "Sorting data and removing duplicates..."
+
+echo "BeatmapSetID,AudioExtension" &gt; "$OUTPUT_CSV"
+sort -u -t, -k1,1 "$TMP_FILE" &gt;&gt; "$OUTPUT_CSV"
+rm "$TMP_FILE"
+
+LINES=$(wc -l &lt; "$OUTPUT_CSV")
+echo "Done! Found $((LINES-1)) unique beatmapsets. Saved to $OUTPUT_CSV"
+</template>
+
+<template id="tpl-linux">
+#!/bin/bash
+if command -v zenity &amp;&gt; /dev/null; then
+    FOLDER=$(zenity --file-selection --directory --title="Select your osu! Songs folder" 2&gt;/dev/null)
+else
+    read -p "Enter the full path to your osu! Songs folder: " FOLDER
+fi
+
+if [ -z "$FOLDER" ] || [ ! -d "$FOLDER" ]; then
+    echo "Invalid folder or no folder selected. Exiting."
+    exit 1
+fi
+
+echo "Scanning $FOLDER for .osu files..."
+TIMESTAMP=$(date +"%Y%m%d_%H%M%S")
+OUTPUT_CSV="$(pwd)/osu_audio_data_$TIMESTAMP.csv"
+TMP_FILE=$(mktemp)
+COUNT=0
+
+find "$FOLDER" -type f -name "*.osu" -print0 | while IFS= read -r -d '' file; do
+    COUNT=$((COUNT+1))
+    printf "\rProcessed %d files..." "$COUNT"
+    
+    AUDIO=$(grep -m 1 "^AudioFilename:" "$file" | cut -d ':' -f 2- | tr -d '\r' | awk '{$1=$1};1')
+    ID=$(grep -m 1 "^BeatmapSetID:" "$file" | cut -d ':' -f 2- | tr -d '\r' | awk '{$1=$1};1')
+    
+    if [[ -n "$AUDIO" ]] &amp;&amp; [[ -n "$ID" ]] &amp;&amp; [[ "$ID" =~ ^[0-9]+$ ]] &amp;&amp; [[ "$ID" -gt 0 ]]; then
+        EXT="${AUDIO##*.}"
+        EXT="${EXT,,}"
+        echo "$ID,$EXT" &gt;&gt; "$TMP_FILE"
+    fi
+done
+
+printf "\rFinished scanning %d files!                      \n" "$COUNT"
+echo "Sorting data and removing duplicates..."
+
+echo "BeatmapSetID,AudioExtension" &gt; "$OUTPUT_CSV"
+sort -u -t, -k1,1 "$TMP_FILE" &gt;&gt; "$OUTPUT_CSV"
+rm "$TMP_FILE"
+
+LINES=$(wc -l &lt; "$OUTPUT_CSV")
+echo "Done! Found $((LINES-1)) unique beatmapsets. Saved to $OUTPUT_CSV"
+</template>
+
+<template id="tpl-python">
+import os
+import csv
+import sys
+from datetime import datetime
+import tkinter as tk
+from tkinter import filedialog
+
+def get_folder():
+    root = tk.Tk()
+    root.withdraw()
+    root.attributes('-topmost', True)
+    folder = filedialog.askdirectory(title="Select your osu! Songs folder")
+    return folder
+
+def generate_csv():
+    print("Opening folder selector...")
+    folder = get_folder()
+    
+    if not folder:
+        print("No folder selected. Exiting.")
+        return
+
+    print(f"\nScanning '{folder}' for .osu files...")
+    
+    data = {}
+    processed = 0
+    
+    for root_dir, _, files in os.walk(folder):
+        for file in files:
+            if file.endswith(".osu"):
+                processed += 1
+                sys.stdout.write(f"\rProcessed {processed} files...")
+                sys.stdout.flush()
                 
-                const blob = new Blob([generatedCSVData], { type: 'text/csv' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = 'osu_audio_data.csv';
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                URL.revokeObjectURL(url);
+                filepath = os.path.join(root_dir, file)
+                try:
+                    with open(filepath, 'r', encoding='utf-8') as f:
+                        audio = None
+                        setId = -1
+                        for line in f:
+                            line = line.strip()
+                            if line.startswith("AudioFilename:"):
+                                audio = line.split(":", 1)[1].strip()
+                            elif line.startswith("BeatmapSetID:"):
+                                try:
+                                    setId = int(line.split(":", 1)[1].strip())
+                                except ValueError:
+                                    pass
+                            
+                            if audio and setId &gt; 0:
+                                ext = audio.split(".")[-1].lower() if "." in audio else ""
+                                if ext: data[setId] = ext
+                                break
+                except Exception:
+                    pass
+    
+    print(f"\rFinished scanning {processed} files!                      ")
+    
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    out_file = f"osu_audio_data_{timestamp}.csv"
+    
+    with open(out_file, 'w', newline='', encoding='utf-8') as f:
+        writer = csv.writer(f)
+        writer.writerow(["BeatmapSetID", "AudioExtension"])
+        for sid, ext in data.items():
+            writer.writerow([sid, ext])
+            
+    print(f"Done! Found {len(data)} unique beatmapsets.")
+    print(f"Saved successfully to: {os.path.abspath(out_file)}")
+    input("\nPress Enter to exit...")
+
+if __name__ == "__main__":
+    generate_csv()
+</template>
+
+<!-- ========================================== -->
+<!-- JAVASCRIPT LOGIC                           -->
+<!-- ========================================== -->
+<script>
+    let parsedCsvData = [];
+    let yearBoundaries = [
+        { year: 2026, minId: 2486635 },
+        { year: 2025, minId: 2301732 },
+        { year: 2024, minId: 2112623 },
+        { year: 2023, minId: 1914079 },
+        { year: 2022, minId: 1663929 },
+        { year: 2021, minId: 1336867 },
+        { year: 2020, minId: 1086968 }
+    ];
+
+    const scriptData = {
+        windows: {
+            filename: "osu_scanner.ps1",
+            lang: "language-powershell",
+            instruction: "Right-click the downloaded file and select <code class='bg-osu-pink/10 text-osu-pink border border-osu-pink/30 px-1.5 py-0.5 rounded'>Run with PowerShell</code>.",
+            template: "tpl-windows"
+        },
+        mac: {
+            filename: "osu_scanner.command",
+            lang: "language-bash",
+            instruction: "Terminal: <code class='bg-osu-pink/10 text-osu-pink border border-osu-pink/30 px-1.5 py-0.5 rounded'>bash osu_scanner.command</code>",
+            template: "tpl-mac"
+        },
+        linux: {
+            filename: "osu_scanner.sh",
+            lang: "language-bash",
+            instruction: "Terminal: <code class='bg-osu-pink/10 text-osu-pink border border-osu-pink/30 px-1.5 py-0.5 rounded'>bash osu_scanner.sh</code>",
+            template: "tpl-linux"
+        },
+        python: {
+            filename: "osu_scanner.py",
+            lang: "language-python",
+            instruction: "Terminal: <code class='bg-osu-pink/10 text-osu-pink border border-osu-pink/30 px-1.5 py-0.5 rounded'>python osu_scanner.py</code>",
+            template: "tpl-python"
+        }
+    };
+
+    let currentOS = 'windows';
+    let chartInstance = null;
+    let currentChartData = null;
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const ua = navigator.userAgent.toLowerCase();
+        if (ua.includes("mac")) currentOS = 'mac';
+        else if (ua.includes("linux")) currentOS = 'linux';
+        else currentOS = 'windows';
+        
+        selectOS(currentOS);
+        renderBoundaries();
+
+        const dropArea = document.getElementById('drop-area');
+        const fileInput = document.getElementById('file-input');
+
+        dropArea.addEventListener('click', () => fileInput.click());
+        fileInput.addEventListener('change', (e) => processFile(e.target.files[0]));
+
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(evt => {
+            dropArea.addEventListener(evt, (e) => { e.preventDefault(); e.stopPropagation(); });
+        });
+        ['dragenter', 'dragover'].forEach(evt => dropArea.addEventListener(evt, () => dropArea.classList.add('drop-zone-active')));
+        ['dragleave', 'drop'].forEach(evt => dropArea.addEventListener(evt, () => dropArea.classList.remove('drop-zone-active')));
+        dropArea.addEventListener('drop', (e) => processFile(e.dataTransfer.files[0]));
+    });
+
+    function selectOS(os) {
+        currentOS = os;
+        const activeClass = "px-4 py-2 rounded-lg text-sm font-medium transition-all bg-osu-pink/10 text-osu-pink border border-osu-pink";
+        const inactiveClass = "px-4 py-2 rounded-lg text-sm font-medium transition-all bg-gemini-bg text-gemini-muted border border-gemini-border hover:border-osu-pink/50 hover:text-white";
+
+        ['windows', 'mac', 'linux', 'python'].forEach(key => {
+            document.getElementById(`tab-${key}`).className = (key === os) ? activeClass : inactiveClass;
+        });
+
+        document.getElementById('script-instruction').innerHTML = scriptData[os].instruction;
+
+        let code = document.getElementById(scriptData[os].template).innerHTML.trim();
+        
+        // Decode HTML entities
+        const textarea = document.createElement('textarea');
+        textarea.innerHTML = code;
+        code = textarea.value;
+
+        const codeBlock = document.getElementById('code-block');
+        codeBlock.textContent = code;
+        codeBlock.className = scriptData[os].lang;
+        
+        if (window.Prism) Prism.highlightElement(codeBlock);
+    }
+
+    function toggleCode() {
+        const container = document.getElementById('code-container');
+        const btn = document.getElementById('toggle-code-btn');
+        if (container.classList.contains('hidden')) {
+            container.classList.remove('hidden');
+            btn.textContent = "Hide source code";
+        } else {
+            container.classList.add('hidden');
+            btn.textContent = "View source code";
+        }
+    }
+
+    function copyCode() {
+        const code = document.getElementById('code-block').textContent;
+        navigator.clipboard.writeText(code).then(() => {
+            const btn = document.getElementById('copy-btn');
+            btn.textContent = "Copied!";
+            btn.classList.add('text-osu-pink', 'border-osu-pink');
+            setTimeout(() => {
+                btn.textContent = "Copy";
+                btn.classList.remove('text-osu-pink', 'border-osu-pink');
+            }, 2000);
+        });
+    }
+
+    function downloadScript() {
+        const data = scriptData[currentOS];
+        const template = document.getElementById(data.template);
+        let code = template.innerHTML.trim();
+        
+        // Decode HTML entities
+        const textarea = document.createElement('textarea');
+        textarea.innerHTML = code;
+        code = textarea.value;
+        
+        const blob = new Blob([code], { type: "text/plain" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = data.filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    }
+
+    function renderBoundaries() {
+        const list = document.getElementById('boundaries-list');
+        list.innerHTML = '';
+        
+        yearBoundaries.forEach((b) => {
+            list.innerHTML += `
+                <div class="boundary-row grid grid-cols-[1fr_2fr_auto] gap-4 items-center bg-gemini-card p-2 rounded-lg border border-gemini-border">
+                    <input type="number" class="boundary-year w-full bg-gemini-bg border border-gemini-border rounded px-3 py-1.5 text-sm text-white focus:border-osu-pink outline-none transition-colors" value="${b.year}">
+                    <input type="number" class="boundary-id w-full bg-gemini-bg border border-gemini-border rounded px-3 py-1.5 text-sm text-white focus:border-osu-pink outline-none transition-colors" value="${b.minId}">
+                    <button onclick="removeBoundaryRow(this)" class="text-red-400 hover:text-red-300 hover:bg-red-400/10 p-1.5 rounded transition-colors" title="Remove">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                    </button>
+                </div>
+            `;
+        });
+    }
+
+    function toggleConfig() {
+        document.getElementById('config-panel').classList.toggle('hidden');
+    }
+
+    function addBoundaryRow() {
+        const lowestYear = yearBoundaries.length > 0 ? yearBoundaries[yearBoundaries.length - 1].year - 1 : 2020;
+        yearBoundaries.push({ year: lowestYear, minId: 0 });
+        renderBoundaries();
+        const list = document.getElementById('boundaries-list');
+        list.scrollTop = list.scrollHeight;
+    }
+
+    function removeBoundaryRow(btn) {
+        btn.closest('.boundary-row').remove();
+    }
+
+    function applyBoundaries() {
+        const rows = document.querySelectorAll('.boundary-row');
+        yearBoundaries = [];
+        rows.forEach(row => {
+            const year = parseInt(row.querySelector('.boundary-year').value);
+            const id = parseInt(row.querySelector('.boundary-id').value);
+            if (!isNaN(year) && !isNaN(id)) {
+                yearBoundaries.push({ year, minId: id });
+            }
+        });
+        yearBoundaries.sort((a, b) => a.minId - b.minId);
+        if (parsedCsvData.length > 0) buildChart(parsedCsvData);
+        document.getElementById('config-panel').classList.add('hidden');
+    }
+
+    const errorMsg = document.getElementById('error-msg');
+
+    function showError(msg) {
+        errorMsg.textContent = msg;
+        errorMsg.classList.remove('hidden');
+        document.getElementById('chart-section').classList.add('hidden');
+    }
+
+    function processFile(file) {
+        if (!file) return;
+        errorMsg.classList.add('hidden');
+        if (!file.name.endsWith('.csv')) return showError("Please upload a valid .csv file.");
+
+        Papa.parse(file, {
+            header: true,
+            skipEmptyLines: true,
+            complete: (results) => {
+                parsedCsvData = results.data;
+                buildChart(parsedCsvData);
+            },
+            error: (err) => showError(`Parsing error: ${err.message}`)
+        });
+    }
+
+    function getYearFromId(id) {
+        for (const boundary of yearBoundaries) {
+            if (id >= boundary.minId) return boundary.year.toString();
+        }
+        const lowestYear = yearBoundaries.length > 0 ? yearBoundaries[yearBoundaries.length - 1].year : 2020;
+        return `Pre-${lowestYear}`;
+    }
+
+    function buildChart(csvData) {
+        const binnedData = {};
+        const allExtensions = new Set();
+        let validCount = 0;
+
+        csvData.forEach(row => {
+            const id = parseInt(row.BeatmapSetID);
+            if (isNaN(id) || id <= 0) return;
+            
+            const ext = (row.AudioExtension || '').toLowerCase().trim();
+            if (!ext) return;
+
+            const year = getYearFromId(id);
+            if (!binnedData[year]) binnedData[year] = {};
+            
+            binnedData[year][ext] = (binnedData[year][ext] || 0) + 1;
+            allExtensions.add(ext);
+            validCount++;
+        });
+
+        if (validCount === 0) return showError("No valid data found. Ensure your CSV has 'BeatmapSetID' and 'AudioExtension' columns.");
+
+        document.getElementById('stats-text').textContent = `Based on ${validCount.toLocaleString()} beatmapsets`;
+
+        const lowestYear = yearBoundaries.length > 0 ? yearBoundaries[yearBoundaries.length - 1].year : 2020;
+        const fallbackStr = `Pre-${lowestYear}`;
+        
+        const baseYears = [fallbackStr, ...yearBoundaries.map(y => y.year.toString()).reverse()];
+        const dataYears = Object.keys(binnedData);
+        
+        const sortedYears = [...new Set([...baseYears, ...dataYears])].sort((a, b) => {
+            if (a.startsWith("Pre-")) return -1;
+            if (b.startsWith("Pre-")) return 1;
+            return parseInt(a) - parseInt(b);
+        });
+
+        const sortedExts = Array.from(allExtensions).sort();
+        const datasets = [];
+        
+        // Softer, pastel color palette
+        const palette = ['#D8A5D8', '#A8C8D8', '#C8D8A8', '#D8C8A8', '#D8A8A8', '#A8D8C8', '#C8A8D8'];
+
+        sortedExts.forEach((ext, i) => {
+            const dataPoints = sortedYears.map(year => {
+                const counts = binnedData[year] || {};
+                const total = Object.values(counts).reduce((sum, c) => sum + c, 0);
+                return total > 0 ? ((counts[ext] || 0) / total) * 100 : 0;
             });
-        }
 
-        if (barCountSlider) {
-            barCountSlider.addEventListener('input', updateChart);
-        }
-
-        function preventDefaults(e) {
-            e.preventDefault();
-            e.stopPropagation();
-        }
-
-        function handleFolderDrop(e) {
-            const items = e.dataTransfer.items;
-            const files = [];
-            
-            for (let i = 0; i < items.length; i++) {
-                const item = items[i];
-                if (item.kind === 'file') {
-                    const file = item.getAsFile();
-                    files.push(file);
-                }
-            }
-            
-            handleFolderUpload(files);
-        }
-
-        function handleCSVDrop(e) {
-            const file = e.dataTransfer.files[0];
-            handleCSVFile(file);
-        }
-
-        async function handleFolderUpload(files) {
-            hideResults();
-            
-            if (!files || files.length === 0) {
-                errorDetailsSpan.textContent = "No files selected.";
-                errorMessageDiv.classList.remove('hidden');
-                return;
-            }
-
-            // FILTER: Create a new array with only .osu files
-            const osuFiles = Array.from(files).filter(file => file.name.endsWith('.osu'));
-            
-            if (osuFiles.length === 0) {
-                errorDetailsSpan.textContent = "No .osu files found in the selected folder.";
-                errorMessageDiv.classList.remove('hidden');
-                return;
-            }
-
-            progressContainer.classList.remove('hidden');
-            
-            const osuData = {};
-            const processedSets = new Set();
-            let processedCount = 0;
-            let validCount = 0;
-            let errorCount = 0;
-
-            for (const file of osuFiles) {
-                try {
-                    const content = await readFileContent(file);
-                    const data = parseOsuFile(content, file.name);
-                    
-                    if (data && data.beatmapSetId > 0 && !processedSets.has(data.beatmapSetId)) {
-                        osuData[data.beatmapSetId] = data.audioExtension;
-                        processedSets.add(data.beatmapSetId);
-                        validCount++;
-                    } else if (data && processedSets.has(data.beatmapSetId)) {
-                        // Duplicate ID, skip
-                    } else {
-                        errorCount++;
-                    }
-                    
-                    processedCount++;
-                    const progress = (processedCount / osuFiles.length) * 100;
-                    progressBar.style.width = `${progress}%`;
-                    progressText.textContent = `Processed ${processedCount}/${osuFiles.length} files (${validCount} valid, ${errorCount} errors)`;
-                    
-                    // Allow UI to update
-                    if (processedCount % 50 === 0) {
-                        await new Promise(resolve => setTimeout(resolve, 1));
-                    }
-                } catch (error) {
-                    errorCount++;
-                    processedCount++;
-                }
-            }
-
-            progressContainer.classList.add('hidden');
-
-            if (Object.keys(osuData).length === 0) {
-                errorDetailsSpan.textContent = `No valid beatmap data found in the .osu files. Processed ${processedCount} files, found ${errorCount} errors.`;
-                errorMessageDiv.classList.remove('hidden');
-                return;
-            }
-
-            originalData = Object.entries(osuData).map(([setId, extension]) => ({
-                BeatmapSetID: parseInt(setId),
-                AudioExtension: extension
-            }));
-
-            // Generate the CSV string from the populated data
-            generateCSVData();
-
-            // Explicitly clear the large originalData array to free up memory
-            originalData = []; 
-
-            visualizationContainer.classList.remove('hidden');
-            downloadContainer.classList.remove('hidden');
-            updateChart();
-        }
-
-        function readFileContent(file) {
-            return new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.onload = (e) => resolve(e.target.result);
-                reader.onerror = (e) => reject(e);
-                reader.readAsText(file, 'utf-8');
+            datasets.push({
+                label: ext.toUpperCase(),
+                data: dataPoints,
+                backgroundColor: palette[i % palette.length],
+                rawCounts: sortedYears.map(year => (binnedData[year] || {})[ext] || 0),
+                borderRadius: 6,
+                borderSkipped: false
             });
-        }
+        });
 
-        function parseOsuFile(content, filename) {
-            const lines = content.split('\n');
-            let audioFilename = null;
-            let beatmapSetId = -1;
+        currentChartData = { binnedData, sortedYears, sortedExts, palette };
+        updateOverallStats(binnedData, sortedExts, palette);
 
-            for (const line of lines) {
-                const trimmedLine = line.trim();
-                
-                if (trimmedLine.startsWith('AudioFilename:')) {
-                    audioFilename = trimmedLine.split(':', 2)[1]?.trim();
-                }
-                
-                if (trimmedLine.startsWith('BeatmapSetID:')) {
-                    try {
-                        beatmapSetId = parseInt(trimmedLine.split(':', 2)[1]?.trim());
-                    } catch (e) {
-                        // Handle potential parsing errors
+        document.getElementById('chart-section').classList.remove('hidden');
+        const ctx = document.getElementById('marketChart').getContext('2d');
+        
+        if (chartInstance) chartInstance.destroy();
+
+        Chart.defaults.color = '#8A8A8A';
+        Chart.defaults.font.family = 'Figtree, sans-serif';
+
+        chartInstance = new Chart(ctx, {
+            type: 'bar',
+            data: { labels: sortedYears, datasets: datasets },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { 
+                        labels: { 
+                            color: '#E3E3E3', 
+                            padding: 20, 
+                            usePointStyle: true, 
+                            pointStyle: 'circle',
+                            font: { size: 13, weight: '500' }
+                        } 
+                    },
+                    tooltip: {
+                        backgroundColor: '#1E1E1F',
+                        titleColor: '#E3E3E3',
+                        bodyColor: '#E3E3E3',
+                        borderColor: '#333333',
+                        borderWidth: 1,
+                        padding: 12,
+                        displayColors: true,
+                        callbacks: {
+                            title: function(context) {
+                                return `Year: ${context[0].label}`;
+                            },
+                            label: function(context) {
+                                const ds = context.dataset;
+                                const raw = ds.rawCounts[context.dataIndex];
+                                const pct = context.parsed.y.toFixed(1);
+                                return ` ${ds.label}: ${pct}% (${raw.toLocaleString()} maps)`;
+                            },
+                            afterLabel: function(context) {
+                                if (context.dataIndex === context.dataset.rawCounts.length - 1) {
+                                    return '\n💡 Hover labels for full breakdown';
+                                }
+                                return '';
+                            }
+                        }
                     }
-                }
-
-                if (audioFilename && beatmapSetId > 0) {
-                    break;
-                }
-            }
-
-            if (audioFilename && beatmapSetId > 0) {
-                const extension = audioFilename.split('.').pop()?.toLowerCase() || '';
-                if (extension) {
-                    return {
-                        beatmapSetId: beatmapSetId,
-                        audioExtension: extension
-                    };
-                }
-            }
-
-            return null;
-        }
-
-        function generateCSVData() {
-            const csvRows = ['BeatmapSetID,AudioExtension'];
-            originalData.forEach(row => {
-                csvRows.push(`${row.BeatmapSetID},${row.AudioExtension}`);
-            });
-            generatedCSVData = csvRows.join('\n');
-        }
-
-        function handleCSVFile(file) {
-            hideResults();
-            
-            if (!file) {
-                return;
-            }
-            if (!file.name.endsWith('.csv')) {
-                errorDetailsSpan.textContent = "Invalid file type. Please drop a CSV file.";
-                errorMessageDiv.classList.remove('hidden');
-                return;
-            }
-
-            Papa.parse(file, {
-                header: true,
-                skipEmptyLines: true,
-                transformHeader: header => header.trim(),
-                complete: function(results) {
-                    if (!results.data || results.data.length === 0) {
-                        errorDetailsSpan.textContent = "The CSV file is empty or could not be parsed. Check the file format.";
-                        errorMessageDiv.classList.remove('hidden');
-                        visualizationContainer.classList.add('hidden');
-                        return;
-                    }
-
-                    const headers = results.meta.fields.map(h => h.trim());
-                    const beatmapSetIDKey = headers.find(h => h.toLowerCase() === 'beatmapsetid');
-                    const audioExtensionKey = headers.find(h => h.toLowerCase() === 'audioextension');
-
-                    if (!beatmapSetIDKey || !audioExtensionKey) {
-                        errorDetailsSpan.textContent = "The CSV is missing the 'BeatmapSetID' or 'AudioExtension' columns.";
-                        errorMessageDiv.classList.remove('hidden');
-                        visualizationContainer.classList.add('hidden');
-                        return;
-                    }
-
-                    originalData = results.data
-                        .map(row => ({
-                            BeatmapSetID: Number(row[beatmapSetIDKey]),
-                            AudioExtension: String(row[audioExtensionKey] || '').toLowerCase().trim()
-                        }))
-                        .filter(row => row.BeatmapSetID > 0 && row.AudioExtension.length > 0);
-                    
-                    if (originalData.length === 0) {
-                        errorDetailsSpan.textContent = "No valid data found in the CSV. Make sure it contains 'BeatmapSetID' (as a number > 0) and 'AudioExtension' columns with valid values.";
-                        errorMessageDiv.classList.remove('hidden');
-                        visualizationContainer.classList.add('hidden');
-                        return;
-                    }
-
-                    visualizationContainer.classList.remove('hidden');
-                    updateChart();
                 },
-                error: function(err) {
-                    errorDetailsSpan.textContent = `A parsing error occurred: ${err.message}.`;
-                    errorMessageDiv.classList.remove('hidden');
-                    visualizationContainer.classList.add('hidden');
-                }
-            });
-        }
-
-        function updateChart() {
-            // If originalData is empty after processing, use the CSV data to rebuild a small, temporary array
-            const dataToChart = originalData.length > 0 ? originalData : Papa.parse(generatedCSVData, { header: true, skipEmptyLines: true }).data;
-
-            if (!dataToChart.length) {
-                return;
-            }
-            
-            const numberOfBars = parseInt(barCountSlider.value);
-            const maxId = dataToChart.reduce((max, row) => Math.max(max, row.BeatmapSetID), 0);
-            const binSize = Math.ceil(maxId / numberOfBars);
-
-            barCountValueSpan.textContent = numberOfBars;
-            binSizeValueSpan.textContent = binSize;
-            
-            const binnedData = {};
-            const allExtensions = new Set();
-            
-            dataToChart.forEach(row => {
-                const beatmapSetId = row.BeatmapSetID;
-                const extension = row.AudioExtension;
-
-                const binStart = Math.floor(beatmapSetId / binSize) * binSize + 1;
-                
-                if (!binnedData[binStart]) {
-                    binnedData[binStart] = {};
-                }
-                binnedData[binStart][extension] = (Number(binnedData[binStart][extension]) || 0) + 1;
-                allExtensions.add(extension);
-            });
-
-            const sortedBins = Object.keys(binnedData).map(Number).sort((a, b) => a - b);
-            const sortedExtensions = Array.from(allExtensions).sort();
-
-            const datasets = [];
-            const colors = {};
-            const colorPalette = ['#63b3ed', '#48bb78', '#fc8181', '#f6ad55', '#9f7aea', '#ed64a6', '#4299e1'];
-            sortedExtensions.forEach((ext, index) => {
-                colors[ext] = colorPalette[index % colorPalette.length];
-            });
-
-            sortedExtensions.forEach(extension => {
-                const data = sortedBins.map(bin => {
-                    const binCounts = binnedData[bin];
-                    const totalInBin = Object.values(binCounts).reduce((sum, count) => sum + Number(count), 0);
-                    return totalInBin > 0 ? (Number(binCounts[extension]) || 0) / totalInBin * 100 : 0;
-                });
-
-                datasets.push({
-                    label: extension.toUpperCase(),
-                    data: data,
-                    backgroundColor: colors[extension]
-                });
-            });
-
-            const labels = sortedBins.map(b => `${b} - ${b + binSize - 1}`);
-
-            const chartData = {
-                labels: labels,
-                datasets: datasets
-            };
-
-            const chartConfig = {
-                type: 'bar',
-                data: chartData,
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    layout: {
-                        padding: {
-                            top: 20,
-                            bottom: 20,
-                            left: 10,
-                            right: 10
+                scales: {
+                    x: { 
+                        stacked: true, 
+                        grid: { display: false, drawBorder: false },
+                        ticks: {
+                            callback: function(value) {
+                                const label = this.getLabelForValue(value);
+                                return label;
+                            },
+                            font: { size: 12 }
                         }
                     },
-                    scales: {
-                        x: {
-                            stacked: true,
-                            title: {
-                                display: true,
-                                text: `BeatmapSetID (Grouped by ${binSize})`,
-                                color: '#a0aec0',
-                                font: {
-                                    size: 14
-                                }
-                            },
-                            ticks: {
-                                color: '#a0aec0',
-                                maxRotation: 45,
-                                minRotation: 0
-                            },
-                            grid: {
-                                color: '#4a5568',
-                                display: false
-                            }
-                        },
-                        y: {
-                            stacked: true,
-                            beginAtZero: true,
-                            max: 100,
-                            title: {
-                                display: true,
-                                text: 'Percentage of Beatmaps',
-                                color: '#a0aec0',
-                                font: {
-                                    size: 14
-                                }
-                            },
-                            ticks: {
-                                color: '#a0aec0',
-                                callback: function(value) { return value + '%'; },
-                                stepSize: 10
-                            },
-                            grid: {
-                                color: '#4a5568'
-                            }
-                        }
-                    },
-                    plugins: {
-                        legend: {
-                            position: 'top',
-                            labels: {
-                                color: '#a0aec0',
-                                padding: 20,
-                                usePointStyle: true,
-                                pointStyle: 'rect'
-                            }
-                        },
-                        title: {
-                            display: true,
-                            text: 'Audio File Market Share by BeatmapSetID Range',
-                            color: '#e2e8f0',
-                            font: {
-                                size: 18,
-                                weight: 'bold'
-                            },
-                            padding: {
-                                top: 10,
-                                bottom: 30
-                            }
-                        }
-                    },
-                    interaction: {
-                        mode: 'index',
-                        intersect: false
-                    },
-                    elements: {
-                        bar: {
-                            borderWidth: 0
-                        }
+                    y: {
+                        stacked: true,
+                        max: 100,
+                        title: { display: true, text: 'Percentage of Beatmaps', color: '#8A8A8A' },
+                        ticks: { callback: v => v + '%' },
+                        grid: { color: '#2A2A2B', drawBorder: false }
                     }
                 }
-            };
+            },
+            plugins: [{
+                id: 'yearLabelTooltip',
+                afterDatasetsDraw: function(chart) {
+                    const xAxis = chart.scales.x;
+                    const yAxis = chart.scales.y;
+                    
+                    xAxis.ticks.forEach((tick, index) => {
+                        const label = xAxis.getLabelForValue(xAxis.getValueForPixel(tick.x));
+                        const x = tick.x;
+                        const y = yAxis.getPixelForValue(100) - 30;
+                        
+                        // Store position data for hover handling
+                        if (!chart.yearLabelPositions) chart.yearLabelPositions = {};
+                        chart.yearLabelPositions[index] = { x, y, label };
+                    });
+                }
+            }]
+        });
 
-            const ctx = document.getElementById('marketshareChart').getContext('2d');
-            if (chartInstance) {
-                chartInstance.destroy();
+        // Add hover tooltip for year labels
+        const canvas = document.getElementById('marketChart');
+        canvas.addEventListener('mousemove', (e) => {
+            const rect = canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            if (chartInstance && chartInstance.yearLabelPositions) {
+                let foundLabel = null;
+                Object.values(chartInstance.yearLabelPositions).forEach(pos => {
+                    const distance = Math.sqrt(Math.pow(pos.x - x, 2) + Math.pow(pos.y - y, 2));
+                    if (distance < 40) {
+                        foundLabel = pos.label;
+                    }
+                });
+                
+                if (foundLabel && binnedData[foundLabel]) {
+                    showYearTooltip(e, foundLabel, binnedData[foundLabel], palette, sortedExts);
+                } else {
+                    hideYearTooltip();
+                }
             }
-            chartInstance = new Chart(ctx, chartConfig);
+        });
+
+        canvas.addEventListener('mouseleave', hideYearTooltip);
+    }
+
+    let yearTooltipElement = null;
+
+    function showYearTooltip(event, year, yearData, palette, sortedExts) {
+        const total = Object.values(yearData).reduce((sum, c) => sum + c, 0);
+        
+        let html = `<div style="background-color: #1E1E1F; border: 1px solid #333333; border-radius: 0.5rem; padding: 0.75rem; position: fixed; z-index: 1000; font-family: Figtree, sans-serif; font-size: 0.85rem; max-width: 280px; box-shadow: 0 10px 25px rgba(0,0,0,0.5);">
+                        <div style="color: #E3E3E3; font-weight: 600; margin-bottom: 0.5rem; border-bottom: 1px solid #333333; padding-bottom: 0.5rem;">Breakdown for ${year}</div>`;
+        
+        sortedExts.forEach((ext, i) => {
+            const count = yearData[ext] || 0;
+            const pct = total > 0 ? ((count / total) * 100).toFixed(1) : 0;
+            const color = palette[i % palette.length];
+            html += `<div style="margin: 0.25rem 0; display: flex; align-items: center; gap: 0.5rem;">
+                        <div style="width: 10px; height: 10px; border-radius: 3px; background-color: ${color};"></div>
+                        <span style="color: #E3E3E3; flex: 1;">${ext.toUpperCase()}</span>
+                        <span style="color: #8A8A8A;">${pct}% (${count.toLocaleString()})</span>
+                     </div>`;
+        });
+        
+        html += `</div>`;
+        
+        if (!yearTooltipElement) {
+            yearTooltipElement = document.createElement('div');
+            document.body.appendChild(yearTooltipElement);
         }
-    </script>
+        
+        yearTooltipElement.innerHTML = html;
+        yearTooltipElement.style.left = (event.clientX + 10) + 'px';
+        yearTooltipElement.style.top = (event.clientY + 10) + 'px';
+    }
+
+    function hideYearTooltip() {
+        if (yearTooltipElement) {
+            yearTooltipElement.innerHTML = '';
+        }
+    }
+
+    function updateOverallStats(binnedData, sortedExts, palette) {
+        const overallCounts = {};
+        let totalMaps = 0;
+
+        sortedExts.forEach(ext => overallCounts[ext] = 0);
+
+        Object.values(binnedData).forEach(yearData => {
+            Object.entries(yearData).forEach(([ext, count]) => {
+                overallCounts[ext] += count;
+                totalMaps += count;
+            });
+        });
+
+        const statsContainer = document.getElementById('overall-stats');
+        statsContainer.innerHTML = '';
+
+        sortedExts.forEach((ext, i) => {
+            const count = overallCounts[ext];
+            const pct = totalMaps > 0 ? ((count / totalMaps) * 100).toFixed(1) : 0;
+            const color = palette[i % palette.length];
+
+            const item = document.createElement('div');
+            item.className = 'format-stat-item';
+            item.title = `${ext.toUpperCase()}: ${count.toLocaleString()} maps (${pct}%)`;
+            item.innerHTML = `
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <div class="format-stat-color" style="background-color: ${color};"></div>
+                    <span class="format-stat-name">${ext.toUpperCase()}</span>
+                </div>
+                <div class="format-stat-value">${pct}%</div>
+                <div class="format-stat-value" style="color: #6B7280;">${count.toLocaleString()} maps</div>
+            `;
+            statsContainer.appendChild(item);
+        });
+    }
+</script>
 </body>
 </html>
