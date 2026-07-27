@@ -1,0 +1,27 @@
+{
+  "id": "ch5",
+  "title": "🕸️ 5. Graphen",
+  "sections": [
+    {
+      "type": "theory",
+      "html": "<h3>📐 Grundbegriffe</h3><p>Ein Graph $G = (V, E)$ besteht aus einer <strong>Knotenmenge</strong> $V$ und einer <strong>Kantenmenge</strong> $E$.</p><ul><li><strong>Gerichtet:</strong> Kanten haben Richtung $(u \\to v)$</li><li><strong>Ungerichtet:</strong> Kanten sind symmetrisch $\\{u, v\\}$</li><li><strong>Gewichtet:</strong> Kanten haben Kosten/Gewichte</li><li><strong>Pfad:</strong> Folge von Knoten, verbunden durch Kanten</li><li><strong>Zyklus:</strong> Pfad, der am selben Knoten beginnt und endet</li><li><strong>Zusammenhängend:</strong> Es gibt einen Pfad zwischen je zwei Knoten</li></ul><h3>💾 Speicherung</h3><table><tr><th></th><th>Adjazenzmatrix</th><th>Adjazenzliste</th></tr><tr><td><strong>Speicher</strong></td><td>$\\mathcal{O}(|V|^2)$</td><td>$\\mathcal{O}(|V| + |E|)$</td></tr><tr><td><strong>Kante prüfen</strong></td><td>$\\mathcal{O}(1)$</td><td>$\\mathcal{O}(\\text{Grad})$</td></tr><tr><td><strong>Gut für</strong></td><td>Dichte Graphen</td><td>Dünne Graphen</td></tr></table>"
+    },
+    {
+      "type": "theory",
+      "html": "<h3>🔎 Traversierung</h3><table><tr><th></th><th>BFS (Breitensuche)</th><th>DFS (Tiefensuche)</th></tr><tr><td><strong>Datenstruktur</strong></td><td>Queue (FIFO)</td><td>Stack / Rekursion</td></tr><tr><td><strong>Vorgehen</strong></td><td>Schichtweise (wie eine Welle)</td><td>So tief wie möglich, dann Backtrack</td></tr><tr><td><strong>Komplexität</strong></td><td>$\\mathcal{O}(|V| + |E|)$</td><td>$\\mathcal{O}(|V| + |E|)$</td></tr><tr><td><strong>Findet</strong></td><td>Kürzeste Wege (ungewichtet)</td><td>Zyklen, Zusammenhang</td></tr></table><p><strong>Expansion:</strong> Die Reihenfolge, in der Knoten bei BFS/DFS besucht werden. Bei Wahlmöglichkeit: alphabetisch/lexikographisch.</p>"
+    },
+    {
+      "type": "theory",
+      "html": "<h3>🛤️ Dijkstra — Kürzeste Wege</h3><p><strong>Greedy-Algorithmus</strong> für kürzeste Wege von einem Startknoten zu allen anderen.</p><div style='padding:.8rem;background:var(--red-dim);border-radius:var(--radius)'>❌ <strong>Voraussetzung: KEINE negativen Kanten!</strong> Dijkstra funktioniert nicht mit negativen Kantengewichten (dafür: Bellman-Ford).</div><h3>Algorithmus</h3><ol><li>Setze $dist[\\text{Start}] = 0$, alle anderen $dist = \\infty$</li><li>Nimm unbesuchten Knoten $u$ mit <strong>kleinstem</strong> $dist[u]$ (Greedy!)</li><li>Markiere $u$ als besucht</li><li><strong>Relaxiere</strong> alle Nachbarn $v$: $dist[v] = \\min(dist[v],\\ dist[u] + w(u,v))$</li><li>Wiederhole ab 2., bis alle besucht</li></ol><h3>🌲 Minimaler Spannbaum (MST)</h3><p>Ein <strong>Spannbaum</strong> verbindet alle Knoten mit minimalen Kantenkosten (zyklenfreier Teilgraph).</p><table><tr><th></th><th>Prim</th><th>Kruskal</th></tr><tr><td><strong>Strategie</strong></td><td>Wachse den Baum Knoten für Knoten</td><td>Sortiere alle Kanten, nimm billigste ohne Zyklus</td></tr><tr><td><strong>Paradigma</strong></td><td>Greedy</td><td>Greedy</td></tr><tr><td><strong>Ähnlich wie</strong></td><td>Dijkstra (aber mit Kantengewicht statt Distanz)</td><td>—</td></tr></table><div style='padding:.5rem;background:var(--yellow-dim);border-radius:var(--radius);margin-top:.5rem'>⚠️ <strong>Klausur-Falle:</strong> Prim findet einen MST, <em>nicht</em> den kürzesten Weg! Verwechsle Prim nicht mit Dijkstra.</div>"
+    },
+    {
+      "type": "widget",
+      "widgetHtml": "<div class='widget'><h3>🕸️ Graph-Algorithmen (Dijkstra & Prim)</h3><p style='color:var(--text-secondary);margin-bottom:.5rem'>Klicke Schritt für Schritt durch Dijkstra oder Prim. Die Distanztabelle wird live aktualisiert.</p><div class='widget-controls'><div class='radio-group'><label><input type='radio' name='graph-algo' value='dijkstra' checked onchange='gr.init(\"dijkstra\")'><span>🛤️ Dijkstra (Kürzeste Wege)</span></label><label><input type='radio' name='graph-algo' value='prim' onchange='gr.init(\"prim\")'><span>🌲 Prim (MST)</span></label></div></div><div class='widget-controls'><button class='primary' onclick='gr.step()'>▶️ Nächster Schritt</button><button onclick='gr.init(gr.algo)'>🔄 Reset</button></div><div class='vis-area' style='height:220px'><svg id='graph-svg' width='100%' height='100%' viewBox='0 0 480 220'></svg></div><div style='overflow-x:auto;margin-top:.5rem'><table class='grid-table' id='graph-table'></table></div><div class='status-bar' id='graph-status'></div></div>",
+      "initFunction": "initGraphWidget"
+    },
+    {
+      "type": "theory",
+      "html": "<h3>🎯 Konvexe Hülle</h3><p>Die kleinste konvexe Menge, die alle Punkte einschließt (wie ein Gummiband um Nägel).</p><p><strong>Jarvis' March (Gift Wrapping):</strong> $\\mathcal{O}(nh)$ — wähle den linkesten Punkt, drehe im Uhrzeigersinn.</p><h3>🌊 Netzwerkfluss</h3><p>Maximaler Fluss von Quelle $s$ zu Senke $t$. Das <strong>Residualnetzwerk</strong> zeigt verbleibende Kapazitäten und ermöglicht Rückflüsse.</p>"
+    }
+  ]
+}

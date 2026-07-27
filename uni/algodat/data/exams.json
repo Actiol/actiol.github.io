@@ -1,0 +1,1991 @@
+{
+  "ss18": [
+    {
+      "examName": "Hauptklausur SS2018",
+      "cat": "Sortieren",
+      "type": "text",
+      "q": "Was ist die bestmögliche Worst-Case-Laufzeit von <strong>vergleichsbasierten</strong> Sortieralgorithmen in $\\mathcal{O}$-Notation in Abhängigkeit von $n$?",
+      "kw": [
+        "n log n",
+        "nlogn",
+        "n*log"
+      ],
+      "hintId": "ch4",
+      "expl": "<strong>Lösung: $\\mathcal{O}(n \\log n)$</strong><br><br>Die bewiesene <strong>untere Schranke</strong> für vergleichsbasiertes Sortieren ist $\\Omega(n \\log n)$. Algorithmen wie MergeSort und HeapSort erreichen genau dieses Optimum im Worst-Case. Etwas Schnelleres (wie $\\mathcal{O}(n)$) ist mit reinen Vergleichen mathematisch unmöglich — dies folgt aus der Analyse von Entscheidungsbäumen."
+    },
+    {
+      "examName": "Hauptklausur SS2018",
+      "cat": "Grundlagen",
+      "type": "text",
+      "q": "Welche Eigenschaft wird hier beschrieben?<br>i) &bdquo;Für die gleiche Eingabe wird stets die gleiche Ausgabe berechnet.\"<br>ii) &bdquo;Der Algorithmus läuft für jede Eingabe nur endlich lange.\"<br>iii) &bdquo;Für die gleiche Eingabe ist die Ausführung und die Ausgabe stets identisch.\"",
+      "kw": [
+        "determiniertheit",
+        "terminier",
+        "determinismus",
+        "deterministisch"
+      ],
+      "hintId": "ch1",
+      "expl": "<strong>Lösung:</strong><br>i) <strong>Determiniertheit</strong> — Das <em>Ergebnis</em> ist bei gleicher Eingabe immer gleich, aber der Weg dorthin kann variieren.<br>ii) <strong>Terminiertheit / Terminierung</strong> — Der Algorithmus hält nach endlich vielen Schritten an.<br>iii) <strong>Determinismus</strong> — Sowohl der <em>Weg der Ausführung</em> als auch das Ergebnis sind bei gleicher Eingabe identisch.<br><br><strong>Merke:</strong> Determinismus ist stärker als Determiniertheit! Ein deterministischer Algorithmus ist immer auch determiniert, aber nicht umgekehrt."
+    },
+    {
+      "examName": "Hauptklausur SS2018",
+      "cat": "Grundlagen",
+      "type": "mc",
+      "q": "Welche Operation gibt das oberste Element eines Stacks aus und entfernt es zugleich?",
+      "opt": [
+        {
+          "t": "<code>push()</code>",
+          "c": false
+        },
+        {
+          "t": "<code>pop()</code>",
+          "c": true
+        },
+        {
+          "t": "<code>top()</code> / <code>peek()</code>",
+          "c": false
+        },
+        {
+          "t": "<code>dequeue()</code>",
+          "c": false
+        }
+      ],
+      "hintId": "ch1",
+      "expl": "<strong>Erklärung:</strong> Ein Stack arbeitet nach dem LIFO-Prinzip. <code>push()</code> legt ein Element oben auf. <code>pop()</code> entnimmt das oberste Element und gibt es zurück. <code>top()/peek()</code> zeigt das Element nur an, ohne es zu entfernen. <code>dequeue()</code> gehört zur Queue (FIFO), nicht zum Stack."
+    },
+    {
+      "examName": "Hauptklausur SS2018",
+      "cat": "Bäume",
+      "type": "text",
+      "q": "Wie nennt man einen Baum der Arität 2?",
+      "kw": [
+        "binärbaum",
+        "binär",
+        "binary"
+      ],
+      "hintId": "ch3",
+      "expl": "<strong>Lösung: Binärbaum</strong><br>Ein Baum mit Arität (maximale Kinderzahl) 2 heißt Binärbaum. Jeder Knoten hat maximal zwei Kinder (links und rechts)."
+    },
+    {
+      "examName": "Hauptklausur SS2018",
+      "cat": "Bäume",
+      "type": "text",
+      "q": "Die Höhe $h$ sei die Anzahl der Kanten auf dem längsten Pfad von der Wurzel.<br>i) Wie viele Blätter hat ein Baum der Höhe $h$ mit Arität $a$ <strong>maximal</strong>?<br>ii) Wie viele Knoten hat ein Baum der Höhe $h$ mit Arität 3 <strong>mindestens</strong>?",
+      "kw": [
+        "a^h",
+        "h+1"
+      ],
+      "hintId": "ch3",
+      "expl": "<strong>Lösung:</strong><br>i) <strong>$a^h$</strong> — Auf jeder Ebene verdoppelt sich (bei $a=2$) die Anzahl der Knoten. Ganz unten (Ebene $h$) gibt es maximal $a^h$ Blätter.<br>ii) <strong>$h+1$</strong> — Der dünnste Baum ist eine einfache Kette (wie eine verkettete Liste). Er hat auf jeder Ebene genau einen Knoten, also $h+1$ Knoten insgesamt."
+    },
+    {
+      "examName": "Hauptklausur SS2018",
+      "cat": "Komplexität",
+      "type": "text",
+      "q": "Welche Komplexität hat die Matrixaddition von zwei Matrizen der Größe $n \\times n$? Welche Komplexität hat die Matrixmultiplikation zweier Matrizen der Größe $l \\times m$ und $m \\times n$?",
+      "kw": [
+        "n^2",
+        "n²",
+        "l*m*n",
+        "lmn",
+        "l·m·n"
+      ],
+      "hintId": "ch2",
+      "expl": "<strong>Lösung:</strong><br>1) <strong>$\\mathcal{O}(n^2)$</strong> — $n^2$ Zellen, jede Addition ist $\\mathcal{O}(1)$.<br>2) <strong>$\\mathcal{O}(l \\cdot m \\cdot n)$</strong> — Ergebnismatrix hat $l \\cdot n$ Zellen. Für jede Zelle wird ein Skalarprodukt der Länge $m$ berechnet."
+    },
+    {
+      "examName": "Hauptklausur SS2018",
+      "cat": "Bäume",
+      "type": "text",
+      "q": "Nennen Sie zwei der drei möglichen Reihenfolgen, die durchlaufenen Knoten bei einem Tiefendurchlauf auszugeben. Verwenden Sie die Fachbegriffe.",
+      "kw": [
+        "präfix",
+        "postfix",
+        "infix",
+        "prefix",
+        "preorder",
+        "inorder",
+        "postorder"
+      ],
+      "hintId": "ch3",
+      "expl": "<strong>Lösung:</strong> Präfix (Pre-Order), Infix (In-Order), Postfix (Post-Order)<br><br>• <strong>Präfix (Pre-Order):</strong> Wurzel → Links → Rechts<br>• <strong>Infix (In-Order):</strong> Links → Wurzel → Rechts (bei BST: sortierte Ausgabe!)<br>• <strong>Postfix (Post-Order):</strong> Links → Rechts → Wurzel"
+    },
+    {
+      "examName": "Hauptklausur SS2018",
+      "cat": "Bäume",
+      "type": "text",
+      "q": "Können die folgenden Knoten in der gegebenen Reihenfolge bei der Suche nach 77 in einem BST (Zahlen 1-100) besucht worden sein?<br>i) 10, 60, 50, 80, 77<br>ii) 33, 99, 44, 66, 77<br>iii) 12, 23, 34, 45, 77<br>iv) 1, 99, 20, 80, 77",
+      "kw": [
+        "nein",
+        "ja",
+        "ja",
+        "ja"
+      ],
+      "hintId": "ch3",
+      "expl": "<strong>Lösung:</strong><br>i) <strong>Nein.</strong> Nach 10 gehen wir rechts (→60). Nach 60 gehen wir links (→50). Jetzt müssten alle weiteren Werte zwischen 10 und 60 liegen. 80 liegt aber außerhalb dieses Intervalls — unmöglich!<br>ii) <strong>Ja.</strong> 33→rechts→99→links→44→rechts→66→rechts→77. Alle Intervallgrenzen werden eingehalten.<br>iii) <strong>Ja.</strong> 12→rechts→23→rechts→34→rechts→45→rechts→77. Aufsteigende Folge = immer rechts.<br>iv) <strong>Ja.</strong> 1→rechts→99→links→20→rechts→80→links→77. Grenzen passen."
+    },
+    {
+      "examName": "Hauptklausur SS2018",
+      "cat": "Grundlagen",
+      "type": "text",
+      "q": "Nennen Sie drei der vier Eigenschaften, die eine <strong>totale Ordnung</strong> beschreiben. Verwenden Sie die Fachbegriffe.",
+      "kw": [
+        "reflexiv",
+        "transitiv",
+        "antisymmetrisch",
+        "total",
+        "konnex"
+      ],
+      "hintId": "ch1",
+      "expl": "<strong>Lösung:</strong> reflexiv, transitiv, antisymmetrisch, total (konnex)<br><br>1. <strong>Reflexivität:</strong> $a \\leq a$<br>2. <strong>Transitivität:</strong> $a \\leq b \\wedge b \\leq c \\Rightarrow a \\leq c$<br>3. <strong>Antisymmetrie:</strong> $a \\leq b \\wedge b \\leq a \\Rightarrow a = b$<br>4. <strong>Totalität:</strong> Für alle $a, b$: $a \\leq b$ oder $b \\leq a$"
+    },
+    {
+      "examName": "Hauptklausur SS2018",
+      "cat": "Graphen",
+      "type": "text",
+      "q": "Was berechnet der Jarvis' March Algorithmus?",
+      "kw": [
+        "konvexe hülle",
+        "convex hull",
+        "konvex"
+      ],
+      "hintId": "ch5",
+      "expl": "<strong>Lösung: Die konvexe Hülle</strong> (Convex Hull) einer Punktemenge in der Ebene.<br><br>Jarvis' March (Gift-Wrapping) startet am linkesten Punkt und wählt immer den Punkt, der den kleinsten Winkel zur aktuellen Richtung bildet. Laufzeit: $\\mathcal{O}(nh)$, wobei $h$ die Anzahl der Hüllenpunkte ist."
+    },
+    {
+      "examName": "Hauptklausur SS2018",
+      "cat": "Hashing",
+      "type": "text",
+      "q": "Gegeben: Universum $U=\\{0,1,2,3,4\\}$<br>i) Bitvektor für $M=\\{0,3,4\\}$?<br>ii) Bitvektor für $N=\\{0,1,2,3\\}$?",
+      "kw": [
+        "1,0,0,1,1",
+        "10011",
+        "1,1,1,1,0",
+        "11110"
+      ],
+      "hintId": "ch3",
+      "expl": "<strong>Lösung:</strong><br>i) $M=\\{0,3,4\\}$ → Bitvektor: <strong>$(1,0,0,1,1)$</strong><br>Position 0→1, Position 1→0, Position 2→0, Position 3→1, Position 4→1<br><br>ii) $N=\\{0,1,2,3\\}$ → Bitvektor: <strong>$(1,1,1,1,0)$</strong>"
+    },
+    {
+      "examName": "Hauptklausur SS2018",
+      "cat": "Hashing",
+      "type": "text",
+      "q": "Hashfunktion $h(k) = k \\bmod 5$. Fügen Sie nacheinander 2, 15, 18, 7, 13 ein:<br>i) Mit offenem Hashing (Verkettung)<br>ii) Mit geschlossenem Hashing und linearem Sondieren ($c=1$)",
+      "kw": [
+        "verkettung",
+        "sondier",
+        "linear"
+      ],
+      "hintId": "ch3",
+      "expl": "<strong>Lösung:</strong><br><strong>i) Offenes Hashing (Verkettung):</strong><br>$h(2)=2$, $h(15)=0$, $h(18)=3$, $h(7)=2$ (Kollision! → Liste an Index 2), $h(13)=3$ (Kollision! → Liste an Index 3)<br>Index 0: [15], Index 1: [], Index 2: [2→7], Index 3: [18→13], Index 4: []<br><br><strong>ii) Lineares Sondieren:</strong><br>$h(2)=2$→Index 2. $h(15)=0$→Index 0. $h(18)=3$→Index 3. $h(7)=2$→Kollision! Sondiere: 3 belegt, 4 frei→Index 4. $h(13)=3$→Kollision! Sondiere: 4 belegt, 0 belegt, 1 frei→Index 1.<br>Index: [15, 13, 2, 18, 7]"
+    },
+    {
+      "examName": "Hauptklausur SS2018",
+      "cat": "Bäume",
+      "type": "text",
+      "q": "Geben Sie den BST an, der entsteht, wenn man folgende Elemente nacheinander einfügt: 16, 13, 5, 18, 19, 17, 15",
+      "kw": [
+        "16",
+        "wurzel",
+        "13",
+        "5",
+        "18"
+      ],
+      "hintId": "ch3",
+      "expl": "<strong>Lösung (Baum-Aufbau Schritt für Schritt):</strong><br>1. 16 wird Wurzel<br>2. 13 < 16 → links von 16<br>3. 5 < 16, 5 < 13 → links von 13<br>4. 18 > 16 → rechts von 16<br>5. 19 > 16, 19 > 18 → rechts von 18<br>6. 17 > 16, 17 < 18 → links von 18<br>7. 15 < 16, 15 > 13 → rechts von 13<br><br>Ergebnis: Wurzel=16, links=13(links=5, rechts=15), rechts=18(links=17, rechts=19)"
+    },
+    {
+      "examName": "Hauptklausur SS2018",
+      "cat": "Bäume",
+      "type": "text",
+      "q": "Gegeben sind Bäume. Ist der Baum ein gültiger AVL-Baum?<br>i) Knoten 42 hat $|\\Delta h| = 2$<br>ii) Alle Balance-Faktoren $\\leq 1$<br>iii) Knoten 23 hat 3 Kinder<br>iv) Knoten 273 < 279 aber im falschen Teilbaum",
+      "kw": [
+        "kein",
+        "avl",
+        "binär",
+        "höhenunterschied"
+      ],
+      "hintId": "ch3",
+      "expl": "<strong>Lösung:</strong><br>i) <strong>Kein AVL-Baum</strong> — $|\\Delta h| = 2$ bei Knoten 42 verletzt die AVL-Eigenschaft ($|\\Delta h| \\leq 1$).<br>ii) <strong>AVL-Baum</strong> — Alle Balance-Faktoren sind $\\leq 1$, also gültig.<br>iii) <strong>Kein AVL-Baum</strong> — 3 Kinder → kein Binärbaum → kann kein AVL-Baum sein.<br>iv) <strong>Kein AVL-Baum</strong> — BST-Eigenschaft verletzt (273 < 279 im falschen Teilbaum)."
+    },
+    {
+      "examName": "Hauptklausur SS2018",
+      "cat": "Sortieren",
+      "type": "text",
+      "q": "Sortieren Sie [35, 16, 73, 97, 25, 54, 37, 14] mit MergeSort. Geben Sie alle Zwischenschritte an.",
+      "kw": [
+        "divide",
+        "merge",
+        "14",
+        "16",
+        "25",
+        "35",
+        "37",
+        "54",
+        "73",
+        "97"
+      ],
+      "hintId": "ch4",
+      "expl": "<strong>Lösung (MergeSort Schritt für Schritt):</strong><br><strong>Divide:</strong><br>[35,16,73,97,25,54,37,14]<br>→ [35,16,73,97] | [25,54,37,14]<br>→ [35,16] [73,97] | [25,54] [37,14]<br>→ [35] [16] [73] [97] | [25] [54] [37] [14]<br><br><strong>Merge:</strong><br>[16,35] [73,97] | [25,54] [14,37]<br>[16,35,73,97] | [14,25,37,54]<br>[14,16,25,35,37,54,73,97] ✅<br><br><strong>Paradigma:</strong> Divide and Conquer<br><strong>Worst-Case:</strong> $\\mathcal{O}(n \\log n)$"
+    },
+    {
+      "examName": "Hauptklausur SS2018",
+      "cat": "Graphen",
+      "type": "text",
+      "q": "Geben Sie den Speicherbedarf einer Adjazenzmatrix und einer Adjazenzliste für einen Graphen mit $n$ Knoten und $m$ Kanten an.",
+      "kw": [
+        "n^2",
+        "n²",
+        "n+m",
+        "n + m"
+      ],
+      "hintId": "ch5",
+      "expl": "<strong>Lösung:</strong><br>• <strong>Adjazenzmatrix:</strong> $\\mathcal{O}(n^2)$ — Eine $n \\times n$ Tabelle, unabhängig von der Kantenanzahl.<br>• <strong>Adjazenzliste:</strong> $\\mathcal{O}(n + m)$ — Für jeden Knoten eine Liste seiner Nachbarn. Speicher ist proportional zur Anzahl der Kanten.<br><br>Für dünne Graphen ($m \\ll n^2$) ist die Adjazenzliste deutlich effizienter."
+    },
+    {
+      "examName": "Hauptklausur SS2018",
+      "cat": "Komplexität",
+      "type": "text",
+      "q": "Bestimmen Sie die Komplexität der <strong>binären Suche</strong> mit dem Mastertheorem. Geben Sie $a$, $b$, $c$, $d$ an.",
+      "kw": [
+        "a=1",
+        "b=2",
+        "d=0",
+        "log n",
+        "fall 2"
+      ],
+      "hintId": "ch2",
+      "expl": "<strong>Lösung:</strong><br>Rekursionsgleichung: $T(n) = 1 \\cdot T(n/2) + \\mathcal{O}(1)$<br><br>$a = 1$ (ein Teilproblem), $b = 2$ (Halbierung), $d = 0$ (konstanter Aufwand)<br><br>Vergleich: $a = 1$, $b^d = 2^0 = 1$ → $a = b^d$<br><br><strong>Fall 2 (Gleichgewicht):</strong> $T(n) \\in \\mathcal{O}(n^0 \\cdot \\log n) = \\mathcal{O}(\\log n)$ ✅"
+    },
+    {
+      "examName": "Hauptklausur SS2018",
+      "cat": "Paradigmen",
+      "type": "text",
+      "q": "Beschreiben Sie knapp die Strategie des <strong>Backtracking</strong>. Benennen Sie ein konkretes Problem.",
+      "kw": [
+        "versuch",
+        "irrtum",
+        "trial",
+        "error",
+        "teillösung",
+        "sackgasse",
+        "zurück",
+        "damen",
+        "sudoku"
+      ],
+      "hintId": "ch6",
+      "expl": "<strong>Lösung:</strong><br>Backtracking funktioniert nach dem Prinzip <em>Versuch und Irrtum</em>. Man baut eine Teillösung schrittweise auf. Stellt man fest, dass der aktuelle Weg in einer <strong>Sackgasse</strong> endet, macht man den letzten Schritt rückgängig (Backtrack) und probiert die nächste Alternative.<br><br><strong>Konkretes Problem:</strong> N-Damen-Problem (platziere $n$ Damen auf $n \\times n$ Schachbrett ohne gegenseitige Bedrohung)."
+    },
+    {
+      "examName": "Hauptklausur SS2018",
+      "cat": "Paradigmen",
+      "type": "text",
+      "q": "Bestimmen Sie die Edit-Distanz zwischen <strong>Halle</strong> und <strong>Haus</strong>. Markieren Sie die Edit-Distanz.",
+      "kw": [
+        "3",
+        "edit",
+        "distanz"
+      ],
+      "hintId": "ch6",
+      "expl": "<strong>Lösung: Edit-Distanz = 3</strong><br><br>DP-Matrix:<br><table style='border-collapse:collapse'><tr><th></th><th>—</th><th>H</th><th>A</th><th>L</th><th>L</th><th>E</th></tr><tr><td>—</td><td>0</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td></tr><tr><td>H</td><td>1</td><td><strong>0</strong></td><td>1</td><td>2</td><td>3</td><td>4</td></tr><tr><td>A</td><td>2</td><td>1</td><td><strong>0</strong></td><td>1</td><td>2</td><td>3</td></tr><tr><td>U</td><td>3</td><td>2</td><td>1</td><td><strong>1</strong></td><td>2</td><td>3</td></tr><tr><td>S</td><td>4</td><td>3</td><td>2</td><td>2</td><td>2</td><td><strong>3</strong></td></tr></table><br>Die Edit-Distanz steht in der rechten unteren Ecke: <strong>3</strong>."
+    },
+    {
+      "examName": "Hauptklausur SS2018",
+      "cat": "Paradigmen",
+      "type": "text",
+      "q": "Formulieren Sie das <strong>Rucksackproblem</strong>.",
+      "kw": [
+        "rucksack",
+        "kapazität",
+        "gewicht",
+        "wert",
+        "teilmenge",
+        "maxim"
+      ],
+      "hintId": "ch6",
+      "expl": "<strong>Lösung:</strong><br>Gegeben ist ein Behälter/Rucksack mit einer maximalen Kapazität (Gewicht) $G$ und $k$ Gegenstände, wobei jeder Gegenstand ein Gewicht $w_i$ und einen Wert $v_i$ hat.<br><br>Gesucht ist eine Teilmenge der Gegenstände, deren Gesamtgewicht $\\leq G$ ist und deren Gesamtwert <strong>maximal</strong> ist."
+    }
+  ],
+  "ss19": [
+    {
+      "examName": "Klausur SS2019",
+      "cat": "Grundlagen",
+      "type": "mc",
+      "q": "<strong>A)</strong> Welche Aussagen zu den Grundlagen sind korrekt?",
+      "opt": [
+        {
+          "t": "Ein Algorithmus besteht immer aus endlich vielen Handlungsvorschriften.",
+          "c": true
+        },
+        {
+          "t": "Klassen eignen sich zur Speicherung von heterogenen Datentypen.",
+          "c": true
+        },
+        {
+          "t": "Ein Problem wird durch den Übergang von Eingabe zu Ausgabe definiert.",
+          "c": true
+        },
+        {
+          "t": "Arrays lassen sich dynamisch in ihrer Länge erweitern.",
+          "c": false
+        },
+        {
+          "t": "Queues sind sortierte Stacks.",
+          "c": false
+        },
+        {
+          "t": "Bei einem Stack hat man nur Zugriff auf das oberste Element.",
+          "c": true
+        }
+      ],
+      "hintId": "ch1",
+      "expl": "<strong>Erklärung:</strong><br>a) ✅ Finitheit — ein Algorithmus hat endlich viele Schritte.<br>b) ✅ Klassen bündeln verschiedene (heterogene) Variablen.<br>c) ✅ Ein Problem wird abstrakt durch Eingabe→Ausgabe definiert.<br>d) ❌ Arrays haben feste Größe (in Java). Dynamische Arrays (ArrayList) sind eine Erweiterung.<br>e) ❌ Queues sind FIFO, Stacks sind LIFO. Keine ist automatisch sortiert.<br>f) ✅ Stack = LIFO, <code>pop()</code>/<code>top()</code> greifen nur auf das oberste Element zu."
+    },
+    {
+      "examName": "Klausur SS2019",
+      "cat": "Komplexität",
+      "type": "mc",
+      "q": "<strong>B)</strong> Welche Aussagen über Komplexitäten sind korrekt?",
+      "opt": [
+        {
+          "t": "$\\sqrt{n} \\in \\mathcal{O}(\\log n)$",
+          "c": false
+        },
+        {
+          "t": "$4^n + 5^n \\in \\mathcal{O}(4^n)$",
+          "c": false
+        },
+        {
+          "t": "$2^n \\in \\mathcal{O}(3^n)$",
+          "c": true
+        },
+        {
+          "t": "$\\log(10n) \\in \\mathcal{O}(\\log n)$",
+          "c": true
+        },
+        {
+          "t": "$\\mathcal{O}(\\log_2(n)) = \\mathcal{O}(\\log_{10}(n))$",
+          "c": true
+        },
+        {
+          "t": "$f(n) \\cdot g(n) \\in \\mathcal{O}(\\max(f(n), g(n)))$",
+          "c": false
+        }
+      ],
+      "hintId": "ch2",
+      "expl": "<strong>Erklärung:</strong><br>a) ❌ $\\sqrt{n} = n^{0.5}$ wächst schneller als $\\log n$. Polynome > Logarithmen.<br>b) ❌ Bei Summen dominiert die größere Basis: $4^n + 5^n \\in \\mathcal{O}(5^n)$, nicht $4^n$!<br>c) ✅ $2^n \\leq 3^n$ für alle $n \\geq 0$.<br>d) ✅ $\\log(10n) = \\log 10 + \\log n$. Konstante fällt weg.<br>e) ✅ Basiswechsel: $\\log_a(n) = \\frac{\\log_b(n)}{\\log_b(a)}$. Der Faktor ist konstant.<br>f) ❌ Produkt ≠ Maximum! Richtig wäre: $f(n) + g(n) \\in \\mathcal{O}(\\max(f,g))$."
+    },
+    {
+      "examName": "Klausur SS2019",
+      "cat": "Sortieren",
+      "type": "mc",
+      "q": "<strong>C)</strong> Welche Aussagen über Sortieralgorithmen auf $n$-elementigen Eingaben sind korrekt?",
+      "opt": [
+        {
+          "t": "Einfache Sortierverfahren benötigen mindestens $n^2$ Vergleiche.",
+          "c": false
+        },
+        {
+          "t": "MergeSort arbeitet nach dem Divide and Conquer Paradigma.",
+          "c": true
+        },
+        {
+          "t": "Stabile Sortieralgorithmen benötigen weniger Vergleiche als instabile.",
+          "c": false
+        },
+        {
+          "t": "QuickSort fällt im Worst-Case in die Klasse $\\mathcal{O}(n^2)$",
+          "c": true
+        },
+        {
+          "t": "Jedes vergleichsbasierte Sortierverfahren benötigt mindestens $n-1$ viele Vergleiche.",
+          "c": true
+        },
+        {
+          "t": "InsertionSort fügt Elemente in einen Graphen ein und sortiert dann die Knoten.",
+          "c": false
+        }
+      ],
+      "hintId": "ch4",
+      "expl": "<strong>Erklärung:</strong><br>a) ❌ InsertionSort/BubbleSort brauchen im Best-Case (vorsortiert) nur $\\mathcal{O}(n)$!<br>b) ✅ MergeSort: Teilen → Rekursiv sortieren → Mergen.<br>c) ❌ Stabilität hat nichts mit Vergleichsanzahl zu tun.<br>d) ✅ Bei ungünstigem Pivot degeneriert QuickSort zu $\\mathcal{O}(n^2)$.<br>e) ✅ Man muss mindestens $n-1$ Vergleiche machen, um sicherzustellen, dass alle Elemente an der richtigen Stelle sind.<br>f) ❌ InsertionSort arbeitet auf Arrays, nicht auf Graphen."
+    },
+    {
+      "examName": "Klausur SS2019",
+      "cat": "Bäume",
+      "type": "mc",
+      "q": "<strong>D)</strong> Welche Aussagen über Bäume sind korrekt?",
+      "opt": [
+        {
+          "t": "In einem Splaybaum ist nach einer Suche stets der zuletzt gesuchte Schlüssel in der Wurzel.",
+          "c": true
+        },
+        {
+          "t": "Bäume sind Graphen, auf denen der kürzeste Weg stets der einzige Weg zwischen zwei Knoten ist.",
+          "c": true
+        },
+        {
+          "t": "Die Inorder-Traversierung eines BST ist immer sortiert.",
+          "c": true
+        },
+        {
+          "t": "In einem Binärbaum hat jeder Knoten genau zwei Nachfolger.",
+          "c": false
+        },
+        {
+          "t": "Kein Baum kann gleichzeitig ein BST und die Heap-Eigenschaft erfüllen.",
+          "c": false
+        },
+        {
+          "t": "In balancierten Bäumen hat jeder linke Teilbaum genauso viele Knoten wie der rechte.",
+          "c": false
+        }
+      ],
+      "hintId": "ch3",
+      "expl": "<strong>Erklärung:</strong><br>a) ✅ Das ist die Definition der Splay-Operation.<br>b) ✅ Bäume sind zyklenfreie Graphen → genau ein Pfad zwischen je zwei Knoten.<br>c) ✅ In-Order bei BST: Links→Wurzel→Rechts = aufsteigende Sortierung.<br>d) ❌ Binärbaum = <em>maximal</em> zwei Nachfolger. Ein Knoten kann auch 0 oder 1 Kind haben.<br>e) ❌ Ein einzelner Knoten (triviales Beispiel) ist beides. Auch z.B. der Baum [1,2,3] (Wurzel=1, links=2, rechts=3) erfüllt beides.<br>f) ❌ Balanciert heißt, die <em>Höhen</em> der Teilbäume sind ähnlich, nicht die Knotenanzahl."
+    },
+    {
+      "examName": "Klausur SS2019",
+      "cat": "Graphen",
+      "type": "mc",
+      "q": "<strong>E)</strong> Welche Aussagen über Graphen sind korrekt?",
+      "opt": [
+        {
+          "t": "Jeder Graph kann durch eine quadratische Matrix repräsentiert werden.",
+          "c": true
+        },
+        {
+          "t": "Der Dijkstra-Algorithmus liefert immer eine optimale Lösung.",
+          "c": false
+        },
+        {
+          "t": "Der minimale Spannbaum ist immer eindeutig.",
+          "c": false
+        },
+        {
+          "t": "Zyklenfreie Graphen haben eine endliche Expansion.",
+          "c": true
+        },
+        {
+          "t": "Ein kürzester Pfad enthält maximal einen Knoten doppelt.",
+          "c": false
+        },
+        {
+          "t": "Zwischen zwei Knoten gibt es immer einen Pfad mit minimalen Kosten.",
+          "c": false
+        }
+      ],
+      "hintId": "ch5",
+      "expl": "<strong>Erklärung:</strong><br>a) ✅ Adjazenzmatrix: $|V| \\times |V|$ → immer quadratisch.<br>b) ❌ Dijkstra versagt bei <strong>negativen Kantengewichten</strong>!<br>c) ❌ Wenn mehrere Kanten das gleiche Gewicht haben, kann es verschiedene MSTs geben.<br>d) ✅ Ohne Zyklen kann man nur endlich viele Knoten besuchen.<br>e) ❌ Ein kürzester Pfad enthält <em>keinen</em> Knoten doppelt (sonst gäbe es einen Zyklus, den man weglassen könnte).<br>f) ❌ Wenn der Graph nicht zusammenhängend ist, gibt es gar keinen Pfad."
+    },
+    {
+      "examName": "Klausur SS2019",
+      "cat": "Hashing",
+      "type": "mc",
+      "q": "<strong>F)</strong> Welche Aussagen über Suche/Hashing sind korrekt?",
+      "opt": [
+        {
+          "t": "Binäre Suche beschleunigt die lineare Suche durch paralleles Suchen.",
+          "c": false
+        },
+        {
+          "t": "Beim linearen Sondieren wird jede Position der Hashtable getroffen.",
+          "c": true
+        },
+        {
+          "t": "Doppelhashing reduziert Clusterbildung.",
+          "c": true
+        },
+        {
+          "t": "Eine perfekte Hashfunktion kann beliebig viele Objekte kollisionsfrei einfügen.",
+          "c": false
+        },
+        {
+          "t": "Interpolationssuche findet ein Element immer schneller als lineare Suche.",
+          "c": false
+        },
+        {
+          "t": "Offenes Hashing mit geschlossener Adressierung speichert Daten in sekundären Datenstrukturen.",
+          "c": true
+        }
+      ],
+      "hintId": "ch3",
+      "expl": "<strong>Erklärung:</strong><br>a) ❌ Binäre Suche teilt den Suchbereich, sucht nicht parallel!<br>b) ✅ Lineares Sondieren: $(h(k)+i) \\bmod m$ — bei geeignetem $m$ werden alle Positionen erreicht.<br>c) ✅ Doppelhashing nutzt zwei verschiedene Hashfunktionen, was Cluster verhindert.<br>d) ❌ Perfekte Hashfunktionen sind nur für <em>feste, bekannte</em> Schlüsselmengen definiert.<br>e) ❌ Im Worst-Case ist Interpolationssuche $\\mathcal{O}(n)$, genau wie lineare Suche.<br>f) ✅ Offenes Hashing = Verkettung → Listen als sekundäre Datenstruktur."
+    },
+    {
+      "examName": "Klausur SS2019",
+      "cat": "Bäume",
+      "type": "text",
+      "q": "Gegeben ist ein Baum. Geben Sie Infix, Postfix und Präfix bei einem Tiefendurchlauf an.",
+      "kw": [
+        "infix",
+        "postfix",
+        "präfix",
+        "prefix",
+        "inorder",
+        "postorder",
+        "preorder"
+      ],
+      "hintId": "ch3",
+      "expl": "<strong>Erklärung der Traversierungen:</strong><br>• <strong>Präfix (Pre-Order):</strong> Wurzel → Links → Rechts<br>• <strong>Infix (In-Order):</strong> Links → Wurzel → Rechts<br>• <strong>Postfix (Post-Order):</strong> Links → Rechts → Wurzel<br><br>Tipp: Zeichne den Baum und gehe systematisch vor. Bei BSTs gibt In-Order die sortierte Reihenfolge!"
+    },
+    {
+      "examName": "Klausur SS2019",
+      "cat": "Komplexität",
+      "type": "text",
+      "q": "Was wird durch das <strong>Mastertheorem</strong> bestimmt?",
+      "kw": [
+        "komplexität",
+        "laufzeit",
+        "rekursion",
+        "rekursionsgleichung"
+      ],
+      "hintId": "ch2",
+      "expl": "<strong>Lösung:</strong> Das Mastertheorem bestimmt die <strong>asymptotische Komplexität</strong> (Laufzeit) von Algorithmen, die durch eine Rekursionsgleichung der Form $T(n) = a \\cdot T(n/b) + \\mathcal{O}(n^d)$ beschrieben werden.<br><br>Es wird typischerweise für Divide-and-Conquer-Algorithmen verwendet (z.B. MergeSort, Binäre Suche)."
+    },
+    {
+      "examName": "Klausur SS2019",
+      "cat": "Grundlagen",
+      "type": "text",
+      "q": "Was bedeutet es, wenn man sagt: &bdquo;Ein Algorithmus <strong>terminiert</strong>&rdquo;?",
+      "kw": [
+        "endlich",
+        "hält",
+        "endliche",
+        "schritt"
+      ],
+      "hintId": "ch1",
+      "expl": "<strong>Lösung:</strong> Ein Algorithmus terminiert, wenn er für <strong>jede</strong> gültige Eingabe nach <strong>endlich vielen Schritten</strong> anhält und ein Ergebnis liefert. Er gerät also nie in eine Endlosschleife."
+    },
+    {
+      "examName": "Klausur SS2019",
+      "cat": "Grundlagen",
+      "type": "text",
+      "q": "Was ist der Unterschied zwischen <strong>Determiniertheit</strong> und <strong>Determinismus</strong>?",
+      "kw": [
+        "ergebnis",
+        "weg",
+        "ausführung",
+        "gleich"
+      ],
+      "hintId": "ch1",
+      "expl": "<strong>Lösung:</strong><br>• <strong>Determiniertheit:</strong> Bei gleicher Eingabe ist das <em>Ergebnis</em> immer gleich (der Weg dorthin kann variieren).<br>• <strong>Determinismus:</strong> Bei gleicher Eingabe ist der <em>gesamte Ablauf</em> (jeder Schritt der Ausführung) UND das Ergebnis identisch.<br><br>Determinismus ist stärker: Deterministisch → Determiniert (aber nicht umgekehrt)."
+    },
+    {
+      "examName": "Klausur SS2019",
+      "cat": "Hashing",
+      "type": "text",
+      "q": "Tragen Sie 5, 24, 4, 11, 15, 16, 26, 2 in eine Hashtabelle ($m=10$, $h(x)=x \\bmod 10$) ein:<br>i) Lineares Sondieren<br>ii) Quadratisches Sondieren<br>Geben Sie die Sondierungen an!",
+      "kw": [
+        "linear",
+        "quadrat",
+        "sondier",
+        "kollision"
+      ],
+      "hintId": "ch3",
+      "expl": "<strong>i) Lineares Sondieren:</strong><br>$h(5)=5$→[5] (0 Sond.) | $h(24)=4$→[4] (0) | $h(4)=4$→Koll! 5 belegt→[6] (2 Sond.) | $h(11)=1$→[1] (0) | $h(15)=5$→Koll! 6 belegt→[7] (2) | $h(16)=6$→Koll! 7 belegt→[8] (2) | $h(26)=6$→Koll!→[9] (3) | $h(2)=2$→[2] (0)<br>Tabelle: [—,11,2,—,24,5,4,15,16,26]<br><br><strong>ii) Quadratisches Sondieren:</strong><br>$h(5)=5$→[5] | $h(24)=4$→[4] | $h(4)=4$→$(4+1)=5$ belegt, $(4+4)=8$→[8] (2 Sond.) | $h(11)=1$→[1] | $h(15)=5$→$(5+1)=6$→[6] (1) | $h(16)=6$→$(6+1)=7$→[7] (1) | $h(26)=6$→$(6+1)=7$ belegt, $(6+4)=0$→[0] (2) | $h(2)=2$→[2]<br>Tabelle: [26,11,2,—,24,5,15,16,4,—]"
+    },
+    {
+      "examName": "Klausur SS2019",
+      "cat": "Hashing",
+      "type": "text",
+      "q": "Was ist der Vorteil von <strong>quadratischem Sondieren</strong> gegenüber linearem Sondieren?",
+      "kw": [
+        "cluster",
+        "klumpen",
+        "verteil"
+      ],
+      "hintId": "ch3",
+      "expl": "<strong>Lösung:</strong> Quadratisches Sondieren reduziert die <strong>Clusterbildung</strong> (primäre Häufung). Beim linearen Sondieren entstehen zusammenhängende Blöcke belegter Zellen (Cluster), die immer weiter wachsen. Quadratisches Sondieren springt weiter, wodurch Cluster aufgebrochen werden."
+    },
+    {
+      "examName": "Klausur SS2019",
+      "cat": "Sortieren",
+      "type": "text",
+      "q": "Geben Sie die <strong>Worst-Case-Laufzeit</strong> von MergeSort an.",
+      "kw": [
+        "n log n",
+        "nlogn"
+      ],
+      "hintId": "ch4",
+      "expl": "<strong>Lösung: $\\mathcal{O}(n \\log n)$</strong><br><br>MergeSort hat in <em>allen</em> Fällen (Best, Average, Worst) die gleiche Laufzeit $\\mathcal{O}(n \\log n)$. Mastertheorem: $T(n) = 2T(n/2) + \\mathcal{O}(n)$ → Fall 2 → $\\mathcal{O}(n \\log n)$."
+    },
+    {
+      "examName": "Klausur SS2019",
+      "cat": "Sortieren",
+      "type": "text",
+      "q": "Was ist die größte <strong>untere Schranke</strong> der Anzahl benötigter Vergleiche bei vergleichsbasiertem Sortieren im Worst-Case?",
+      "kw": [
+        "n log n",
+        "nlogn",
+        "omega",
+        "Ω"
+      ],
+      "hintId": "ch4",
+      "expl": "<strong>Lösung: $\\Omega(n \\log n)$</strong><br><br>Jedes vergleichsbasierte Sortierverfahren braucht im Worst-Case mindestens $\\lceil \\log_2(n!) \\rceil \\in \\Omega(n \\log n)$ Vergleiche. Dies folgt aus der Analyse des Entscheidungsbaums: Es gibt $n!$ mögliche Permutationen, der Baum hat also mindestens $n!$ Blätter, was eine Höhe von $\\log_2(n!)$ erfordert."
+    },
+    {
+      "examName": "Klausur SS2019",
+      "cat": "Komplexität",
+      "type": "text",
+      "q": "<strong>3-MergeSort:</strong> Statt Halbieren wird die Liste gedrittelt. Bestimmen Sie die Komplexität mit dem Mastertheorem für $T(n) = 3T(n/3) + \\mathcal{O}(n)$.",
+      "kw": [
+        "fall 2",
+        "n log n",
+        "a=3",
+        "b=3",
+        "gleichgewicht"
+      ],
+      "hintId": "ch2",
+      "expl": "<strong>Lösung:</strong><br>$a=3$ (3 Teilprobleme), $b=3$ (Drittelung), $d=1$ (linearer Merge-Aufwand)<br><br>Vergleich: $a=3$ vs. $b^d = 3^1 = 3$ → $a = b^d$<br><br><strong>Fall 2 (Gleichgewicht):</strong> $T(n) \\in \\mathcal{O}(n^d \\cdot \\log n) = \\mathcal{O}(n \\log n)$<br><br>Interessant: 3-MergeSort hat die gleiche asymptotische Komplexität wie normales MergeSort!"
+    },
+    {
+      "examName": "Klausur SS2019",
+      "cat": "Komplexität",
+      "type": "text",
+      "q": "Bestimmen Sie die Komplexität des Duplikat-Algorithmus im <strong>Best-Case</strong> und <strong>Worst-Case</strong>:<br><code>for i in [0..n-1]: for j in [i+1..n]: if array[i]==array[j]: return True; return False</code>",
+      "kw": [
+        "1",
+        "n^2",
+        "n²",
+        "o(1)"
+      ],
+      "hintId": "ch2",
+      "expl": "<strong>Lösung:</strong><br><strong>Best-Case:</strong> $\\mathcal{O}(1)$ — Das allererste Paar (i=0, j=1) ist ein Duplikat. Nur 1 Vergleich nötig.<br><br><strong>Worst-Case:</strong> $\\mathcal{O}(n^2)$ — Kein Duplikat vorhanden. Alle Paare werden geprüft: $\\sum_{i=0}^{n-2}(n-i-1) = \\frac{n(n-1)}{2} \\in \\mathcal{O}(n^2)$."
+    },
+    {
+      "examName": "Klausur SS2019",
+      "cat": "Paradigmen",
+      "type": "text",
+      "q": "Bestimmen Sie die <strong>Edit-Distanz</strong> zwischen &bdquo;Sahne&rdquo; (horizontal) und &bdquo;Anne&rdquo; (vertikal).",
+      "kw": [
+        "2",
+        "edit",
+        "distanz"
+      ],
+      "hintId": "ch6",
+      "expl": "<strong>Lösung: Edit-Distanz = 2</strong><br><br>DP-Matrix:<br><table style='border-collapse:collapse'><tr><th></th><th>—</th><th>S</th><th>A</th><th>H</th><th>N</th><th>E</th></tr><tr><td>—</td><td>0</td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td></tr><tr><td>A</td><td>1</td><td>1</td><td>1</td><td>2</td><td>3</td><td>4</td></tr><tr><td>N</td><td>2</td><td>2</td><td>2</td><td>2</td><td>2</td><td>3</td></tr><tr><td>N</td><td>3</td><td>3</td><td>3</td><td>3</td><td>2</td><td>3</td></tr><tr><td>E</td><td>4</td><td>4</td><td>4</td><td>4</td><td>3</td><td><strong>2</strong></td></tr></table><br>Edit-Distanz = <strong>2</strong> (rechte untere Ecke)."
+    },
+    {
+      "examName": "Klausur SS2019",
+      "cat": "Paradigmen",
+      "type": "text",
+      "q": "Formulieren Sie das <strong>Damenproblem</strong>. Was sind die Eingangsgrößen? Was ist die gesuchte Lösung?",
+      "kw": [
+        "dame",
+        "schachbrett",
+        "bedroh",
+        "n×n",
+        "n x n",
+        "platzier"
+      ],
+      "hintId": "ch6",
+      "expl": "<strong>Lösung:</strong><br><strong>Eingangsgröße:</strong> $n$ (Größe des Schachbretts und Anzahl der Damen)<br><strong>Gesucht:</strong> Eine Anordnung von $n$ Damen auf einem $n \\times n$ Schachbrett, sodass keine zwei Damen sich gegenseitig bedrohen (d.h. keine zwei Damen in der gleichen Zeile, Spalte oder Diagonale).<br><br>Das Problem wird typischerweise mit <strong>Backtracking</strong> gelöst: Setze Dame in Zeile 1, prüfe ob gültig, gehe zur nächsten Zeile, bei Sackgasse → zurück."
+    }
+  ],
+  "custom": [
+    {
+      "cat": "Grundlagen",
+      "type": "text",
+      "q": "Was ist der Unterschied zwischen deterministischen und nicht-deterministischen Algorithmen?",
+      "kw": [],
+      "expl": "Ein deterministischer Algorithmus liefert bei gleicher Eingabe stets denselben Ablauf und dieselbe Ausgabe. Ein nicht-deterministischer kann verzweigen/Raten.",
+      "hintId": "ch1"
+    },
+    {
+      "cat": "Grundlagen",
+      "type": "text",
+      "q": "Was versteht man unter Finitheit bei Algorithmen?",
+      "kw": [],
+      "expl": "Die Beschreibung des Algorithmus ist endlich (statische Finitheit) und er belegt zu jedem Zeitpunkt nur endlich viel Speicherplatz (dynamische Finitheit).",
+      "hintId": "ch1"
+    },
+    {
+      "cat": "Grundlagen",
+      "type": "text",
+      "q": "Was ist die Terminierung eines Algorithmus?",
+      "kw": [],
+      "expl": "Dass der Algorithmus nach endlich vielen Schritten für jede gültige Eingabe anhält.",
+      "hintId": "ch1"
+    },
+    {
+      "cat": "Grundlagen",
+      "type": "text",
+      "q": "Was ist Pseudocode?",
+      "kw": [],
+      "expl": "Eine informelle, an natürliche Sprache und Programmiersprachen angelehnte Beschreibung eines Algorithmus, ohne strikte Syntax.",
+      "hintId": "ch1"
+    },
+    {
+      "cat": "Grundlagen",
+      "type": "text",
+      "q": "Nennen Sie 3 elementare Kontrollstrukturen.",
+      "kw": [],
+      "expl": "Sequenz (Reihenfolge), Selektion (Verzweigung, If-Else) und Iteration (Schleifen).",
+      "hintId": "ch1"
+    },
+    {
+      "cat": "Grundlagen",
+      "type": "text",
+      "q": "Was ist eine Datenstruktur?",
+      "kw": [],
+      "expl": "Eine logische Anordnung von Daten zur effizienten Verarbeitung, z.B. Arrays, Listen, Bäume.",
+      "hintId": "ch1"
+    },
+    {
+      "cat": "Grundlagen",
+      "type": "text",
+      "q": "Warum benutzt man Big-O für die Grundlagenanalyse statt exakter Sekunden?",
+      "kw": [],
+      "expl": "Weil Sekunden von Hardware und Compiler abhängen, Big-O aber hardwareunabhängig das asymptotische Wachstum beschreibt.",
+      "hintId": "ch1"
+    },
+    {
+      "cat": "Grundlagen",
+      "type": "text",
+      "q": "Was bedeutet In-Place Sortierung?",
+      "kw": [],
+      "expl": "Ein Algorithmus braucht keinen/nur konstanten zusätzlichen Speicherplatz (O(1) extra Speicher).",
+      "hintId": "ch1"
+    },
+    {
+      "cat": "Grundlagen",
+      "type": "text",
+      "q": "Was ist der Unterschied zwischen best-case und average-case?",
+      "kw": [],
+      "expl": "Best-case ist das optimale Szenario (z.B. sortiertes Array). Average-case ist der Erwartungswert über alle möglichen Eingaben.",
+      "hintId": "ch1"
+    },
+    {
+      "cat": "Grundlagen",
+      "type": "text",
+      "q": "Kann ein Algorithmus deterministisch sein, aber trotzdem eine Average-Case-Analyse haben?",
+      "kw": [],
+      "expl": "Ja, die Average-Case-Analyse bezieht sich auf die Verteilung der Eingaben, nicht auf den Algorithmus selbst.",
+      "hintId": "ch1"
+    },
+    {
+      "cat": "Komplexität",
+      "type": "text",
+      "q": "Ist 3^n in O(2^n)?",
+      "kw": [],
+      "expl": "Nein. 3^n wächst asymptotisch schneller als 2^n.",
+      "hintId": "ch2"
+    },
+    {
+      "cat": "Komplexität",
+      "type": "text",
+      "q": "Lösen Sie mit dem Mastertheorem: T(n) = 4T(n/2) + O(n).",
+      "kw": [],
+      "expl": "a=4, b=2, d=1. a=4 > 2^1=2 -> Fall 1: O(n^(log_2 4)) = O(n^2).",
+      "hintId": "ch2"
+    },
+    {
+      "cat": "Komplexität",
+      "type": "text",
+      "q": "Lösen Sie mit dem Mastertheorem: T(n) = T(n/2) + O(1).",
+      "kw": [],
+      "expl": "a=1, b=2, d=0. 1 = 2^0 -> Fall 2: O(n^0 log n) = O(log n). (Binäre Suche)",
+      "hintId": "ch2"
+    },
+    {
+      "cat": "Komplexität",
+      "type": "text",
+      "q": "Wann benutzt man Omega(f(n))?",
+      "kw": [],
+      "expl": "Um eine untere Schranke anzugeben. Der Algorithmus wächst mindestens so schnell wie f(n).",
+      "hintId": "ch2"
+    },
+    {
+      "cat": "Komplexität",
+      "type": "text",
+      "q": "Was ist Theta(f(n))?",
+      "kw": [],
+      "expl": "Die scharfe Schranke. Obere und untere Schranke fallen asymptotisch zusammen.",
+      "hintId": "ch2"
+    },
+    {
+      "cat": "Komplexität",
+      "type": "text",
+      "q": "Ist log_2(n) in O(log_10(n))?",
+      "kw": [],
+      "expl": "Ja, da Basiswechsel bei Logarithmen nur ein konstanter Faktor ist (log_2(n) = log_2(10) * log_10(n)).",
+      "hintId": "ch2"
+    },
+    {
+      "cat": "Komplexität",
+      "type": "text",
+      "q": "Was ist der Mastertheorem-Fall für T(n) = 3T(n/3) + O(n^2)?",
+      "kw": [],
+      "expl": "a=3, b=3, d=2. a=3 < 3^2=9 -> Fall 3: O(n^2).",
+      "hintId": "ch2"
+    },
+    {
+      "cat": "Komplexität",
+      "type": "text",
+      "q": "Sortieren Sie: O(n!), O(n log n), O(1), O(2^n), O(n^2)",
+      "kw": [],
+      "expl": "O(1) < O(n log n) < O(n^2) < O(2^n) < O(n!).",
+      "hintId": "ch2"
+    },
+    {
+      "cat": "Komplexität",
+      "type": "text",
+      "q": "Was ist die Komplexität der Addition zweier n x n Matrizen?",
+      "kw": [],
+      "expl": "O(n^2), da n^2 Elemente addiert werden müssen.",
+      "hintId": "ch2"
+    },
+    {
+      "cat": "Komplexität",
+      "type": "text",
+      "q": "Ist n^100 in O(2^n)?",
+      "kw": [],
+      "expl": "Ja. Jede Exponentialfunktion wächst asymptotisch schneller als jedes Polynom.",
+      "hintId": "ch2"
+    },
+    {
+      "cat": "Suchen & Bäume",
+      "type": "text",
+      "q": "Warum ist die binäre Suche auf verketteten Listen ineffizient?",
+      "kw": [],
+      "expl": "Weil man keinen Direktzugriff (O(1)) auf das mittlere Element hat. Das Finden der Mitte dauert O(n).",
+      "hintId": "ch3"
+    },
+    {
+      "cat": "Suchen & Bäume",
+      "type": "text",
+      "q": "Wie viele Blätter hat ein vollständiger binärer Baum der Höhe h?",
+      "kw": [],
+      "expl": "2^h Blätter.",
+      "hintId": "ch3"
+    },
+    {
+      "cat": "Suchen & Bäume",
+      "type": "text",
+      "q": "Was ist die definierende Eigenschaft eines binären Suchbaums (BST)?",
+      "kw": [],
+      "expl": "Für jeden Knoten gilt: Alle Werte im linken Teilbaum sind kleiner, alle im rechten größer.",
+      "hintId": "ch3"
+    },
+    {
+      "cat": "Suchen & Bäume",
+      "type": "text",
+      "q": "Welche Traversierung eines BST liefert eine aufsteigend sortierte Liste?",
+      "kw": [],
+      "expl": "In-Order Traversierung.",
+      "hintId": "ch3"
+    },
+    {
+      "cat": "Suchen & Bäume",
+      "type": "text",
+      "q": "Was ist ein AVL-Baum?",
+      "kw": [],
+      "expl": "Ein selbst-balancierender binärer Suchbaum, bei dem sich die Höhen des linken und rechten Teilbaums jedes Knotens um maximal 1 unterscheiden.",
+      "hintId": "ch3"
+    },
+    {
+      "cat": "Suchen & Bäume",
+      "type": "text",
+      "q": "Welche Rotationen gibt es beim AVL-Baum?",
+      "kw": [],
+      "expl": "LL (Rechtsrotation), RR (Linksrotation), LR (Doppelrotation links-rechts), RL (Doppelrotation rechts-links).",
+      "hintId": "ch3"
+    },
+    {
+      "cat": "Suchen & Bäume",
+      "type": "text",
+      "q": "Was ist der Balance-Faktor beim AVL-Baum?",
+      "kw": [],
+      "expl": "Höhe(linker Teilbaum) - Höhe(rechter Teilbaum). Darf nur -1, 0 oder 1 sein.",
+      "hintId": "ch3"
+    },
+    {
+      "cat": "Suchen & Bäume",
+      "type": "text",
+      "q": "Was ist ein B-Baum der Ordnung k?",
+      "kw": [],
+      "expl": "Ein balancierter Mehrwegbaum, bei dem jeder innere Knoten zwischen k und 2k Schlüssel (Wurzel mind. 1) und k+1 bis 2k+1 Kinder hat. Alle Blätter sind auf der gleichen Tiefe.",
+      "hintId": "ch3"
+    },
+    {
+      "cat": "Suchen & Bäume",
+      "type": "text",
+      "q": "Was ist lineares Sondieren beim Hashing?",
+      "kw": [],
+      "expl": "Eine Kollisionsauflösungsstrategie, bei der man den nächsten freien Platz in der Tabelle sucht: (h(k) + i) mod m.",
+      "hintId": "ch3"
+    },
+    {
+      "cat": "Suchen & Bäume",
+      "type": "text",
+      "q": "Welchen Nachteil hat lineares Sondieren?",
+      "kw": [],
+      "expl": "Clusterbildung (Klumpenbildung). Gefüllte Bereiche tendieren dazu, noch schneller zu wachsen.",
+      "hintId": "ch3"
+    },
+    {
+      "cat": "Sortieren",
+      "type": "text",
+      "q": "Welche Komplexität hat InsertionSort im Best-Case und wann tritt er auf?",
+      "kw": [],
+      "expl": "O(n). Er tritt auf, wenn das Array bereits sortiert ist.",
+      "hintId": "ch4"
+    },
+    {
+      "cat": "Sortieren",
+      "type": "text",
+      "q": "Ist SelectionSort stabil?",
+      "kw": [],
+      "expl": "Nein. Durch das direkte Tauschen des Minimums über andere Elemente hinweg kann die relative Ordnung gleicher Elemente zerstört werden.",
+      "hintId": "ch4"
+    },
+    {
+      "cat": "Sortieren",
+      "type": "text",
+      "q": "Wie funktioniert BubbleSort?",
+      "kw": [],
+      "expl": "Benachbarte Elemente werden verglichen und bei falscher Reihenfolge getauscht. Große Elemente blubbern nach rechts.",
+      "hintId": "ch4"
+    },
+    {
+      "cat": "Sortieren",
+      "type": "text",
+      "q": "Was ist der Worst-Case bei QuickSort und wie verhindert man ihn (probabilistisch)?",
+      "kw": [],
+      "expl": "O(n^2), z.B. wenn das Array schon sortiert ist und das Pivot stets das letzte Element ist. Man kann Pivot zufällig wählen (Randomized QuickSort).",
+      "hintId": "ch4"
+    },
+    {
+      "cat": "Sortieren",
+      "type": "text",
+      "q": "Ist MergeSort In-Place?",
+      "kw": [],
+      "expl": "Standard MergeSort ist nicht In-Place. Es benötigt O(n) zusätzlichen Speicherplatz für das Mergen.",
+      "hintId": "ch4"
+    },
+    {
+      "cat": "Sortieren",
+      "type": "text",
+      "q": "Was ist die theoretische untere Schranke für vergleichsbasiertes Sortieren?",
+      "kw": [],
+      "expl": "Omega(n log n).",
+      "hintId": "ch4"
+    },
+    {
+      "cat": "Sortieren",
+      "type": "text",
+      "q": "Wie sortiert RadixSort?",
+      "kw": [],
+      "expl": "Ziffernweise, z.B. vom LSD (Least Significant Digit) zum MSD. Nutzt stabiles BucketSort/CountingSort für jede Ziffer.",
+      "hintId": "ch4"
+    },
+    {
+      "cat": "Sortieren",
+      "type": "text",
+      "q": "Welche Laufzeit hat HeapSort?",
+      "kw": [],
+      "expl": "O(n log n) in allen Fällen (Best, Average, Worst).",
+      "hintId": "ch4"
+    },
+    {
+      "cat": "Sortieren",
+      "type": "text",
+      "q": "Was ist Stabilität bei Sortieralgorithmen?",
+      "kw": [],
+      "expl": "Ein Sortieralgorithmus ist stabil, wenn die ursprüngliche relative Reihenfolge von Elementen mit demselben Sortierschlüssel beibehalten wird.",
+      "hintId": "ch4"
+    },
+    {
+      "cat": "Sortieren",
+      "type": "text",
+      "q": "Welcher O(n log n) Algorithmus ist stabil?",
+      "kw": [],
+      "expl": "MergeSort ist stabil (und Timsort). QuickSort und HeapSort sind es nicht.",
+      "hintId": "ch4"
+    },
+    {
+      "cat": "Graphen",
+      "type": "text",
+      "q": "Was ist der Unterschied zwischen gerichteten und ungerichteten Graphen?",
+      "kw": [],
+      "expl": "Bei gerichteten Graphen haben die Kanten eine Richtung (Pfeile), (u,v) != (v,u). Bei ungerichteten gibt es keine Richtung.",
+      "hintId": "ch5"
+    },
+    {
+      "cat": "Graphen",
+      "type": "text",
+      "q": "Welche Datenstruktur eignet sich besser für dichte Graphen?",
+      "kw": [],
+      "expl": "Eine Adjazenzmatrix. Braucht O(|V|^2) Speicher, aber Kantenabfragen dauern O(1).",
+      "hintId": "ch5"
+    },
+    {
+      "cat": "Graphen",
+      "type": "text",
+      "q": "Was ist Breitensuche (BFS)?",
+      "kw": [],
+      "expl": "Ein Graphdurchlauf, der schichtweise vorgeht. Nutzt eine Queue (FIFO). Findet kürzeste Pfade in ungewichteten Graphen.",
+      "hintId": "ch5"
+    },
+    {
+      "cat": "Graphen",
+      "type": "text",
+      "q": "Was ist Tiefensuche (DFS)?",
+      "kw": [],
+      "expl": "Ein Graphdurchlauf, der so tief wie möglich geht, bevor er backtrackt. Nutzt einen Stack (LIFO) oder Rekursion.",
+      "hintId": "ch5"
+    },
+    {
+      "cat": "Graphen",
+      "type": "text",
+      "q": "Wofür nutzt man den Dijkstra-Algorithmus?",
+      "kw": [],
+      "expl": "Zur Berechnung der kürzesten Pfade von einem Startknoten zu allen anderen in Graphen OHNE negative Kantengewichte.",
+      "hintId": "ch5"
+    },
+    {
+      "cat": "Graphen",
+      "type": "text",
+      "q": "Was macht der Bellman-Ford Algorithmus?",
+      "kw": [],
+      "expl": "Berechnet kürzeste Pfade wie Dijkstra, kann aber mit negativen Kantengewichten umgehen und negative Zyklen erkennen.",
+      "hintId": "ch5"
+    },
+    {
+      "cat": "Graphen",
+      "type": "text",
+      "q": "Was ist ein minimaler Spannbaum (MST)?",
+      "kw": [],
+      "expl": "Ein zyklenfreier Teilgraph, der alle Knoten verbindet und dabei die Summe der Kantengewichte minimiert.",
+      "hintId": "ch5"
+    },
+    {
+      "cat": "Graphen",
+      "type": "text",
+      "q": "Nennen Sie zwei Algorithmen zur MST-Berechnung.",
+      "kw": [],
+      "expl": "Kruskal (Kanten sortieren, disjunkte Mengen) und Prim (Knotenweise den Baum wachsen lassen).",
+      "hintId": "ch5"
+    },
+    {
+      "cat": "Graphen",
+      "type": "text",
+      "q": "Was ist topologisches Sortieren?",
+      "kw": [],
+      "expl": "Eine lineare Ordnung der Knoten eines gerichteten azyklischen Graphen (DAG), sodass für jede Kante (u,v) u vor v steht.",
+      "hintId": "ch5"
+    },
+    {
+      "cat": "Graphen",
+      "type": "text",
+      "q": "Was passiert bei Dijkstra, wenn es negative Kantengewichte gibt?",
+      "kw": [],
+      "expl": "Der Algorithmus kann falsche Ergebnisse liefern, da er davon ausgeht, dass ein einmal besuchter (relaxierter) Knoten auf seinem endgültigen kürzesten Pfad liegt.",
+      "hintId": "ch5"
+    },
+    {
+      "cat": "Paradigmen",
+      "type": "text",
+      "q": "Was ist das Prinzip des Greedy-Algorithmus?",
+      "kw": [],
+      "expl": "Trifft in jedem Schritt die lokal optimale Entscheidung, in der Hoffnung, dass dies zum globalen Optimum führt. Ohne Vorausschau oder Backtracking.",
+      "hintId": "ch6"
+    },
+    {
+      "cat": "Paradigmen",
+      "type": "text",
+      "q": "Wann funktioniert Greedy NICHT?",
+      "kw": [],
+      "expl": "Beim 0/1 Rucksackproblem oder beim TSP, weil lokale Optima nicht zwingend zum globalen Optimum führen.",
+      "hintId": "ch6"
+    },
+    {
+      "cat": "Paradigmen",
+      "type": "text",
+      "q": "Was sind die 3 Schritte von Divide & Conquer?",
+      "kw": [],
+      "expl": "Divide (Teilen des Problems in unabhängige Teilprobleme), Conquer (Lösen der Teilprobleme), Combine (Zusammensetzen zur Gesamtlösung).",
+      "hintId": "ch6"
+    },
+    {
+      "cat": "Paradigmen",
+      "type": "text",
+      "q": "Wie unterscheidet sich Dynamische Programmierung von Divide & Conquer?",
+      "kw": [],
+      "expl": "Bei DP überlappen sich die Teilprobleme. DP speichert Teillösungen in einer Tabelle ab (Memoization/Tabulation), um sie nicht mehrfach zu berechnen.",
+      "hintId": "ch6"
+    },
+    {
+      "cat": "Paradigmen",
+      "type": "text",
+      "q": "Was ist Backtracking?",
+      "kw": [],
+      "expl": "Ein systematisches Ausprobieren mit Versuch und Irrtum (Tiefensuche im Zustandsraum). Stößt man auf eine Sackgasse, wird der letzte Schritt rückgängig gemacht.",
+      "hintId": "ch6"
+    },
+    {
+      "cat": "Paradigmen",
+      "type": "text",
+      "q": "Was ist Branch and Bound?",
+      "kw": [],
+      "expl": "Erweiterung von Backtracking für Optimierungsprobleme. Bricht auch ab (Bounding), wenn die aktuelle Teillösung beweisbar schlechter ist als die bisher beste gefundene Gesamtlösung.",
+      "hintId": "ch6"
+    },
+    {
+      "cat": "Paradigmen",
+      "type": "text",
+      "q": "Was macht der Sweep-Line Algorithmus?",
+      "kw": [],
+      "expl": "Ein geometrisches Paradigma: Eine gedachte Linie wandert über die Ebene und wandelt ein 2D-Problem (z.B. Linienschnittpunkte) in ein dynamisches 1D-Problem um.",
+      "hintId": "ch6"
+    },
+    {
+      "cat": "Paradigmen",
+      "type": "text",
+      "q": "Ist Kruskal ein Greedy oder DP Algorithmus?",
+      "kw": [],
+      "expl": "Kruskal ist ein Greedy-Algorithmus, weil er immer die global leichteste Kante wählt, die keinen Zyklus bildet.",
+      "hintId": "ch6"
+    },
+    {
+      "cat": "Paradigmen",
+      "type": "text",
+      "q": "Was ist das Prinzip der Memoization (Top-Down DP)?",
+      "kw": [],
+      "expl": "Man programmiert rekursiv, prüft aber vor jedem rekursiven Aufruf, ob das Ergebnis schon im Cache liegt. Wenn ja, nimmt man den Cache-Wert.",
+      "hintId": "ch6"
+    },
+    {
+      "cat": "Paradigmen",
+      "type": "text",
+      "q": "Nennen Sie ein Problem, das typischerweise mit DP gelöst wird.",
+      "kw": [],
+      "expl": "Das Rucksackproblem (Knapsack), Levenshtein-Distanz (Edit-Distanz) oder Fibonacci (effizient).",
+      "hintId": "ch6"
+    }
+  ],
+  "ss17": [
+    {
+      "examName": "Klausur SS2017",
+      "cat": "Komplexität",
+      "type": "mc",
+      "q": "<strong>(a) Welche Aussagen über Komplexitäten sind korrekt?</strong>",
+      "opt": [
+        {
+          "t": "$f(n) + 100n \\in \\mathcal{O}(f(n))$",
+          "c": false
+        },
+        {
+          "t": "$2^{n+a} \\in \\mathcal{O}(2^n)$ (mit $a$ konstante positive Zahl)",
+          "c": true
+        },
+        {
+          "t": "Es sei $g(n) = \\sum_{j=0}^n j$ und $f(n) = n^2$. Dann ist $g \\in \\mathcal{O}(f)$",
+          "c": true
+        },
+        {
+          "t": "$f(n) \\in \\mathcal{O}(g(n)) \\Leftrightarrow g(n) \\in \\mathcal{O}(f(n))$",
+          "c": false
+        },
+        {
+          "t": "$f(n) \\in \\mathcal{O}(g(n)) \\Rightarrow \\forall n \\in \\mathbb{N}: f(n) < g(n)$",
+          "c": false
+        },
+        {
+          "t": "$\\mathcal{O}(n^2) \\subset \\mathcal{O}(2^n)$",
+          "c": true
+        }
+      ],
+      "hintId": "ch2",
+      "expl": "<strong>Erklärung:</strong><br>1) ❌ Falsch, wenn $f(n)$ langsamer wächst als $n$ (z.B. $f(n)=1$).<br>2) ✅ $2^{n+a} = 2^a \\cdot 2^n$. Da $2^a$ konstant ist, fällt es weg.<br>3) ✅ $\\sum j = \\frac{n(n+1)}{2} \\in \\mathcal{O}(n^2)$.<br>4) ❌ Nur bei $\\Theta$ gilt Äquivalenz, bei $\\mathcal{O}$ nicht.<br>5) ❌ $\\mathcal{O}$ gilt erst ab einem $n_0$ und mit konstantem Faktor $c$.<br>6) ✅ Polynomielles Wachstum ist strikt langsamer als exponentielles."
+    },
+    {
+      "examName": "Klausur SS2017",
+      "cat": "Sortieren",
+      "type": "mc",
+      "q": "<strong>(b) Welche Aussagen über Sortieralgorithmen sind zutreffend?</strong>",
+      "opt": [
+        {
+          "t": "QuickSort arbeitet im Worst-Case schneller als alle anderen Sortieralgorithmen.",
+          "c": false
+        },
+        {
+          "t": "SelectionSort wählt im k-ten Schritt das k-kleinste Element und tauscht mit dem Element bei k.",
+          "c": true
+        },
+        {
+          "t": "Mit HeapSort lassen sich nur Arrays sortieren, die die Heapeigenschaft besitzen.",
+          "c": false
+        },
+        {
+          "t": "MergeSort arbeitet nach dem Divide-and-Conquer-Prinzip.",
+          "c": true
+        },
+        {
+          "t": "BubbleSort kommt im besten Fall ohne Vertauschungsoperationen aus.",
+          "c": true
+        },
+        {
+          "t": "Terminierende und partiell korrekte Sortieralgorithmen heißen stabil.",
+          "c": false
+        }
+      ],
+      "hintId": "ch4",
+      "expl": "<strong>Erklärung:</strong><br>1) ❌ QuickSort Worst-Case ist $\\mathcal{O}(n^2)$, MergeSort ist $\\mathcal{O}(n \\log n)$.<br>2) ✅ SelectionSort sucht das Minimum und tauscht es an die richtige Stelle.<br>3) ❌ HeapSort baut erst den Heap auf (heapify).<br>4) ✅ Klassisches D&C.<br>5) ✅ Wenn das Array schon sortiert ist, bricht BubbleSort ab (bzw. tauscht nichts).<br>6) ❌ Stabil heißt, relative Reihenfolge gleicher Elemente bleibt erhalten."
+    },
+    {
+      "examName": "Klausur SS2017",
+      "cat": "Bäume",
+      "type": "mc",
+      "q": "<strong>(c) Welche Aussagen treffen auf Bäume zu?</strong>",
+      "opt": [
+        {
+          "t": "Ein Binärbaum hat stets mindestens so viele Blätter wie innere Knoten.",
+          "c": false
+        },
+        {
+          "t": "Ein Binärbaum der Höhe $h$ kann durch ein Array der Länge $2^{h+1}-1$ repräsentiert werden.",
+          "c": true
+        },
+        {
+          "t": "In einem AVL-Baum der Höhe $h$ gibt es mindestens zwei Pfade, die länger als $h-2$ sind.",
+          "c": true
+        },
+        {
+          "t": "Bei gegebenen Schlüsselwerten ist die Anzahl Knoten $n$ des zugehörigen B-Baums der Ordnung $k$ eindeutig.",
+          "c": false
+        },
+        {
+          "t": "Ein $B^+$-Baum der Ordnung $k$ hat genau $k$ Wurzeln.",
+          "c": false
+        },
+        {
+          "t": "Beim Einfügen in einen AVL-Baum kann sich nur die Balance von Knoten ändern, die auf dem Suchpfad liegen.",
+          "c": true
+        }
+      ],
+      "hintId": "ch3",
+      "expl": "<strong>Erklärung:</strong><br>1) ❌ Eine lineare Kette (entarteter Baum) hat 1 Blatt und $h$ innere Knoten.<br>2) ✅ Die maximale Knotenanzahl eines vollen Binärbaums der Höhe $h$ ist $2^{h+1}-1$.<br>3) ✅ Die AVL-Balance garantiert, dass Teilbäume sich um max. 1 in der Höhe unterscheiden.<br>4) ❌ Die Struktur (und Anzahl der Knoten) eines B-Baums hängt stark von der Einfügereihenfolge ab!<br>5) ❌ Jeder Baum hat genau EINE Wurzel.<br>6) ✅ Nur Vorgänger des eingefügten Knotens sind betroffen."
+    },
+    {
+      "examName": "Klausur SS2017",
+      "cat": "Hashing",
+      "type": "mc",
+      "q": "<strong>(d) Was gilt beim Suchen/Hashing?</strong>",
+      "opt": [
+        {
+          "t": "Binäre Suche beschleunigt die lineare Suche durch paralleles Suchen von hinten nach vorne.",
+          "c": false
+        },
+        {
+          "t": "Beim linearen Sondieren wird jede Position der Hashtable getroffen.",
+          "c": true
+        },
+        {
+          "t": "Doppelhashing reduziert Clusterbildung.",
+          "c": true
+        },
+        {
+          "t": "Eine perfekte Hashfunktion kann beliebig viele Objekte kollisionsfrei einfügen.",
+          "c": false
+        },
+        {
+          "t": "Binäre Suche findet ein Element immer schneller als lineare Suche.",
+          "c": false
+        },
+        {
+          "t": "Beim Hashing mittels $h(x) = x \\bmod 3$ erreicht quadratisches Sondieren einen Zykel nach 3 Schritten.",
+          "c": false
+        }
+      ],
+      "hintId": "ch3",
+      "expl": "<strong>Erklärung:</strong><br>1) ❌ Binäre Suche teilt den Suchraum (Divide & Conquer).<br>2) ✅ Wenn man mit Schrittweite 1 geht ($c=1$), trifft man alle (vorausgesetzt $m$ teilerfremd).<br>3) ✅ Weil die Schrittweite für jeden Wert anders ist.<br>4) ❌ Nur für eine feste, im Voraus bekannte Schlüsselmenge gibt es eine perfekte Hashfunktion.<br>5) ❌ Bei Elementen ganz am Anfang kann Linearsuche im Best-Case $\\mathcal{O}(1)$ sein.<br>6) ❌ Falsch, man muss Modulo m bedenken."
+    },
+    {
+      "examName": "Klausur SS2017",
+      "cat": "Graphen",
+      "type": "mc",
+      "q": "<strong>(e) Was trifft auf den minimal spannenden Baum $G' = (V', E')$ eines Graphen $G = (V, E)$ zu?</strong>",
+      "opt": [
+        {
+          "t": "$G'$ ist ein Subgraph mit gleichen Knoten $V' = V$, aber nur einer Teilmenge der Kanten $E' \\subseteq E$.",
+          "c": true
+        },
+        {
+          "t": "Wenn zu $G'$ noch eine beliebige Kante hinzugefügt werden würde, wäre $G'$ kein Baum mehr.",
+          "c": true
+        },
+        {
+          "t": "In $G'$ existiert mindestens ein Knoten mit Grad 1.",
+          "c": true
+        },
+        {
+          "t": "$|E'| + 1 = |V|$",
+          "c": false
+        },
+        {
+          "t": "$G'$ ist stets eindeutig.",
+          "c": false
+        },
+        {
+          "t": "Wenn man eine einzelne Kante aus $G'$ löscht, so ist $G'$ kein Baum mehr.",
+          "c": true
+        }
+      ],
+      "hintId": "ch5",
+      "expl": "<strong>Erklärung:</strong><br>1) ✅ Ein Spannbaum nutzt alle Knoten.<br>2) ✅ Ein Baum ist maximal azyklisch; jede Kante mehr erzeugt einen Zyklus.<br>3) ✅ Jeder Baum ($|V|>1$) hat mindestens 2 Blätter (Knoten mit Grad 1).<br>4) ❌ Die Formel lautet $|E'| = |V| - 1$.<br>5) ❌ Eindeutig nur, wenn alle Kanten unterschiedliche Gewichte haben.<br>6) ✅ Ein Baum ist minimal zusammenhängend; Kante entfernen zerstört den Zusammenhang."
+    },
+    {
+      "examName": "Klausur SS2017",
+      "cat": "Bäume",
+      "type": "mc",
+      "q": "<strong>(f) Welche Graphtraversierungen passen zu folgendem Baum?</strong><br>Wurzel(+, L: *(L:1, R:2), R: -(L:3, R:/(L:4, R:5)))",
+      "opt": [
+        {
+          "t": "$Preorder(T) = + * 1 2 - 3 / 4 5$",
+          "c": true
+        },
+        {
+          "t": "$Preorder(T) = + * 1 2 - / 3 4 5$",
+          "c": false
+        },
+        {
+          "t": "$Postorder(T) = 1 2 3 4 5 / * - +$",
+          "c": false
+        },
+        {
+          "t": "$Postorder(T) = 1 2 * 3 4 5 / - +$",
+          "c": true
+        },
+        {
+          "t": "$Infixorder(T) = + * - 1 2 3 / 4 5$",
+          "c": false
+        },
+        {
+          "t": "$Infixorder(T) = 1 * 2 + 3 - 4 / 5$",
+          "c": true
+        }
+      ],
+      "hintId": "ch3",
+      "expl": "<strong>Erklärung:</strong><br>Der Baum entspricht dem Ausdruck: $1*2 + (3 - 4/5)$.<br>• Preorder (Knoten zuerst): $+ * 1\\,2 - 3 / 4\\,5$<br>• Inorder (Knoten in der Mitte): $1 * 2 + 3 - 4 / 5$<br>• Postorder (Knoten zuletzt): $1\\,2 * 3\\,4\\,5 / - +$"
+    },
+    {
+      "examName": "Klausur SS2017",
+      "cat": "Grundlagen",
+      "type": "text",
+      "q": "Was ist ein Algorithmus? (Definition)",
+      "kw": [
+        "wohldefiniert",
+        "lösung",
+        "problem",
+        "endlich",
+        "vorschrift",
+        "verfahren"
+      ],
+      "hintId": "ch1",
+      "expl": "<strong>Lösung laut Skript:</strong> Ein wohldefiniertes, schrittweises Lösungsverfahren für ein allgemeines Problem."
+    },
+    {
+      "examName": "Klausur SS2017",
+      "cat": "Komplexität",
+      "type": "text",
+      "q": "Schnitt zweier Arrays $P, Q$ der Größe $n$. Naiver Algorithmus vergleicht jedes Element aus $P$ mit jedem aus $Q$.<br>Geben Sie die Worst-Case-Laufzeitkomplexität in $\\mathcal{O}$-Notation an.<br>Wie lässt sich der Algorithmus beschleunigen, wenn die Arrays sortiert sind?",
+      "kw": [
+        "n^2",
+        "n²",
+        "o(n)",
+        "merge",
+        "parallel"
+      ],
+      "hintId": "ch2",
+      "expl": "<strong>Lösung:</strong><br>1) Worst-Case: $\\mathcal{O}(n^2)$ (Jedes Element aus P wird mit jedem aus Q verglichen: $n \\cdot n$).<br>2) Beschleunigung bei sortierten Arrays: Listen nebeneinander legen und nur die nötigen Vergleiche durchführen, ähnlich wie beim Merge-Schritt in Merge-Sort. Laufzeit dann: $\\mathcal{O}(n)$."
+    },
+    {
+      "examName": "Klausur SS2017",
+      "cat": "Graphen",
+      "type": "text",
+      "q": "Beschreiben Sie in einem Satz, was die konvexe Hülle ist.",
+      "kw": [
+        "kleinste",
+        "teilmenge",
+        "einschließt",
+        "umschließt",
+        "äußersten"
+      ],
+      "hintId": "ch5",
+      "expl": "<strong>Lösung:</strong> Die kleinste konvexe Teilmenge einer Punktemenge, die sie vollständig einschließt (besteht aus den äußersten Punkten, wie ein gespanntes Gummiband)."
+    },
+    {
+      "examName": "Klausur SS2017",
+      "cat": "Komplexität",
+      "type": "text",
+      "q": "Benennen Sie für die Komplexitätsklasse $\\mathcal{O}(n \\log n)$ ein Beispiel für eine algorithmische Aufgabe.",
+      "kw": [
+        "sortieren",
+        "mergesort",
+        "heapsort"
+      ],
+      "hintId": "ch2",
+      "expl": "<strong>Lösung:</strong> Sortieren einer Liste (z.B. mit Merge-Sort oder Heap-Sort)."
+    },
+    {
+      "examName": "Klausur SS2017",
+      "cat": "Komplexität",
+      "type": "text",
+      "q": "Bestimmen Sie mittels Master-Theorem die Komplexitätsklasse für: $T(n) = 4^3 T(n / 2^6) + 3n$.",
+      "kw": [
+        "n log n",
+        "nlogn"
+      ],
+      "hintId": "ch2",
+      "expl": "<strong>Lösung:</strong><br>$a = 4^3 = 64$, $b = 2^6 = 64$, $d = 1$ (da $3n \\in \\mathcal{O}(n^1)$).<br>Vergleich: $a = 64$ vs $b^d = 64^1 = 64$.<br>Wir sind in <strong>Fall 2</strong> (Gleichgewicht): $T(n) \\in \\mathcal{O}(n^1 \\log n) = \\mathcal{O}(n \\log n)$."
+    }
+  ],
+  "ss22": [
+    {
+      "examName": "Klausur SS2022",
+      "cat": "Komplexität",
+      "type": "mc",
+      "q": "<strong>(a) Welche Aussagen über Komplexitäten sind korrekt?</strong>",
+      "opt": [
+        {
+          "t": "$f(n) \\cdot g(n) \\in \\mathcal{O}(\\min(f(n), g(n)))$",
+          "c": false
+        },
+        {
+          "t": "$20n \\cdot 3n \\in \\mathcal{O}(\\frac{1}{2}n^2)$",
+          "c": true
+        },
+        {
+          "t": "$f(n) \\in \\mathcal{O}(g(n)) \\Rightarrow \\forall n \\in \\mathbb{N}: f(n) < g(n)$",
+          "c": false
+        },
+        {
+          "t": "$\\log_2(10n) \\in \\mathcal{O}(\\log_{10} n)$",
+          "c": true
+        }
+      ],
+      "hintId": "ch2",
+      "expl": "<strong>Erklärung:</strong><br>1) ❌ $f(n) \\cdot g(n)$ ist das Produkt, nicht das Minimum. Maximum wäre bei Addition richtig.<br>2) ✅ $60n^2 \\in \\mathcal{O}(n^2)$, Konstanten fallen weg.<br>3) ❌ Die Schranke gilt erst ab einem bestimmten $n_0$ und mit einem konstanten Faktor $c$.<br>4) ✅ Logarithmen zu verschiedenen konstanten Basen unterscheiden sich nur durch einen konstanten Faktor."
+    },
+    {
+      "examName": "Klausur SS2022",
+      "cat": "Grundlagen",
+      "type": "mc",
+      "q": "<strong>(b) Welche Aussagen zu den Grundlagen sind korrekt?</strong>",
+      "opt": [
+        {
+          "t": "Matrizen können durch Arrays von Arrays dargestellt werden.",
+          "c": true
+        },
+        {
+          "t": "Jede Liste kann in einen Baum überführt werden.",
+          "c": true
+        },
+        {
+          "t": "Jede Liste kann in einen Graphen überführt werden.",
+          "c": true
+        },
+        {
+          "t": "Ein Stack folgt dem Prinzip des FIFOs.",
+          "c": false
+        }
+      ],
+      "hintId": "ch1",
+      "expl": "<strong>Erklärung:</strong><br>1) ✅ Das entspricht einem 2D-Array.<br>2) ✅ Eine Liste ist quasi ein entarteter Baum (jeder Knoten hat genau 1 Kind).<br>3) ✅ Eine Liste ist ein linearer Graph (Pfadgraph).<br>4) ❌ Stack = LIFO (Last-In-First-Out), Queue = FIFO."
+    },
+    {
+      "examName": "Klausur SS2022",
+      "cat": "Bäume",
+      "type": "mc",
+      "q": "<strong>(c) Welche Aussagen treffen auf Bäume zu?</strong>",
+      "opt": [
+        {
+          "t": "In einem Binärbaum hat jeder innere Knoten genau zwei Nachfolger.",
+          "c": false
+        },
+        {
+          "t": "Ein Splaybaum ändert sich nach einer Suche eines inneren Knotens, der nicht die Wurzel ist.",
+          "c": true
+        },
+        {
+          "t": "In einem B-Baum ist der kleinste Schlüssel immer auf derselben Ebene wie der größte Schlüssel.",
+          "c": false
+        },
+        {
+          "t": "In einem B+-Baum sind alle Schlüssel aus Blattknoten auch in inneren Knoten zu finden.",
+          "c": false
+        }
+      ],
+      "hintId": "ch3",
+      "expl": "<strong>Erklärung:</strong><br>1) ❌ Ein Knoten kann in einem Binärbaum auch nur einen (linken oder rechten) Nachfolger haben.<br>2) ✅ Bei der Suche in einem Splaybaum wird das gesuchte Element per Splay-Operation in die Wurzel rotiert.<br>3) ❌ Der kleinste und größte Schlüssel könnten z.B. in der Wurzel oder auf unterschiedlichen Ebenen sein, falls nicht alle Blätter gemeint sind.<br>4) ❌ Nicht <em>alle</em>, sondern nur die für das Routing benötigten Separatoren (Kopien von Schlüsseln)."
+    },
+    {
+      "examName": "Klausur SS2022",
+      "cat": "Graphen",
+      "type": "mc",
+      "q": "<strong>(d) Welche Aussagen über Graphen und Graphalgorithmen treffen zu?</strong>",
+      "opt": [
+        {
+          "t": "Multipliziert man die Anzahl der Kanten mit zwei erhält man die Summe aller Knotengrade.",
+          "c": true
+        },
+        {
+          "t": "Ein Graph hat immer mindestens halb so viele Kanten wie Knoten.",
+          "c": false
+        },
+        {
+          "t": "Für einen Graphen mit paarweise verschiedenen Gewichten an allen Kanten liefert Kruskal immer dasselbe Ergebnis wie Prim.",
+          "c": true
+        },
+        {
+          "t": "Sowohl der Floyd-Algorithmus als auch der Warshall Algorithmus sind Formen der dynamischen Programmierung.",
+          "c": true
+        }
+      ],
+      "hintId": "ch5",
+      "expl": "<strong>Erklärung:</strong><br>1) ✅ Das ist das Handshake-Lemma: Jede Kante trägt zu genau zwei Knotengraden bei.<br>2) ❌ Ein Graph kann 0 Kanten haben (leerer Graph).<br>3) ✅ Wenn alle Kantengewichte eindeutig sind, ist der Minimale Spannbaum (MST) eindeutig.<br>4) ✅ Beide nutzen Matrizen, um schrittweise (über Zwischenknoten) Pfade bzw. Erreichbarkeit zu berechnen (DP)."
+    },
+    {
+      "examName": "Klausur SS2022",
+      "cat": "Sortieren",
+      "type": "mc",
+      "q": "<strong>(e) Welche Aussagen über Sortieralgorithmen auf n-elementigen Eingaben sind zutreffend?</strong>",
+      "opt": [
+        {
+          "t": "QuickSort arbeitet nach dem Divide-and-Conquer Paradigma.",
+          "c": true
+        },
+        {
+          "t": "InsertionSort benötigt immer mehr Vergleiche als Vertauschungen.",
+          "c": false
+        },
+        {
+          "t": "BubbleSort benötigt für die Liste [1,3,5,2,4,6] mehr Vergleiche als InsertionSort.",
+          "c": true
+        },
+        {
+          "t": "BubbleSort benötigt für die Liste [1,2,3,4,5,6] genauso viele Vergleiche wie für die Liste [6,1,2,3,4,5].",
+          "c": true
+        }
+      ],
+      "hintId": "ch4",
+      "expl": "<strong>Erklärung:</strong><br>1) ✅ Teile (Pivot), Herrsche (Rekursion).<br>2) ❌ Es kann sein, dass ein Element sofort passt (1 Vergleich, 0 Vertauschungen).<br>3) ✅ InsertionSort bricht die innere Schleife ab, wenn es die richtige Position gefunden hat. BubbleSort (ohne Optimierung) vergleicht immer stur weiter.<br>4) ✅ Klassisches BubbleSort ohne Early-Exit macht immer $\\frac{n(n-1)}{2}$ Vergleiche, unabhängig von der Eingabe."
+    },
+    {
+      "examName": "Klausur SS2022",
+      "cat": "Hashing",
+      "type": "mc",
+      "q": "<strong>(f) Was gilt für die Suche bzw. das Hashing?</strong>",
+      "opt": [
+        {
+          "t": "Quadratisches Sondieren reduziert Clusterbildung.",
+          "c": true
+        },
+        {
+          "t": "Mit Doppelhashing werden Ähnlichkeitsanfragen ermöglicht.",
+          "c": false
+        },
+        {
+          "t": "Beim offenen Hashing mit geschlossener Adressierung werden Elemente bei Kollisionen unter der gleichen Adresse gespeichert.",
+          "c": true
+        },
+        {
+          "t": "Doppelhashing nutzt zwei voneinander unabhängige Hashfunktionen.",
+          "c": true
+        }
+      ],
+      "hintId": "ch3",
+      "expl": "<strong>Erklärung:</strong><br>1) ✅ Reduziert <em>primäre</em> Clusterbildung (im Gegensatz zum linearen Sondieren).<br>2) ❌ Hashing zerstört Ähnlichkeit (Avalanche-Effekt).<br>3) ✅ Ja, als verkettete Liste in einem \"Bucket\" (daher offenes Hashing / geschlossene Adressierung).<br>4) ✅ $h(x,i) = (h_1(x) + i \\cdot h_2(x)) \\bmod m$."
+    },
+    {
+      "examName": "Klausur SS2022",
+      "cat": "Grundlagen",
+      "type": "text",
+      "q": "Geben Sie zu folgendem Stack das Endergebnis nach den Operationen <code>pop(), push(1), push(2)</code> an.<br>Anfangszustand (Head oben): <code>1, 2, 3, 4, 5</code>",
+      "kw": [
+        "2",
+        "1",
+        "3",
+        "4",
+        "5",
+        "2, 1, 2, 3, 4, 5",
+        "2,1,2,3,4,5"
+      ],
+      "hintId": "ch1",
+      "expl": "<strong>Lösung:</strong><br>1) <code>pop()</code> entfernt die 1 (Head). Stack: 2, 3, 4, 5<br>2) <code>push(1)</code> legt die 1 oben drauf. Stack: 1, 2, 3, 4, 5<br>3) <code>push(2)</code> legt die 2 oben drauf. Stack: 2, 1, 2, 3, 4, 5 (von Head nach unten)."
+    },
+    {
+      "examName": "Klausur SS2022",
+      "cat": "Bäume",
+      "type": "text",
+      "q": "Geben Sie die korrekte Präfix-, Infix- und Postfixschreibweise des folgenden Baums an:<br>Wurzel: <code>/</code>, Links: <code>*</code> (L: 5, R: 3), Rechts: <code>-</code> (L: <code>+</code> (L: 7, R: 2), R: 4)",
+      "kw": [
+        "/ * 5 3 - + 7 2 4",
+        "5 * 3 / 7 + 2 - 4",
+        "5 3 * 7 2 + 4 - /"
+      ],
+      "hintId": "ch3",
+      "expl": "<strong>Lösung:</strong><br>• <strong>Präfix (Pre-Order):</strong> <code>/ * 5 3 - + 7 2 4</code><br>• <strong>Infix (In-Order):</strong> <code>5 * 3 / 7 + 2 - 4</code> (Klammern weggelassen)<br>• <strong>Postfix (Post-Order):</strong> <code>5 3 * 7 2 + 4 - /</code>"
+    },
+    {
+      "examName": "Klausur SS2022",
+      "cat": "Grundlagen",
+      "type": "text",
+      "q": "Es heißt „ein Algorithmus ist stabil“, wenn...",
+      "kw": [
+        "reihenfolge",
+        "gleich",
+        "erhalten",
+        "schlüssel",
+        "element"
+      ],
+      "hintId": "ch4",
+      "expl": "<strong>Lösung:</strong> ...die relative Reihenfolge gleicher Elemente (oder Schlüssel) nach dem Sortieren gleich bleibt (wie in der ursprünglichen Eingabe)."
+    },
+    {
+      "examName": "Klausur SS2022",
+      "cat": "Grundlagen",
+      "type": "text",
+      "q": "Gegeben sei das Universum $U = (A,B,C,D,E,F,G)$.<br>Geben Sie den Bitvektor für die Mengen an:<br>i) $M_1 = \\{A, C, B\\}$<br>ii) $M_2 = \\{B, G, C, F\\}$",
+      "kw": [
+        "1110000",
+        "0110011"
+      ],
+      "hintId": "ch1",
+      "expl": "<strong>Lösung:</strong><br>Man setzt für jedes vorhandene Element eine 1, sonst 0, in alphabetischer Reihenfolge (A B C D E F G).<br>i) $M_1 = \\{A, B, C\\}$ → <code>1 1 1 0 0 0 0</code><br>ii) $M_2 = \\{B, C, F, G\\}$ → <code>0 1 1 0 0 1 1</code>"
+    },
+    {
+      "examName": "Klausur SS2022",
+      "cat": "Paradigmen",
+      "type": "text",
+      "q": "Ordnen Sie den folgenden Algorithmen das passende Programmierparadigma zu:<br>1) Merge-Sort<br>2) Floyd-Algorithmus<br>3) n-Damenproblem",
+      "kw": [
+        "divide",
+        "conquer",
+        "backtracking",
+        "dynamisch",
+        "programmierung"
+      ],
+      "hintId": "ch6",
+      "expl": "<strong>Lösung:</strong><br>1) Merge-Sort → <strong>Divide-and-Conquer</strong><br>2) Floyd-Algorithmus → <strong>Dynamische Programmierung</strong><br>3) n-Damenproblem → <strong>Backtracking</strong>"
+    }
+  ],
+  "ss25": [
+    {
+      "examName": "Klausur SS2025",
+      "cat": "Grundlagen",
+      "type": "text",
+      "q": "Was ist ein Algorithmus?",
+      "kw": [
+        "reihe",
+        "aktion",
+        "ausführbar",
+        "problem",
+        "lösen"
+      ],
+      "hintId": "ch1",
+      "expl": "<strong>Lösung:</strong> Ein Algorithmus ist eine Reihe von ausführbaren Aktionen (oder Handlungsvorschriften), welche gewisse Probleme beziehungsweise Aufgaben lösen. Dies kann auch abhängig von einer Eingabe sein."
+    },
+    {
+      "examName": "Klausur SS2025",
+      "cat": "Grundlagen",
+      "type": "text",
+      "q": "Vergleichen Sie Stacks und Queues. Nennen Sie den wesentlichen Unterschied sowie die Gemeinsamkeit.",
+      "kw": [
+        "lifo",
+        "fifo",
+        "datenstruktur",
+        "array",
+        "liste"
+      ],
+      "hintId": "ch1",
+      "expl": "<strong>Lösung:</strong><br>• <strong>Gemeinsamkeit:</strong> Beides sind lineare Datenstrukturen, die z.B. durch ein Array oder eine Liste repräsentiert werden können.<br>• <strong>Unterschied:</strong> Stacks funktionieren nach dem LIFO-Prinzip (Last-In-First-Out, wie ein Tellerstapel), Queues nach dem FIFO-Prinzip (First-In-First-Out, wie eine Warteschlange)."
+    },
+    {
+      "examName": "Klausur SS2025",
+      "cat": "Grundlagen",
+      "type": "text",
+      "q": "Welche Eigenschaft wird hier jeweils beschrieben?<br>i. \"Für die gleiche Eingabe ist die Ausführung stets identisch.\"<br>ii. \"Der Algorithmus läuft für jede Eingabe nur endlich lange.\"",
+      "kw": [
+        "determinismus",
+        "terminierung",
+        "terminier",
+        "deterministisch"
+      ],
+      "hintId": "ch1",
+      "expl": "<strong>Lösung:</strong><br>i. <strong>Determinismus</strong> (oder auch Determiniertheit für das Ergebnis).<br>ii. <strong>Terminierung</strong> (Finitheit ist die Länge der Beschreibung, Terminierung ist die endliche Laufzeit)."
+    },
+    {
+      "examName": "Klausur SS2025",
+      "cat": "Komplexität",
+      "type": "text",
+      "q": "Bestimmen Sie mittels Master-Theorem die Komplexitätsklasse der folgenden Funktion:<br><code>def func(n): if n==0: return 1; else: return n * func(n//2)</code>",
+      "kw": [
+        "log n",
+        "logn",
+        "fall 2",
+        "a=1",
+        "b=2",
+        "d=0"
+      ],
+      "hintId": "ch2",
+      "expl": "<strong>Lösung:</strong> Die Rekursionsgleichung ist $T(n) = 1 \\cdot T(n/2) + \\mathcal{O}(1)$.<br>Es gilt $a=1, b=2, d=0$.<br>Vergleich: $a=1$ und $b^d = 2^0 = 1$. Wir sind im <strong>Fall 2</strong> (Gleichgewicht).<br>$\\Rightarrow T(n) \\in \\mathcal{O}(n^0 \\log n) = \\mathcal{O}(\\log n)$."
+    },
+    {
+      "examName": "Klausur SS2025",
+      "cat": "Komplexität",
+      "type": "mc",
+      "q": "Geben Sie für die folgenden Formeln die gültigen asymptotischen Komplexitätsklassen so restriktiv wie möglich an.",
+      "opt": [
+        {
+          "t": "$f_1(n) = 3n \\in \\mathcal{O}(n)$",
+          "c": true
+        },
+        {
+          "t": "$f_2(n) = 2^n + 3n \\in \\mathcal{O}(2^n)$",
+          "c": true
+        },
+        {
+          "t": "$f_3(n) = n \\cdot (n^3 + 8n + 16 + 8n) \\in \\mathcal{O}(n^4)$",
+          "c": true
+        },
+        {
+          "t": "$f_4(n) = n \\log_2 n + 3n \\in \\mathcal{O}(n \\log n)$",
+          "c": true
+        }
+      ],
+      "hintId": "ch2",
+      "expl": "<strong>Erklärung:</strong> Alle diese Zuordnungen sind korrekt, da die am stärksten wachsende Komponente die Klasse dominiert.<br>Bei $f_3$ ist der größte Term $n \\cdot n^3 = n^4$."
+    },
+    {
+      "examName": "Klausur SS2025",
+      "cat": "Paradigmen",
+      "type": "text",
+      "q": "Nennen Sie einen Vorteil von endständiger Rekursion (Tail Recursion) gegenüber nicht-endständiger Rekursion.",
+      "kw": [
+        "verschachtel",
+        "callstack",
+        "speicher",
+        "stack",
+        "aufruf",
+        "overhead"
+      ],
+      "hintId": "ch6",
+      "expl": "<strong>Lösung:</strong> Keine verschachtelten Aufrufe im Callstack. Der Compiler kann endständige Rekursion in eine iterative Schleife optimieren, wodurch Speicherplatz (Stack) und Overhead gespart wird (Vermeidung von Stack Overflow)."
+    },
+    {
+      "examName": "Klausur SS2025",
+      "cat": "Bäume",
+      "type": "text",
+      "q": "Welches Problem ergibt sich aus einem entarteten Suchbaum (z.B. wenn die Elemente sortiert eingefügt werden)?",
+      "kw": [
+        "o(n)",
+        "linear",
+        "liste",
+        "h=n"
+      ],
+      "hintId": "ch3",
+      "expl": "<strong>Lösung:</strong> Die Höhe des Baums wird $h = n$. Er degeneriert zu einer linearen Liste. Dadurch verschlechtert sich die Laufzeit für Suchen, Einfügen und Löschen auf den Worst-Case $\\mathcal{O}(n)$ statt $\\mathcal{O}(\\log n)$."
+    },
+    {
+      "examName": "Klausur SS2025",
+      "cat": "Grundlagen",
+      "type": "text",
+      "q": "Gegeben sei das Universum $U = (A,B,C,D,E,F,G,H)$. Bestimmen Sie die Mengen aus den Bitvektoren:<br>i) (0, 1, 1, 0, 0, 1, 0, 0)<br>ii) (1, 0, 1, 0, 1, 0, 1, 1)",
+      "kw": [
+        "b,c,f",
+        "b c f",
+        "a,c,e,g,h",
+        "a c e g h"
+      ],
+      "hintId": "ch1",
+      "expl": "<strong>Lösung:</strong><br>i) Bitvektor `0 1 1 0 0 1 0 0` entspricht den Indizes 2, 3 und 6 $\\Rightarrow \\{B, C, F\\}$.<br>ii) Bitvektor `1 0 1 0 1 0 1 1` entspricht den Indizes 1, 3, 5, 7, 8 $\\Rightarrow \\{A, C, E, G, H\\}$."
+    },
+    {
+      "examName": "Klausur SS2025",
+      "cat": "Sortieren",
+      "type": "text",
+      "q": "Geben Sie die untere Schranke $\\Omega$ für das Sortierproblem (vergleichsbasiert) an bezüglich der Anzahl von Vergleichen.",
+      "kw": [
+        "n log n",
+        "nlogn",
+        "omega"
+      ],
+      "hintId": "ch4",
+      "expl": "<strong>Lösung:</strong> $\\Omega(n \\log n)$. Es ist mathematisch bewiesen, dass jeder vergleichsbasierte Sortieralgorithmus im Worst-Case mindestens $n \\log n$ Vergleiche benötigt."
+    },
+    {
+      "examName": "Klausur SS2025",
+      "cat": "Paradigmen",
+      "type": "text",
+      "q": "Beantworten Sie kurz folgende Fragen zu Paradigmen:<br>1. Mit welchem Paradigma wird das n-Damenproblem gelöst?<br>2. Welches Paradigma verwendet Quicksort?<br>3. Welches Paradigma berechnet die Edit-Distanz effizient?",
+      "kw": [
+        "backtracking",
+        "divide",
+        "conquer",
+        "dynamisch",
+        "programmierung",
+        "dp"
+      ],
+      "hintId": "ch6",
+      "expl": "<strong>Lösung:</strong><br>1. <strong>Backtracking</strong> (Ausprobieren von Wegen, bei Sackgassen zurückgehen).<br>2. <strong>Divide-And-Conquer</strong> (Teile-und-Herrsche).<br>3. <strong>Dynamische Programmierung</strong> (Bottom-Up Tabellierung von Teillösungen)."
+    }
+  ],
+  "ss25n": [
+    {
+      "examName": "Klausur SS2025 Nach",
+      "cat": "Grundlagen",
+      "type": "text",
+      "q": "Geben Sie in wenigen Worten an, was eine Datenstruktur ist und warum die Wahl einer passenden Struktur wichtig für einen Algorithmus ist. Geben Sie zudem ein Beispiel an.",
+      "kw": [
+        "struktur",
+        "speicher",
+        "effizient",
+        "laufzeit"
+      ],
+      "hintId": "ch1",
+      "expl": "<strong>Lösung:</strong> Eine Datenstruktur ist eine Struktur in der Daten organisiert und gespeichert werden (Beispiel: Stack, Queue, Array). Ein Algorithmus kann mit verschiedenen Datenstrukturen deutlich verschieden effizient arbeiten (z.B. schnelles Einfügen vs. schnelles Suchen)."
+    },
+    {
+      "examName": "Klausur SS2025 Nach",
+      "cat": "Grundlagen",
+      "type": "text",
+      "q": "Gegeben sei das Universum $U = (A,B,C,D,E)$. Geben Sie die Bitvektoren für folgende Mengen an:<br>i. $M_1 = \\{A, C, E\\}$<br>ii. $M_2 = \\{B, C, D, E\\}$",
+      "kw": [
+        "10101",
+        "01111"
+      ],
+      "hintId": "ch1",
+      "expl": "<strong>Lösung:</strong><br>i. $M_1 \\Rightarrow$ <code>(1, 0, 1, 0, 1)</code><br>ii. $M_2 \\Rightarrow$ <code>(0, 1, 1, 1, 1)</code>"
+    },
+    {
+      "examName": "Klausur SS2025 Nach",
+      "cat": "Bäume",
+      "type": "text",
+      "q": "Gegeben seien die Knoten eines <strong>balancierten</strong> Binärbaums in der Reihenfolge, in der sie bei einem <strong>Preorder</strong>-Durchlauf besucht werden: 1, 2, 3, 4, 5, 6, 7.<br>Geben Sie die Reihenfolge an, in der sie bei einem <strong>Breitendurchlauf</strong> (Level-Order) besucht werden.",
+      "kw": [
+        "1, 2, 3, 4, 5, 6, 7",
+        "1,2,3,4,5,6,7"
+      ],
+      "hintId": "ch3",
+      "expl": "<strong>Lösung:</strong> <code>1, 2, 3, 4, 5, 6, 7</code>.<br>Begründung: Bei einem vollständig balancierten Binärbaum mit 7 Knoten ist 1 die Wurzel. Die linken Kinder sind 2 (mit 4 und 5), die rechten Kinder sind 3 (mit 6 und 7). Preorder: Wurzel(1), L(2,4,5), R(3,6,7). Breitendurchlauf geht ebenenweise: Ebene 0: 1, Ebene 1: 2, 3, Ebene 2: 4, 5, 6, 7."
+    },
+    {
+      "examName": "Klausur SS2025 Nach",
+      "cat": "Komplexität",
+      "type": "text",
+      "q": "Erinnern Sie sich an das Master-Theorem für Divide-And-Conquer Algorithmen. Wofür stehen die Variablen $a$, $b$, $c$ und $d$?",
+      "kw": [
+        "unterprobleme",
+        "teile",
+        "basisfall",
+        "schritte"
+      ],
+      "hintId": "ch2",
+      "expl": "<strong>Lösung:</strong><br>• <strong>a:</strong> steht für die Anzahl der Unterprobleme in der Rekursion.<br>• <strong>b:</strong> steht dafür, in wie viele Teile das Problem im Divide-Schritt geteilt wird.<br>• <strong>c:</strong> steht für die Komplexität des Basisfalls.<br>• <strong>d:</strong> gibt die Komplexität der Schritte an, die bei jeder Teilung zusätzlich anfallen (Merge/Combine-Schritt)."
+    },
+    {
+      "examName": "Klausur SS2025 Nach",
+      "cat": "Komplexität",
+      "type": "text",
+      "q": "Bestimmen Sie die Komplexität der <strong>binären Suche</strong> mit dem Mastertheorem.",
+      "kw": [
+        "a=1",
+        "b=2",
+        "d=0",
+        "log n"
+      ],
+      "hintId": "ch2",
+      "expl": "<strong>Lösung:</strong> Rekursionsformel: $T(n) = 1 \\cdot T(n/2) + \\mathcal{O}(n^0)$.<br>$a=1, b=2, d=0$.<br>$a = b^d \\Rightarrow 1 = 2^0 = 1$ (Fall 2).<br>Komplexität: $\\mathcal{O}(\\log n)$."
+    },
+    {
+      "examName": "Klausur SS2025 Nach",
+      "cat": "Komplexität",
+      "type": "text",
+      "q": "Zur Lösung des Rucksackproblems lassen sich naiv alle Kombinationen ausprobieren. Die Laufzeit dafür ist $\\mathcal{O}(2^n)$. Nach <em>einigen Tests</em> für $n=5$ wurden aber nie mehr als 30 Vergleiche benötigt. Ist dies ein Widerspruch zur $\\mathcal{O}(2^n)$ Laufzeit?",
+      "kw": [
+        "nein",
+        "einige",
+        "nicht alle",
+        "worst"
+      ],
+      "hintId": "ch2",
+      "expl": "<strong>Lösung:</strong> Nein, da noch nicht <em>alle</em> möglichen Eingabekombinationen ausprobiert wurden (nur \"einige Tests\"). Die $\\mathcal{O}$-Notation bezieht sich auf die <strong>Worst-Case</strong> Schranke. Für spezielle Eingaben kann der Algorithmus schneller terminieren."
+    },
+    {
+      "examName": "Klausur SS2025 Nach",
+      "cat": "Sortieren",
+      "type": "text",
+      "q": "Was ist die obere Laufzeit (Worst-Case) des QuickSort-Algorithmus?",
+      "kw": [
+        "n^2",
+        "n²"
+      ],
+      "hintId": "ch4",
+      "expl": "<strong>Lösung:</strong> $\\mathcal{O}(n^2)$ (tritt auf, wenn das Pivot-Element immer das kleinste oder größte Element der Teilliste ist)."
+    },
+    {
+      "examName": "Klausur SS2025 Nach",
+      "cat": "Sortieren",
+      "type": "text",
+      "q": "Was ist im Allgemeinen eine gute Wahl für das Pivot-Element beim QuickSort-Algorithmus?",
+      "kw": [
+        "zufällig",
+        "randomisiert",
+        "median"
+      ],
+      "hintId": "ch4",
+      "expl": "<strong>Lösung:</strong> Eine <strong>zufällige</strong> Wahl (Randomized QuickSort) oder die Median-of-Three Methode, um den Worst-Case $\\mathcal{O}(n^2)$ unwahrscheinlich zu machen."
+    },
+    {
+      "examName": "Klausur SS2025 Nach",
+      "cat": "Paradigmen",
+      "type": "text",
+      "q": "Wie groß ist die Komplexität für das n-Damenproblem, wenn ein naiver Algorithmus für die Berechnung der Lösung verwendet wird (obere Abschätzung)?",
+      "kw": [
+        "n!",
+        "fakultät"
+      ],
+      "hintId": "ch6",
+      "expl": "<strong>Lösung:</strong> $\\mathcal{O}(n!)$. Ein naiver Ansatz platziert die Damen nacheinander und hat für jede nächste Dame immer weniger (ca. n-i) Spalten zur Auswahl, was auf eine Fakultät hinausläuft."
+    },
+    {
+      "examName": "Klausur SS2025 Nach",
+      "cat": "Paradigmen",
+      "type": "text",
+      "q": "Welches Programmierparadigma wird von Merge-Sort verwendet?",
+      "kw": [
+        "divide",
+        "conquer"
+      ],
+      "hintId": "ch6",
+      "expl": "<strong>Lösung:</strong> <strong>Divide and Conquer</strong> (Teile und Herrsche)."
+    },
+    {
+      "examName": "Klausur SS2025 Nach",
+      "cat": "Paradigmen",
+      "type": "text",
+      "q": "Nennen Sie einen bekannten Greedy-Algorithmus, der NICHT immer die optimale Lösung liefert.",
+      "kw": [
+        "rucksack",
+        "knapsack"
+      ],
+      "hintId": "ch6",
+      "expl": "<strong>Lösung:</strong> Das (diskrete) <strong>Rucksack-Problem</strong> (Knapsack-Problem). Ein Greedy-Ansatz (z.B. Wert/Gewicht-Verhältnis) kann hier suboptimale Ergebnisse liefern."
+    },
+    {
+      "examName": "Klausur SS2025 Nach",
+      "cat": "Paradigmen",
+      "type": "text",
+      "q": "Nennen Sie einen bekannten Greedy-Algorithmus, der IMMER die optimale Lösung liefert.",
+      "kw": [
+        "kruskal",
+        "prim",
+        "dijkstra"
+      ],
+      "hintId": "ch6",
+      "expl": "<strong>Lösung:</strong> <strong>Kruskal</strong> oder <strong>Prim</strong> (zur Berechnung minimaler Spannbäume) oder <strong>Dijkstra</strong> (kürzeste Pfade)."
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "id": "ch6",
+  "title": "🧩 6. Algorithmische Paradigmen",
+  "sections": [
+    {
+      "type": "theory",
+      "html": "<h3>🎯 Greedy (Gierig)</h3><p>Trifft in jedem Schritt die <strong>lokal beste</strong> Entscheidung, ohne vorauszuschauen. Einmal getroffene Entscheidungen werden <em>nie</em> revidiert.</p><ul><li>✅ Funktioniert bei: Dijkstra, Prim, Kruskal, Huffman</li><li>❌ Funktioniert <em>nicht</em> bei: Rucksackproblem (0/1), TSP</li></ul><p><strong>Wann Greedy?</strong> Wenn das Problem die <strong>Greedy-Choice-Eigenschaft</strong> hat: Die lokal optimale Wahl führt zur global optimalen Lösung.</p>"
+    },
+    {
+      "type": "theory",
+      "html": "<h3>🔪 Divide & Conquer (Teile und Herrsche)</h3><ol><li><strong>Divide:</strong> Problem in kleinere, <em>unabhängige</em> Teilprobleme zerlegen</li><li><strong>Conquer:</strong> Teilprobleme rekursiv lösen</li><li><strong>Combine:</strong> Teillösungen zusammensetzen</li></ol><p><strong>Beispiele:</strong> MergeSort, QuickSort, Binäre Suche, Strassen-Matrixmultiplikation</p><p>Die Laufzeit wird oft mit dem <strong>Mastertheorem</strong> bestimmt.</p>"
+    },
+    {
+      "type": "theory",
+      "html": "<h3>🔙 Backtracking (Versuch & Irrtum)</h3><div style='display:flex;gap:1rem;margin-bottom:1rem'><div style='flex:1'><p>Systematisches Ausprobieren aller Möglichkeiten mit <strong>frühzeitigem Abbruch</strong> (Pruning).</p><ol><li>Baue eine <strong>Teillösung</strong> schrittweise auf</li><li>Prüfe nach jedem Schritt: Kann diese Teillösung noch zu einer gültigen Gesamtlösung führen?</li><li>Wenn <strong>Sackgasse</strong>: Mache den letzten Schritt rückgängig (Backtrack) und probiere die nächste Alternative</li></ol></div><div style='flex:1'><svg width='100%' height='120' viewBox='0 0 200 120'><circle cx='100' cy='20' r='10' fill='var(--primary)'/><circle cx='60' cy='60' r='10' fill='var(--yellow)'/><circle cx='140' cy='60' r='10' fill='var(--bg-hover)' stroke='var(--border)'/><circle cx='40' cy='100' r='10' fill='var(--bg-hover)' stroke='var(--border)'/><circle cx='80' cy='100' r='10' fill='var(--red)'/><line x1='100' y1='30' x2='60' y2='50' stroke='var(--primary)' stroke-width='2'/><line x1='100' y1='30' x2='140' y2='50' stroke='var(--border)' stroke-dasharray='4'/><line x1='60' y1='70' x2='40' y2='90' stroke='var(--border)' stroke-dasharray='4'/><line x1='60' y1='70' x2='80' y2='90' stroke='var(--primary)' stroke-width='2'/><path d='M80 85 Q90 60 70 60' fill='none' stroke='var(--red)' stroke-width='2' stroke-dasharray='4' marker-end='url(#arrow)'/><text x='85' y='115' font-size='10' fill='var(--red)'>Sackgasse!</text></svg></div></div><p><strong>Beispiele:</strong></p><ul><li><strong>N-Damen-Problem:</strong> Platziere $n$ Damen auf einem $n \\times n$ Schachbrett, sodass keine zwei Damen sich gegenseitig bedrohen.</li><li><strong>Sudoku-Löser</strong></li><li><strong>Labyrinth</strong></li></ul>"
+    },
+    {
+      "type": "theory",
+      "html": "<h3>🌳 Branch and Bound</h3><p>Eine Erweiterung von Backtracking (besonders für Optimierungsprobleme). Es wird nicht nur bei Sackgassen abgebrochen, sondern auch wenn eine Teillösung <strong>bewiesenermaßen schlechter</strong> ist als die bisher beste gefundene Lösung (Bound).</p><p><strong>Beispiel:</strong> Traveling Salesperson Problem (Kürzeste Rundreise). Ist der aktuelle Pfad schon länger als der bisher beste Rundweg, brich ab.</p>"
+    },
+    {
+      "type": "theory",
+      "html": "<h3>📈 Sweep-Line Algorithmus</h3><div style='display:flex;gap:1rem'><div style='flex:1'><p>Wandelt ein statisches 2D-Problem in ein dynamisches 1D-Problem um, indem eine imaginäre Linie über die Ebene \"fegt\".</p><ul><li><strong>Linienüberkreuzung:</strong> Prüfe nur Schnittpunkte von Linien, die gerade die Sweep-Line schneiden (sich im Status befinden).</li><li>Anstatt $\\mathcal{O}(n^2)$ alle mit allen zu vergleichen, testet man nur benachbarte Segmente im Status.</li></ul></div><div style='flex:1'><svg width='100%' height='100' viewBox='0 0 200 100'><line x1='20' y1='20' x2='100' y2='80' stroke='var(--primary)' stroke-width='2'/><line x1='40' y1='90' x2='120' y2='10' stroke='var(--yellow)' stroke-width='2'/><line x1='70' y1='0' x2='70' y2='100' stroke='var(--red)' stroke-width='2' stroke-dasharray='4'/><text x='75' y='15' font-size='10' fill='var(--red)'>Sweep-Line</text></svg></div></div>"
+    },
+    {
+      "type": "theory",
+      "html": "<h3>📊 Dynamische Programmierung (DP)</h3><p>Wie Divide & Conquer, aber die Teilprobleme <strong>überlappen sich</strong>. DP speichert die Ergebnisse in einer Tabelle, um Mehrfachberechnung zu vermeiden.</p><div style='display:flex;gap:2rem;margin-top:1rem'><div style='flex:1;background:var(--bg-elevated);padding:1rem;border-radius:var(--radius)'><strong>Top-Down (Memoization)</strong><br><span style='font-size:.85rem'>Rekursiv. Speichert berechnete Werte ab. Baut Baum von oben nach unten.</span></div><div style='flex:1;background:var(--bg-elevated);padding:1rem;border-radius:var(--radius)'><strong>Bottom-Up (Tabulation)</strong><br><span style='font-size:.85rem'>Iterativ. Baut Tabelle von unten nach oben, bis das Endziel erreicht ist.</span></div></div><h3>📝 Edit-Distanz (Levenshtein)</h3><p>Minimale Anzahl an Operationen (Einfügen, Löschen, Ersetzen), um Wort $A$ in Wort $B$ umzuwandeln.</p><p>Rekursion: $d[i][j] = \\min \\begin{cases} d[i-1][j] + 1 & \\text{(Löschen)} \\\\ d[i][j-1] + 1 & \\text{(Einfügen)} \\\\ d[i-1][j-1] + \\text{cost} & \\text{(Ersetzen, cost=0 wenn gleich)} \\end{cases}$</p>"
+    },
+    {
+      "type": "widget",
+      "widgetHtml": "<div class='widget'><h3>📊 Levenshtein Edit-Distanz</h3><p style='color:var(--text-secondary);margin-bottom:.5rem'>Fülle die DP-Matrix Zelle für Zelle und beobachte, wie die Edit-Distanz berechnet wird!</p><div class='widget-controls'><label>Wort 1: <input type='text' id='dp-w1' value='Halle' style='width:100px'></label><label>Wort 2: <input type='text' id='dp-w2' value='Haus' style='width:100px'></label><button class='primary' onclick='dp.initLev()'>🔄 Neu starten</button></div><div class='widget-controls'><button class='primary' onclick='dp.stepLev()'>▶️ Nächste Zelle</button></div><div id='dp-table' style='overflow-x:auto'></div><div class='status-bar' id='dp-status'></div></div>",
+      "initFunction": "initDPWidget"
+    },
+    {
+      "type": "theory",
+      "html": "<h3>🎒 Rucksackproblem (Knapsack)</h3><p><strong>Formulierung:</strong> Gegeben: Rucksack der Kapazität $G$ und $k$ Gegenstände mit Gewicht $w_i$ und Wert $v_i$. Gesucht: Teilmenge mit <strong>maximalem Gesamtwert</strong>, deren Gesamtgewicht $\\leq G$ ist.</p><p>Naiver Ansatz: Alle $2^n$ Teilmengen probieren → $\\mathcal{O}(2^n)$</p><p>DP-Ansatz: Tabelle $T[i][w]$ = maximaler Wert mit den ersten $i$ Gegenständen und Kapazität $w$.</p><p>$$T[i][w] = \\max(T[i-1][w],\\ T[i-1][w-w_i] + v_i)$$</p>"
+    },
+    {
+      "type": "widget",
+      "widgetHtml": "<div class='widget'><h3>🎒 Rucksack DP-Tabelle</h3><p style='color:var(--text-secondary);margin-bottom:.5rem'>Items: A(w=2,v=3), B(w=3,v=4), C(w=4,v=5), D(w=5,v=7). Kapazität: 10</p><div class='widget-controls'><button class='primary' onclick='knapsack.step()'>▶️ Nächste Zelle</button><button onclick='knapsack.init()'>🔄 Reset</button></div><div id='knapsack-table' style='overflow-x:auto'></div></div>",
+      "initFunction": "knapsack.init"
+    }
+  ]
+}
