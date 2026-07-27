@@ -490,57 +490,90 @@ const srt={
     genBubble(a){
         for(let i=0;i<a.length-1;i++){
             for(let j=0;j<a.length-i-1;j++){
-                srt.steps.push({arr:[...a],hl:[{i:j,c:'var(--yellow)',l:'vergleiche'},{i:j+1,c:'var(--yellow)',l:'vergleiche'}],sorted:a.length-i,msg:`Vergleiche a[${j}]=${a[j]} mit a[${j+1}]=${a[j+1]}`});
-                if(a[j]>a[j+1]){[a[j],a[j+1]]=[a[j+1],a[j]];
-                    srt.steps.push({arr:[...a],hl:[{i:j,c:'var(--green)',l:'getauscht'},{i:j+1,c:'var(--green)',l:'getauscht'}],sorted:a.length-i,msg:`↔ Tausche! ${a[j+1]} > ${a[j]}`});}
+                srt.steps.push({arr:[...a],hl:[{i:j,c:'var(--yellow)',l:'links'},{i:j+1,c:'var(--yellow)',l:'rechts'}],msg:`Schritt: Vergleiche Element a[${j}]=${a[j]} mit a[${j+1}]=${a[j+1]}`});
+                if(a[j]>a[j+1]){
+                    [a[j],a[j+1]]=[a[j+1],a[j]];
+                    srt.steps.push({arr:[...a],hl:[{i:j,c:'var(--green)',l:'Tausch'},{i:j+1,c:'var(--green)',l:'Tausch'}],msg:`Da ${a[j+1]} kleiner als ${a[j]} ist, tauschen wir die beiden.`});
+                } else {
+                    srt.steps.push({arr:[...a],hl:[{i:j,c:'#81c995',l:'OK'},{i:j+1,c:'#81c995',l:'OK'}],msg:`Reihenfolge ist korrekt (${a[j]} ≤ ${a[j+1]}). Kein Tausch notwendig.`});
+                }
             }
+            srt.steps.push({arr:[...a],hl:[{i:a.length-1-i,c:'var(--purple)',l:'Sortiert'}],msg:`Durchlauf beendet: Die Zahl ${a[a.length-1-i]} ist nun an ihrer finalen, sortierten Position.`});
         }
     },
     genInsertion(a){
         for(let i=1;i<a.length;i++){
             let key=a[i],j=i-1;
-            srt.steps.push({arr:[...a],hl:[{i,c:'var(--yellow)',l:`key=${key}`}],msg:`Schlüssel: ${key}. Suche korrekte Position im sortierten Bereich [0..${i-1}]`});
-            while(j>=0&&a[j]>key){a[j+1]=a[j];j--;
-                srt.steps.push({arr:[...a],hl:[{i:j+1,c:'var(--red)',l:'verschiebe'},{i,c:'var(--yellow)',l:'key'}],msg:`Verschiebe ${a[j+1]} nach rechts`});}
+            srt.steps.push({arr:[...a],hl:[{i,c:'var(--yellow)',l:`Key=${key}`}],msg:`Neues Element betrachten: Key = ${key}. Suchen den korrekten Platz im bereits sortierten linken Bereich [0..${i-1}].`});
+            while(j>=0&&a[j]>key){
+                srt.steps.push({arr:[...a],hl:[{i:j,c:'var(--red)',l:'zu groß'},{i:j+1,c:'var(--purple)',l:'Ziel'}],msg:`Element ${a[j]} ist größer als unser Key (${key}). Wir müssen es nach rechts verschieben.`});
+                a[j+1]=a[j];
+                srt.steps.push({arr:[...a],hl:[{i:j+1,c:'var(--yellow)',l:'verschoben'}],msg:`${a[j+1]} wurde nach rechts verschoben. Platz für Key wird frei.`});
+                j--;
+            }
             a[j+1]=key;
-            srt.steps.push({arr:[...a],hl:[{i:j+1,c:'var(--green)',l:'eingefügt'}],msg:`Füge ${key} an Position ${j+1} ein`});
+            srt.steps.push({arr:[...a],hl:[{i:j+1,c:'var(--green)',l:'Eingefügt'}],msg:`Richtiger Platz gefunden! Key ${key} wird an Position ${j+1} eingefügt.`});
         }
     },
     genSelection(a){
         for(let i=0;i<a.length-1;i++){
             let minIdx=i;
-            for(let j=i+1;j<a.length;j++){if(a[j]<a[minIdx])minIdx=j;}
-            srt.steps.push({arr:[...a],hl:[{i,c:'var(--yellow)',l:'Position'},{i:minIdx,c:'var(--red)',l:`Min=${a[minIdx]}`}],msg:`Minimum im Bereich [${i}..${a.length-1}] ist ${a[minIdx]} an Index ${minIdx}`});
-            if(minIdx!==i){[a[i],a[minIdx]]=[a[minIdx],a[i]];
-                srt.steps.push({arr:[...a],hl:[{i,c:'var(--green)',l:'getauscht'}],msg:`Tausche a[${i}] ↔ a[${minIdx}]`});}
+            srt.steps.push({arr:[...a],hl:[{i,c:'var(--purple)',l:'Start'}],msg:`Suche das Minimum im un-sortierten Bereich ab Index ${i}. Bisher kleinstes Element ist a[${i}]=${a[i]}.`});
+            for(let j=i+1;j<a.length;j++){
+                srt.steps.push({arr:[...a],hl:[{i:j,c:'var(--yellow)',l:'Prüfe'},{i:minIdx,c:'var(--red)',l:`Min=${a[minIdx]}`}],msg:`Vergleiche a[${j}]=${a[j]} mit aktuellem Minimum ${a[minIdx]}.`});
+                if(a[j]<a[minIdx]) {
+                    minIdx=j;
+                    srt.steps.push({arr:[...a],hl:[{i:minIdx,c:'var(--red)',l:`Neues Min`}],msg:`Neues Minimum gefunden! Die Zahl ${a[j]} ist kleiner.`});
+                }
+            }
+            if(minIdx!==i){
+                [a[i],a[minIdx]]=[a[minIdx],a[i]];
+                srt.steps.push({arr:[...a],hl:[{i,c:'var(--green)',l:'Getauscht'},{i:minIdx,c:'var(--green)',l:'Getauscht'}],msg:`Durchlauf fertig: Minimum ${a[i]} wird mit a[${minIdx}] getauscht.`});
+            } else {
+                srt.steps.push({arr:[...a],hl:[{i,c:'var(--green)',l:'Sortiert'}],msg:`a[${i}]=${a[i]} war bereits das Minimum. Bleibt an seinem Platz.`});
+            }
         }
     },
     genMerge(a,l,r){
         if(l>=r)return;const m=Math.floor((l+r)/2);
-        srt.steps.push({arr:[...a],hl:[...Array.from({length:r-l+1},(_,k)=>({i:l+k,c:'var(--purple)',l:k===0?`teile [${l}..${r}]`:''}))],msg:`Divide: Teile [${l}..${r}] bei m=${m}`});
+        srt.steps.push({arr:[...a],hl:[...Array.from({length:r-l+1},(_,k)=>({i:l+k,c:'var(--purple)',l:k===0?`Teil-Array`:''}))],msg:`Divide: Wir teilen das Array-Stück [${l}..${r}] in der Mitte bei Index ${m}.`});
         srt.genMerge(a,l,m);srt.genMerge(a,m+1,r);
-        // Merge
         let left=a.slice(l,m+1),right=a.slice(m+1,r+1),i=0,j=0,k=l;
+        srt.steps.push({arr:[...a],hl:[...Array.from({length:r-l+1},(_,k)=>({i:l+k,c:'var(--yellow)',l:k===0?'Merge':''}))],msg:`Conquer & Merge: Wir fügen die beiden sortierten Hälften [${left}] und [${right}] zusammen.`});
         while(i<left.length&&j<right.length){
-            if(left[i]<=right[j])a[k++]=left[i++]; else a[k++]=right[j++];
+            srt.steps.push({arr:[...a],hl:[{i:k,c:'var(--red)',l:'Ziel'},{i:l+i,c:'var(--purple)',l:`L=${left[i]}`},{i:m+1+j,c:'var(--purple)',l:`R=${right[j]}`}],msg:`Vergleiche L=${left[i]} und R=${right[j]}.`});
+            if(left[i]<=right[j]){
+                a[k++]=left[i++];
+                srt.steps.push({arr:[...a],hl:[{i:k-1,c:'var(--green)',l:'Eingefügt'}],msg:`L ist kleiner/gleich. Füge ${a[k-1]} an Index ${k-1} ein.`});
+            } else {
+                a[k++]=right[j++];
+                srt.steps.push({arr:[...a],hl:[{i:k-1,c:'var(--green)',l:'Eingefügt'}],msg:`R ist kleiner. Füge ${a[k-1]} an Index ${k-1} ein.`});
+            }
         }
-        while(i<left.length)a[k++]=left[i++];
-        while(j<right.length)a[k++]=right[j++];
-        srt.steps.push({arr:[...a],hl:[...Array.from({length:r-l+1},(_,k)=>({i:l+k,c:'var(--green)',l:k===0?'merged':''}))],msg:`Merge [${l}..${m}] + [${m+1}..${r}] → [${a.slice(l,r+1)}]`});
+        while(i<left.length) { a[k++]=left[i++]; srt.steps.push({arr:[...a],hl:[{i:k-1,c:'var(--green)',l:'Eingefügt'}],msg:`Füge restliches Element L=${a[k-1]} ein.`}); }
+        while(j<right.length) { a[k++]=right[j++]; srt.steps.push({arr:[...a],hl:[{i:k-1,c:'var(--green)',l:'Eingefügt'}],msg:`Füge restliches Element R=${a[k-1]} ein.`}); }
     },
     genQuick(a,lo,hi){
         if(lo>=hi)return;
-        let pivot=a[lo], i=lo+1;
-        srt.steps.push({arr:[...a],hl:[{i:lo,c:'var(--red)',l:`Pivot=${pivot}`}],msg:`Pivot=${pivot} (erstes Element). Partitioniere [${lo}..${hi}]`});
-        for(let j=lo+1;j<=hi;j++){
+        let pivot=a[hi], i=lo;
+        srt.steps.push({arr:[...a],hl:[{i:hi,c:'var(--red)',l:`Pivot=${pivot}`}],msg:`Pivot-Wahl: Wir wählen das LETZTE Element (${pivot}) als Pivot für den Bereich [${lo}..${hi}].`});
+        for(let j=lo;j<hi;j++){
+            srt.steps.push({arr:[...a],hl:[{i:hi,c:'var(--red)',l:'Pivot'},{i:j,c:'var(--yellow)',l:'Prüfe'},{i:i,c:'var(--purple)',l:'Tauschgrenze'}],msg:`Partitionierung: Vergleiche Element a[${j}]=${a[j]} mit Pivot ${pivot}.`});
             if(a[j]<pivot){
-                if(i!==j) { [a[i],a[j]]=[a[j],a[i]]; }
+                if(i!==j) { 
+                    [a[i],a[j]]=[a[j],a[i]]; 
+                    srt.steps.push({arr:[...a],hl:[{i:i,c:'var(--green)',l:'Getauscht'},{i:j,c:'var(--green)',l:'Getauscht'}],msg:`Da ${a[i]} < Pivot (${pivot}), tauschen wir es an die Grenze (Index ${i}). Grenze verschiebt sich.`});
+                } else {
+                    srt.steps.push({arr:[...a],hl:[{i:j,c:'#81c995',l:'Bleibt'}],msg:`${a[j]} < Pivot (${pivot}), steht aber schon richtig an der Grenze. Kein Tausch nötig.`});
+                }
                 i++;
+            } else {
+                srt.steps.push({arr:[...a],hl:[{i:j,c:'var(--yellow)',l:'Ignorieren'}],msg:`Da ${a[j]} ≥ Pivot (${pivot}) ist, belassen wir es im rechten Teil (größer als Pivot).`});
             }
         }
-        [a[lo],a[i-1]]=[a[i-1],a[lo]];
-        srt.steps.push({arr:[...a],hl:[{i:i-1,c:'var(--green)',l:'Pivot final'}],msg:`Pivot ${pivot} an finaler Position ${i-1}.`});
-        srt.genQuick(a,lo,i-2);srt.genQuick(a,i,hi);
+        [a[i],a[hi]]=[a[hi],a[i]];
+        srt.steps.push({arr:[...a],hl:[{i:i,c:'var(--red)',l:'Pivot Final'}],msg:`Alle Elemente wurden partitioniert. Pivot ${pivot} wird nun an seine finale Position ${i} getauscht.`});
+        srt.genQuick(a,lo,i-1);srt.genQuick(a,i+1,hi);
     },
     step(){
         if(srt.stepIdx>=srt.steps.length){toast('Sortierung abgeschlossen!','success');return;}
