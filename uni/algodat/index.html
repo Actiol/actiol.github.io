@@ -874,6 +874,14 @@ function renderExamQuestions(title){
             });
         }else if(q.type==='table'){
             html+=`<div style="overflow-x:auto;margin:.5rem 0" id="table-${qi}">${q.tableHtml||''}</div>`;
+        }else if(q.type==='subtasks'){
+            q.subtasks.forEach((sq, sqi) => {
+                html+=`<div style="margin-bottom:1rem; padding-left:1rem; border-left:2px solid var(--border)">
+                    <div style="margin-bottom:.5rem">${sq.q}</div>
+                    <input type="text" id="ans-${qi}-${sqi}" style="width:100%;margin-bottom:.5rem" placeholder="Kurze Antwort / Keywords..."/>
+                    <div id="sub-res-${qi}-${sqi}" style="font-size:0.85rem; font-weight:600; display:none;"></div>
+                </div>`;
+            });
         }else{
             html+=`<textarea id="ans-${qi}" style="width:100%;height:80px;margin:.5rem 0" placeholder="Deine Antwort..."></textarea>`;
         }
@@ -883,7 +891,17 @@ function renderExamQuestions(title){
             <button onclick="toggleSolution(${qi})">💡 Lösung anzeigen</button>
             <button onclick="toggleHint(${qi},'${q.hintId||''}')">📖 Hint (Theorie)</button>
         </div>
-        <div class="solution-box" id="sol-${qi}"><strong>📝 Lösung & Erklärung:</strong><br>${q.expl}</div>
+        
+        <div class="solution-box" id="sol-${qi}">
+            <strong>📝 Lösung & Erklärung:</strong><br>${q.expl}
+            <div id="self-assess-${qi}" style="display:none; margin-top:1rem; padding-top:1rem; border-top:1px solid var(--green)">
+                <strong>Self-Assessment:</strong> Hat deine Antwort inhaltlich gestimmt?
+                <div style="display:flex; gap:0.5rem; margin-top:0.5rem">
+                    <button class="success" onclick="markSelfAssessment(${qi}, true)">👍 Lag richtig (Punkte geben)</button>
+                    <button class="danger" onclick="markSelfAssessment(${qi}, false)">👎 Lag falsch (Fehler tracken)</button>
+                </div>
+            </div>
+        </div>
         <div class="hint-panel" id="hint-${qi}">Lade Theorie...</div>
         </div>`;
     });
@@ -903,10 +921,13 @@ function toggleMC(qi,oi){
 
 let currentExamCorrect = 0;
 let currentExamChecked = new Set();
+let pendingSelfAssessments = new Set();
 
 function checkQ(qi){
+    if(currentExamChecked.has(qi)) return;
     const q=currentQuestions[qi];
     let isCorrect=false;
+    let needsSelfAssessment = false;
     
     if(q.type==='mc'){
         const sel=mcSelections[qi]||new Set();
@@ -919,30 +940,76 @@ function checkQ(qi){
             else if(!o.c&&isSelected){el.className='mc-opt wrong';isCorrect=false;}
             else el.className='mc-opt';
         });
+    }else if(q.type==='subtasks'){
+        let correctSubtasks = 0;
+        q.subtasks.forEach((sq, sqi) => {
+            const ans=(document.getElementById(`ans-${qi}-${sqi}`)?.value||'').toLowerCase();
+            const matched=(sq.kw||[]).filter(kw=>ans.includes(kw.toLowerCase()));
+            const total=sq.kw?.length||1;
+            const pct=Math.round(matched.length/total*100);
+            const isSubCorrect = (pct>=50) || (total===1 && sq.kw.length===0 && ans.length>0);
+            const resEl = document.getElementById(`sub-res-${qi}-${sqi}`);
+            if(resEl) {
+                resEl.style.display = 'block';
+                if(isSubCorrect) {
+                    resEl.style.color = 'var(--green)';
+                    resEl.textContent = `✅ Keywords gefunden: ${matched.length}/${total}`;
+                    correctSubtasks++;
+                } else {
+                    resEl.style.color = 'var(--red)';
+                    resEl.textContent = `❌ Keywords fehlen (${matched.length}/${total})`;
+                }
+            }
+        });
+        isCorrect = (correctSubtasks === q.subtasks.length);
+        if(!isCorrect) needsSelfAssessment = true;
     }else if(q.type==='text'){
         const ans=(document.getElementById(`ans-${qi}`)?.value||'').toLowerCase();
         const matched=(q.kw||[]).filter(kw=>ans.includes(kw.toLowerCase()));
         const total=q.kw?.length||1;
         const pct=Math.round(matched.length/total*100);
         isCorrect=(pct>=50);
-        toast(`Keywords gefunden: ${matched.length}/${total} (${pct}%). Überprüfe selbst anhand der Lösung!`,isCorrect?'success':'info');
+        needsSelfAssessment = true; // Always allow self assessment for text
+        toast(`Keywords gefunden: ${matched.length}/${total} (${pct}%). Bitte überprüfe die Lösung!`,isCorrect?'success':'info');
     }else{
-        isCorrect=true; // Assume true for tables etc, rely on user self-check
-        toast('Überprüfe selbst anhand der Lösung!','info');
+        needsSelfAssessment = true; // tables etc.
     }
     
-    if(!currentExamChecked.has(qi)){
+    if(needsSelfAssessment) {
+        const selfAssessEl = document.getElementById(`self-assess-${qi}`);
+        if(selfAssessEl) selfAssessEl.style.display = 'block';
+        pendingSelfAssessments.add(qi);
+    } else {
         currentExamChecked.add(qi);
         if(!isCorrect)trackWrong(q.cat);
         else currentExamCorrect++;
     }
     
     if(q.type==='mc') toast(isCorrect?'✅ Richtig!':'❌ Nicht ganz richtig — schau dir die Lösung an','success');
-    toggleSolution(qi);
+    toggleSolution(qi, true);
 }
 
-function toggleSolution(qi){
-    const el=document.getElementById(`sol-${qi}`);if(el)el.classList.toggle('visible');
+function markSelfAssessment(qi, isCorrect) {
+    if(!pendingSelfAssessments.has(qi)) return;
+    pendingSelfAssessments.delete(qi);
+    currentExamChecked.add(qi);
+    if(isCorrect) {
+        currentExamCorrect++;
+        toast('Manuell als richtig markiert!','success');
+    } else {
+        trackWrong(currentQuestions[qi].cat);
+        toast('Manuell als falsch markiert. (Fehler getrackt)','info');
+    }
+    const selfAssessEl = document.getElementById(`self-assess-${qi}`);
+    if(selfAssessEl) selfAssessEl.style.display = 'none';
+}
+
+function toggleSolution(qi, forceShow=false){
+    const el=document.getElementById(`sol-${qi}`);
+    if(el) {
+        if(forceShow) el.classList.add('visible');
+        else el.classList.toggle('visible');
+    }
     setTimeout(()=>{if(window.MathJax&&MathJax.typesetPromise)MathJax.typesetPromise();},100);
 }
 

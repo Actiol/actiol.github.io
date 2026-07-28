@@ -16,16 +16,42 @@
     {
       "examName": "Hauptklausur SS2018",
       "cat": "Grundlagen",
-      "type": "text",
-      "q": "Welche Eigenschaft wird hier beschrieben?<br>i) &bdquo;Für die gleiche Eingabe wird stets die gleiche Ausgabe berechnet.\"<br>ii) &bdquo;Der Algorithmus läuft für jede Eingabe nur endlich lange.\"<br>iii) &bdquo;Für die gleiche Eingabe ist die Ausführung und die Ausgabe stets identisch.\"",
-      "kw": [
-        "determiniertheit",
-        "terminier",
-        "determinismus",
-        "deterministisch"
-      ],
+      "type": "subtasks",
+      "q": "Welche Eigenschaft wird hier beschrieben?",
       "hintId": "ch1",
-      "expl": "<strong>Lösung:</strong><br>i) <strong>Determiniertheit</strong> — Das <em>Ergebnis</em> ist bei gleicher Eingabe immer gleich, aber der Weg dorthin kann variieren.<br>ii) <strong>Terminiertheit / Terminierung</strong> — Der Algorithmus hält nach endlich vielen Schritten an.<br>iii) <strong>Determinismus</strong> — Sowohl der <em>Weg der Ausführung</em> als auch das Ergebnis sind bei gleicher Eingabe identisch.<br><br><strong>Merke:</strong> Determinismus ist stärker als Determiniertheit! Ein deterministischer Algorithmus ist immer auch determiniert, aber nicht umgekehrt."
+      "expl": "<strong>Lösung:</strong><br>i) <strong>Determiniertheit</strong> — Das <em>Ergebnis</em> ist bei gleicher Eingabe immer gleich, aber der Weg dorthin kann variieren.<br>ii) <strong>Terminiertheit / Terminierung</strong> — Der Algorithmus hält nach endlich vielen Schritten an.<br>iii) <strong>Determinismus</strong> — Sowohl der <em>Weg der Ausführung</em> als auch das Ergebnis sind bei gleicher Eingabe identisch.<br><br><strong>Merke:</strong> Determinismus ist stärker als Determiniertheit! Ein deterministischer Algorithmus ist immer auch determiniert, aber nicht umgekehrt.",
+      "subtasks": [
+        {
+          "q": "i) &bdquo;Für die gleiche Eingabe wird stets die gleiche Ausgabe berechnet.\"",
+          "type": "text",
+          "kw": [
+            "determiniertheit",
+            "terminier",
+            "determinismus",
+            "deterministisch"
+          ]
+        },
+        {
+          "q": "ii) &bdquo;Der Algorithmus läuft für jede Eingabe nur endlich lange.\"",
+          "type": "text",
+          "kw": [
+            "determiniertheit",
+            "terminier",
+            "determinismus",
+            "deterministisch"
+          ]
+        },
+        {
+          "q": "iii) &bdquo;Für die gleiche Eingabe ist die Ausführung und die Ausgabe stets identisch.\"",
+          "type": "text",
+          "kw": [
+            "determiniertheit",
+            "terminier",
+            "determinismus",
+            "deterministisch"
+          ]
+        }
+      ]
     },
     {
       "examName": "Hauptklausur SS2018",
@@ -69,14 +95,26 @@
     {
       "examName": "Hauptklausur SS2018",
       "cat": "Bäume",
-      "type": "text",
-      "q": "Die Höhe $h$ sei die Anzahl der Kanten auf dem längsten Pfad von der Wurzel.<br>i) Wie viele Blätter hat ein Baum der Höhe $h$ mit Arität $a$ <strong>maximal</strong>?<br>ii) Wie viele Knoten hat ein Baum der Höhe $h$ mit Arität 3 <strong>mindestens</strong>?",
-      "kw": [
-        "a^h",
-        "h+1"
-      ],
+      "type": "subtasks",
+      "q": "Die Höhe $h$ sei die Anzahl der Kanten auf dem längsten Pfad von der Wurzel.",
       "hintId": "ch3",
-      "expl": "<strong>Lösung:</strong><br>i) <strong>$a^h$</strong> — Auf jeder Ebene verdoppelt sich (bei $a=2$) die Anzahl der Knoten. Ganz unten (Ebene $h$) gibt es maximal $a^h$ Blätter.<br>ii) <strong>$h+1$</strong> — Der dünnste Baum ist eine einfache Kette (wie eine verkettete Liste). Er hat auf jeder Ebene genau einen Knoten, also $h+1$ Knoten insgesamt."
+      "expl": "<strong>Lösung:</strong><br>i) <strong>$a^h$</strong> — Auf jeder Ebene verdoppelt sich (bei $a=2$) die Anzahl der Knoten. Ganz unten (Ebene $h$) gibt es maximal $a^h$ Blätter.<br>ii) <strong>$h+1$</strong> — Der dünnste Baum ist eine einfache Kette (wie eine verkettete Liste). Er hat auf jeder Ebene genau einen Knoten, also $h+1$ Knoten insgesamt.",
+      "subtasks": [
+        {
+          "q": "i) Wie viele Blätter hat ein Baum der Höhe $h$ mit Arität $a$ <strong>maximal</strong>?",
+          "type": "text",
+          "kw": [
+            "a^h"
+          ]
+        },
+        {
+          "q": "ii) Wie viele Knoten hat ein Baum der Höhe $h$ mit Arität 3 <strong>mindestens</strong>?",
+          "type": "text",
+          "kw": [
+            "h+1"
+          ]
+        }
+      ]
     },
     {
       "examName": "Hauptklausur SS2018",
@@ -113,16 +151,40 @@
     {
       "examName": "Hauptklausur SS2018",
       "cat": "Bäume",
-      "type": "text",
-      "q": "Können die folgenden Knoten in der gegebenen Reihenfolge bei der Suche nach 77 in einem BST (Zahlen 1-100) besucht worden sein?<br>i) 10, 60, 50, 80, 77<br>ii) 33, 99, 44, 66, 77<br>iii) 12, 23, 34, 45, 77<br>iv) 1, 99, 20, 80, 77",
-      "kw": [
-        "nein",
-        "ja",
-        "ja",
-        "ja"
-      ],
+      "type": "subtasks",
+      "q": "Können die folgenden Knoten in der gegebenen Reihenfolge bei der Suche nach 77 in einem BST (Zahlen 1-100) besucht worden sein?",
       "hintId": "ch3",
-      "expl": "<strong>Lösung:</strong><br>i) <strong>Nein.</strong> Nach 10 gehen wir rechts (→60). Nach 60 gehen wir links (→50). Jetzt müssten alle weiteren Werte zwischen 10 und 60 liegen. 80 liegt aber außerhalb dieses Intervalls — unmöglich!<br>ii) <strong>Ja.</strong> 33→rechts→99→links→44→rechts→66→rechts→77. Alle Intervallgrenzen werden eingehalten.<br>iii) <strong>Ja.</strong> 12→rechts→23→rechts→34→rechts→45→rechts→77. Aufsteigende Folge = immer rechts.<br>iv) <strong>Ja.</strong> 1→rechts→99→links→20→rechts→80→links→77. Grenzen passen."
+      "expl": "<strong>Lösung:</strong><br>i) <strong>Nein.</strong> Nach 10 gehen wir rechts (→60). Nach 60 gehen wir links (→50). Jetzt müssten alle weiteren Werte zwischen 10 und 60 liegen. 80 liegt aber außerhalb dieses Intervalls — unmöglich!<br>ii) <strong>Ja.</strong> 33→rechts→99→links→44→rechts→66→rechts→77. Alle Intervallgrenzen werden eingehalten.<br>iii) <strong>Ja.</strong> 12→rechts→23→rechts→34→rechts→45→rechts→77. Aufsteigende Folge = immer rechts.<br>iv) <strong>Ja.</strong> 1→rechts→99→links→20→rechts→80→links→77. Grenzen passen.",
+      "subtasks": [
+        {
+          "q": "i) 10, 60, 50, 80, 77",
+          "type": "text",
+          "kw": [
+            "nein"
+          ]
+        },
+        {
+          "q": "ii) 33, 99, 44, 66, 77",
+          "type": "text",
+          "kw": [
+            "ja"
+          ]
+        },
+        {
+          "q": "iii) 12, 23, 34, 45, 77",
+          "type": "text",
+          "kw": [
+            "ja"
+          ]
+        },
+        {
+          "q": "iv) 1, 99, 20, 80, 77",
+          "type": "text",
+          "kw": [
+            "ja"
+          ]
+        }
+      ]
     },
     {
       "examName": "Hauptklausur SS2018",
@@ -155,29 +217,56 @@
     {
       "examName": "Hauptklausur SS2018",
       "cat": "Hashing",
-      "type": "text",
-      "q": "Gegeben: Universum $U=\\{0,1,2,3,4\\}$<br>i) Bitvektor für $M=\\{0,3,4\\}$?<br>ii) Bitvektor für $N=\\{0,1,2,3\\}$?",
-      "kw": [
-        "1,0,0,1,1",
-        "10011",
-        "1,1,1,1,0",
-        "11110"
-      ],
+      "type": "subtasks",
+      "q": "Gegeben: Universum $U=\\{0,1,2,3,4\\}$",
       "hintId": "ch3",
-      "expl": "<strong>Lösung:</strong><br>i) $M=\\{0,3,4\\}$ → Bitvektor: <strong>$(1,0,0,1,1)$</strong><br>Position 0→1, Position 1→0, Position 2→0, Position 3→1, Position 4→1<br><br>ii) $N=\\{0,1,2,3\\}$ → Bitvektor: <strong>$(1,1,1,1,0)$</strong>"
+      "expl": "<strong>Lösung:</strong><br>i) $M=\\{0,3,4\\}$ → Bitvektor: <strong>$(1,0,0,1,1)$</strong><br>Position 0→1, Position 1→0, Position 2→0, Position 3→1, Position 4→1<br><br>ii) $N=\\{0,1,2,3\\}$ → Bitvektor: <strong>$(1,1,1,1,0)$</strong>",
+      "subtasks": [
+        {
+          "q": "i) Bitvektor für $M=\\{0,3,4\\}$?",
+          "type": "text",
+          "kw": [
+            "1,0,0,1,1",
+            "10011"
+          ]
+        },
+        {
+          "q": "ii) Bitvektor für $N=\\{0,1,2,3\\}$?",
+          "type": "text",
+          "kw": [
+            "1,1,1,1,0",
+            "11110"
+          ]
+        }
+      ]
     },
     {
       "examName": "Hauptklausur SS2018",
       "cat": "Hashing",
-      "type": "text",
-      "q": "Hashfunktion $h(k) = k \\bmod 5$. Fügen Sie nacheinander 2, 15, 18, 7, 13 ein:<br>i) Mit offenem Hashing (Verkettung)<br>ii) Mit geschlossenem Hashing und linearem Sondieren ($c=1$)",
-      "kw": [
-        "verkettung",
-        "sondier",
-        "linear"
-      ],
+      "type": "subtasks",
+      "q": "Hashfunktion $h(k) = k \\bmod 5$. Fügen Sie nacheinander 2, 15, 18, 7, 13 ein:",
       "hintId": "ch3",
-      "expl": "<strong>Lösung:</strong><br><strong>i) Offenes Hashing (Verkettung):</strong><br>$h(2)=2$, $h(15)=0$, $h(18)=3$, $h(7)=2$ (Kollision! → Liste an Index 2), $h(13)=3$ (Kollision! → Liste an Index 3)<br>Index 0: [15], Index 1: [], Index 2: [2→7], Index 3: [18→13], Index 4: []<br><br><strong>ii) Lineares Sondieren:</strong><br>$h(2)=2$→Index 2. $h(15)=0$→Index 0. $h(18)=3$→Index 3. $h(7)=2$→Kollision! Sondiere: 3 belegt, 4 frei→Index 4. $h(13)=3$→Kollision! Sondiere: 4 belegt, 0 belegt, 1 frei→Index 1.<br>Index: [15, 13, 2, 18, 7]"
+      "expl": "<strong>Lösung:</strong><br><strong>i) Offenes Hashing (Verkettung):</strong><br>$h(2)=2$, $h(15)=0$, $h(18)=3$, $h(7)=2$ (Kollision! → Liste an Index 2), $h(13)=3$ (Kollision! → Liste an Index 3)<br>Index 0: [15], Index 1: [], Index 2: [2→7], Index 3: [18→13], Index 4: []<br><br><strong>ii) Lineares Sondieren:</strong><br>$h(2)=2$→Index 2. $h(15)=0$→Index 0. $h(18)=3$→Index 3. $h(7)=2$→Kollision! Sondiere: 3 belegt, 4 frei→Index 4. $h(13)=3$→Kollision! Sondiere: 4 belegt, 0 belegt, 1 frei→Index 1.<br>Index: [15, 13, 2, 18, 7]",
+      "subtasks": [
+        {
+          "q": "i) Mit offenem Hashing (Verkettung)",
+          "type": "text",
+          "kw": [
+            "verkettung",
+            "sondier",
+            "linear"
+          ]
+        },
+        {
+          "q": "ii) Mit geschlossenem Hashing und linearem Sondieren ($c=1$)",
+          "type": "text",
+          "kw": [
+            "verkettung",
+            "sondier",
+            "linear"
+          ]
+        }
+      ]
     },
     {
       "examName": "Hauptklausur SS2018",
@@ -197,16 +286,40 @@
     {
       "examName": "Hauptklausur SS2018",
       "cat": "Bäume",
-      "type": "text",
-      "q": "Gegeben sind Bäume. Ist der Baum ein gültiger AVL-Baum?<br>i) Knoten 42 hat $|\\Delta h| = 2$<br>ii) Alle Balance-Faktoren $\\leq 1$<br>iii) Knoten 23 hat 3 Kinder<br>iv) Knoten 273 < 279 aber im falschen Teilbaum",
-      "kw": [
-        "kein",
-        "avl",
-        "binär",
-        "höhenunterschied"
-      ],
+      "type": "subtasks",
+      "q": "Gegeben sind Bäume. Ist der Baum ein gültiger AVL-Baum?",
       "hintId": "ch3",
-      "expl": "<strong>Lösung:</strong><br>i) <strong>Kein AVL-Baum</strong> — $|\\Delta h| = 2$ bei Knoten 42 verletzt die AVL-Eigenschaft ($|\\Delta h| \\leq 1$).<br>ii) <strong>AVL-Baum</strong> — Alle Balance-Faktoren sind $\\leq 1$, also gültig.<br>iii) <strong>Kein AVL-Baum</strong> — 3 Kinder → kein Binärbaum → kann kein AVL-Baum sein.<br>iv) <strong>Kein AVL-Baum</strong> — BST-Eigenschaft verletzt (273 < 279 im falschen Teilbaum)."
+      "expl": "<strong>Lösung:</strong><br>i) <strong>Kein AVL-Baum</strong> — $|\\Delta h| = 2$ bei Knoten 42 verletzt die AVL-Eigenschaft ($|\\Delta h| \\leq 1$).<br>ii) <strong>AVL-Baum</strong> — Alle Balance-Faktoren sind $\\leq 1$, also gültig.<br>iii) <strong>Kein AVL-Baum</strong> — 3 Kinder → kein Binärbaum → kann kein AVL-Baum sein.<br>iv) <strong>Kein AVL-Baum</strong> — BST-Eigenschaft verletzt (273 < 279 im falschen Teilbaum).",
+      "subtasks": [
+        {
+          "q": "i) Knoten 42 hat $|\\Delta h| = 2$",
+          "type": "text",
+          "kw": [
+            "kein"
+          ]
+        },
+        {
+          "q": "ii) Alle Balance-Faktoren $\\leq 1$",
+          "type": "text",
+          "kw": [
+            "avl"
+          ]
+        },
+        {
+          "q": "iii) Knoten 23 hat 3 Kinder",
+          "type": "text",
+          "kw": [
+            "binär"
+          ]
+        },
+        {
+          "q": "iv) Knoten 273 < 279 aber im falschen Teilbaum",
+          "type": "text",
+          "kw": [
+            "höhenunterschied"
+          ]
+        }
+      ]
     },
     {
       "examName": "Hauptklausur SS2018",
@@ -573,16 +686,28 @@
     {
       "examName": "Klausur SS2019",
       "cat": "Hashing",
-      "type": "text",
-      "q": "Tragen Sie 5, 24, 4, 11, 15, 16, 26, 2 in eine Hashtabelle ($m=10$, $h(x)=x \\bmod 10$) ein:<br>i) Lineares Sondieren<br>ii) Quadratisches Sondieren<br>Geben Sie die Sondierungen an!",
-      "kw": [
-        "linear",
-        "quadrat",
-        "sondier",
-        "kollision"
-      ],
+      "type": "subtasks",
+      "q": "Tragen Sie 5, 24, 4, 11, 15, 16, 26, 2 in eine Hashtabelle ($m=10$, $h(x)=x \\bmod 10$) ein:",
       "hintId": "ch3",
-      "expl": "<strong>i) Lineares Sondieren:</strong><br>$h(5)=5$→[5] (0 Sond.) | $h(24)=4$→[4] (0) | $h(4)=4$→Koll! 5 belegt→[6] (2 Sond.) | $h(11)=1$→[1] (0) | $h(15)=5$→Koll! 6 belegt→[7] (2) | $h(16)=6$→Koll! 7 belegt→[8] (2) | $h(26)=6$→Koll!→[9] (3) | $h(2)=2$→[2] (0)<br>Tabelle: [—,11,2,—,24,5,4,15,16,26]<br><br><strong>ii) Quadratisches Sondieren:</strong><br>$h(5)=5$→[5] | $h(24)=4$→[4] | $h(4)=4$→$(4+1)=5$ belegt, $(4+4)=8$→[8] (2 Sond.) | $h(11)=1$→[1] | $h(15)=5$→$(5+1)=6$→[6] (1) | $h(16)=6$→$(6+1)=7$→[7] (1) | $h(26)=6$→$(6+1)=7$ belegt, $(6+4)=0$→[0] (2) | $h(2)=2$→[2]<br>Tabelle: [26,11,2,—,24,5,15,16,4,—]"
+      "expl": "<strong>i) Lineares Sondieren:</strong><br>$h(5)=5$→[5] (0 Sond.) | $h(24)=4$→[4] (0) | $h(4)=4$→Koll! 5 belegt→[6] (2 Sond.) | $h(11)=1$→[1] (0) | $h(15)=5$→Koll! 6 belegt→[7] (2) | $h(16)=6$→Koll! 7 belegt→[8] (2) | $h(26)=6$→Koll!→[9] (3) | $h(2)=2$→[2] (0)<br>Tabelle: [—,11,2,—,24,5,4,15,16,26]<br><br><strong>ii) Quadratisches Sondieren:</strong><br>$h(5)=5$→[5] | $h(24)=4$→[4] | $h(4)=4$→$(4+1)=5$ belegt, $(4+4)=8$→[8] (2 Sond.) | $h(11)=1$→[1] | $h(15)=5$→$(5+1)=6$→[6] (1) | $h(16)=6$→$(6+1)=7$→[7] (1) | $h(26)=6$→$(6+1)=7$ belegt, $(6+4)=0$→[0] (2) | $h(2)=2$→[2]<br>Tabelle: [26,11,2,—,24,5,15,16,4,—]",
+      "subtasks": [
+        {
+          "q": "i) Lineares Sondieren",
+          "type": "text",
+          "kw": [
+            "linear",
+            "quadrat"
+          ]
+        },
+        {
+          "q": "ii) Quadratisches Sondieren<br>Geben Sie die Sondierungen an!",
+          "type": "text",
+          "kw": [
+            "sondier",
+            "kollision"
+          ]
+        }
+      ]
     },
     {
       "examName": "Klausur SS2019",
@@ -1646,29 +1771,69 @@
     {
       "examName": "Klausur SS2022",
       "cat": "Grundlagen",
-      "type": "text",
-      "q": "Gegeben sei das Universum $U = (A,B,C,D,E,F,G)$.<br>Geben Sie den Bitvektor für die Mengen an:<br>i) $M_1 = \\{A, C, B\\}$<br>ii) $M_2 = \\{B, G, C, F\\}$",
-      "kw": [
-        "1110000",
-        "0110011"
-      ],
+      "type": "subtasks",
+      "q": "Gegeben sei das Universum $U = (A,B,C,D,E,F,G)$.<br>Geben Sie den Bitvektor für die Mengen an:",
       "hintId": "ch1",
-      "expl": "<strong>Lösung:</strong><br>Man setzt für jedes vorhandene Element eine 1, sonst 0, in alphabetischer Reihenfolge (A B C D E F G).<br>i) $M_1 = \\{A, B, C\\}$ → <code>1 1 1 0 0 0 0</code><br>ii) $M_2 = \\{B, C, F, G\\}$ → <code>0 1 1 0 0 1 1</code>"
+      "expl": "<strong>Lösung:</strong><br>Man setzt für jedes vorhandene Element eine 1, sonst 0, in alphabetischer Reihenfolge (A B C D E F G).<br>i) $M_1 = \\{A, B, C\\}$ → <code>1 1 1 0 0 0 0</code><br>ii) $M_2 = \\{B, C, F, G\\}$ → <code>0 1 1 0 0 1 1</code>",
+      "subtasks": [
+        {
+          "q": "i) $M_1 = \\{A, C, B\\}$",
+          "type": "text",
+          "kw": [
+            "1110000"
+          ]
+        },
+        {
+          "q": "ii) $M_2 = \\{B, G, C, F\\}$",
+          "type": "text",
+          "kw": [
+            "0110011"
+          ]
+        }
+      ]
     },
     {
       "examName": "Klausur SS2022",
       "cat": "Paradigmen",
-      "type": "text",
-      "q": "Ordnen Sie den folgenden Algorithmen das passende Programmierparadigma zu:<br>1) Merge-Sort<br>2) Floyd-Algorithmus<br>3) n-Damenproblem",
-      "kw": [
-        "divide",
-        "conquer",
-        "backtracking",
-        "dynamisch",
-        "programmierung"
-      ],
+      "type": "subtasks",
+      "q": "Ordnen Sie den folgenden Algorithmen das passende Programmierparadigma zu:",
       "hintId": "ch6",
-      "expl": "<strong>Lösung:</strong><br>1) Merge-Sort → <strong>Divide-and-Conquer</strong><br>2) Floyd-Algorithmus → <strong>Dynamische Programmierung</strong><br>3) n-Damenproblem → <strong>Backtracking</strong>"
+      "expl": "<strong>Lösung:</strong><br>1) Merge-Sort → <strong>Divide-and-Conquer</strong><br>2) Floyd-Algorithmus → <strong>Dynamische Programmierung</strong><br>3) n-Damenproblem → <strong>Backtracking</strong>",
+      "subtasks": [
+        {
+          "q": "1) Merge-Sort",
+          "type": "text",
+          "kw": [
+            "divide",
+            "conquer",
+            "backtracking",
+            "dynamisch",
+            "programmierung"
+          ]
+        },
+        {
+          "q": "2) Floyd-Algorithmus",
+          "type": "text",
+          "kw": [
+            "divide",
+            "conquer",
+            "backtracking",
+            "dynamisch",
+            "programmierung"
+          ]
+        },
+        {
+          "q": "3) n-Damenproblem",
+          "type": "text",
+          "kw": [
+            "divide",
+            "conquer",
+            "backtracking",
+            "dynamisch",
+            "programmierung"
+          ]
+        }
+      ]
     }
   ],
   "ss25": [
@@ -1791,16 +1956,28 @@
     {
       "examName": "Klausur SS2025",
       "cat": "Grundlagen",
-      "type": "text",
-      "q": "Gegeben sei das Universum $U = (A,B,C,D,E,F,G,H)$. Bestimmen Sie die Mengen aus den Bitvektoren:<br>i) (0, 1, 1, 0, 0, 1, 0, 0)<br>ii) (1, 0, 1, 0, 1, 0, 1, 1)",
-      "kw": [
-        "b,c,f",
-        "b c f",
-        "a,c,e,g,h",
-        "a c e g h"
-      ],
+      "type": "subtasks",
+      "q": "Gegeben sei das Universum $U = (A,B,C,D,E,F,G,H)$. Bestimmen Sie die Mengen aus den Bitvektoren:",
       "hintId": "ch1",
-      "expl": "<strong>Lösung:</strong><br>i) Bitvektor `0 1 1 0 0 1 0 0` entspricht den Indizes 2, 3 und 6 $\\Rightarrow \\{B, C, F\\}$.<br>ii) Bitvektor `1 0 1 0 1 0 1 1` entspricht den Indizes 1, 3, 5, 7, 8 $\\Rightarrow \\{A, C, E, G, H\\}$."
+      "expl": "<strong>Lösung:</strong><br>i) Bitvektor `0 1 1 0 0 1 0 0` entspricht den Indizes 2, 3 und 6 $\\Rightarrow \\{B, C, F\\}$.<br>ii) Bitvektor `1 0 1 0 1 0 1 1` entspricht den Indizes 1, 3, 5, 7, 8 $\\Rightarrow \\{A, C, E, G, H\\}$.",
+      "subtasks": [
+        {
+          "q": "i) (0, 1, 1, 0, 0, 1, 0, 0)",
+          "type": "text",
+          "kw": [
+            "b,c,f",
+            "b c f"
+          ]
+        },
+        {
+          "q": "ii) (1, 0, 1, 0, 1, 0, 1, 1)",
+          "type": "text",
+          "kw": [
+            "a,c,e,g,h",
+            "a c e g h"
+          ]
+        }
+      ]
     },
     {
       "examName": "Klausur SS2025",
